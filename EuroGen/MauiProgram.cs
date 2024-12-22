@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using MudBlazor.Services;
 
 namespace EuroGen
 {
@@ -17,6 +18,8 @@ namespace EuroGen
                 });
 
             builder.Services.AddMauiBlazorWebView();
+
+            builder.Services.AddMudServices();
 
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();
