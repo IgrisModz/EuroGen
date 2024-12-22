@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 @inject ThemeService ThemeService
+@inject LocalizationService Localizer
 
 <MudThemeProvider @ref="@_mudThemeProvider" Theme="_mudTheme" IsDarkMode=@ThemeService.IsDarkMode/>
 <MudPopoverProvider />
@@ -55,6 +56,11 @@
             ThemeService.ThemeChanged += (isDarkMode) =>
             {
                 // Re-render pour appliquer le nouveau thème
+                StateHasChanged();
+            };
+
+            Localizer.LanguageChanged += () =>
+            {
                 StateHasChanged();
             };
 
