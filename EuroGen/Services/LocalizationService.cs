@@ -64,7 +64,6 @@ namespace EuroGen.Services
 
         private void UpdateLanguage()
         {
-            // On passe un booléen pour indiquer si le thème est sombre ou non
             LanguageChanged?.Invoke();
         }
 
