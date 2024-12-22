@@ -57,6 +57,14 @@
         </MudDrawer>
     </MudHidden>
     <MudMainContent>
+        @if (!DrawService.AsConnection)
+        {
+            <MudAlert Severity="Severity.Error" Square="true">@Localizer["AsNotConnection"]</MudAlert>
+        }
+        @if (!DrawService.IsAvailableWebsite)
+        {
+            <MudAlert Severity="Severity.Error" Square="true">@Localizer["IsNotAvailableWebsite"]</MudAlert>
+        }
         @Body
         <MudScrollToTop>
             <MudFab Style="opacity:.8"
