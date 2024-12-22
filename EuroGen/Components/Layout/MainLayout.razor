@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
+@inject NavigationManager Navigation
 @inject ThemeService ThemeService
 @inject LocalizationService Localizer
 
@@ -9,12 +10,58 @@
 <MudSnackbarProvider />
 
 <MudLayout>
+    <MudAppBar Elevation="4">
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MudIconButton Icon="@Icons.Material.Filled.Notes" Class="mr-2" Color="Color.Inherit" Edge="Edge.Start" OnClick="DrawerToggle" />
+        </MudHidden>
+        <MudText Color="Color.Primary" Typo="Typo.h5" Class="mr-4">EuroGen</MudText>
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+            <MudButton StartIcon="@Icons.Material.Filled.Draw"
+                       Color="Color.Inherit"
+                       Style="@($"text-transform:none;")"
+                       Class="@(IsActive("/") ? "mud-chip-text mud-chip-color-primary" : "")"
+                       OnClick="@(() => GoTo("/"))">@Localizer["Draws"]</MudButton>
+            <MudButton StartIcon="@Icons.Material.Filled.DataExploration"
+                       Color="Color.Inherit"
+                       Style="@($"text-transform:none;")"
+                       Class="@($"{(IsActive("/stats") ? "mud-chip-text mud-chip-color-primary" : "")} mx-2")"
+                       OnClick="@(() => GoTo("/stats"))">@Localizer["Stats"]</MudButton>
+            <MudButton StartIcon="@Icons.Material.Filled.Description"
+                       Color="Color.Inherit"
+                       Style="@($"text-transform:none;")"
+                       Class="@($"{(IsActive("/about") ? "mud-chip-text mud-chip-color-primary" : "")} mx-2")"
+                       OnClick="@(() => GoTo("/about"))">About</MudButton>
+            <MudButton StartIcon="@Icons.Material.Filled.Settings"
+                       Color="Color.Inherit"
+                       Style="@($"text-transform:none;")"
+                       Class="@(IsActive("/settings") ? "mud-chip-text mud-chip-color-primary" : "")"
+                       OnClick="@(() => GoTo("/settings"))">@Localizer["Settings"]</MudButton>
+        </MudHidden>
+    </MudAppBar>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudDrawer @bind-Open="@_isDrawerOpen"
+                   Elevation="0"
+                   ClipMode="@DrawerClipMode.Docked"
+                   Variant="@DrawerVariant.Responsive"
+                   Breakpoint="Breakpoint.Lg">
+            <MudDrawerHeader>
+                <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Inherit" Edge="Edge.Start" OnClick="DrawerToggle" />
+            </MudDrawerHeader>
+            <MudNavMenu>
+                <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Draw">@Localizer["Draws"]</MudNavLink>
+                <MudNavLink Href="/stats" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.DataExploration">@Localizer["Stats"]</MudNavLink>
+                <MudNavLink Href="/about" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Description">About</MudNavLink>
+                <MudNavLink Href="/settings" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Settings">@Localizer["Settings"]</MudNavLink>
+            </MudNavMenu>
+        </MudDrawer>
+    </MudHidden>
     <MudMainContent>
         @Body
     </MudMainContent>
 </MudLayout>
 
 @code {
+    private bool _isDrawerOpen = false;
     private MudThemeProvider? _mudThemeProvider;
 
     private MudTheme _mudTheme = new()
@@ -38,6 +85,19 @@
             Primary = Colors.Blue.Accent4
         },
     };
+
+    private void DrawerToggle()
+    {
+        _isDrawerOpen = !_isDrawerOpen;
+    }
+
+    private bool IsActive(string href) =>
+        Navigation.Uri.TrimEnd('/') == Navigation.ToAbsoluteUri(href).AbsoluteUri.TrimEnd('/');
+
+    private void GoTo(string uri)
+    {
+        Navigation.NavigateTo(uri);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
