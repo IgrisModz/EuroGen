@@ -3,6 +3,7 @@
 @inject NavigationManager Navigation
 @inject ThemeService ThemeService
 @inject LocalizationService Localizer
+@inject DrawService DrawService
 
 <MudThemeProvider @ref="@_mudThemeProvider" Theme="_mudTheme" IsDarkMode=@ThemeService.IsDarkMode/>
 <MudPopoverProvider />
@@ -126,6 +127,11 @@
             };
 
             Localizer.LanguageChanged += () =>
+            {
+                StateHasChanged();
+            };
+
+            DrawService.StatusChanged += () =>
             {
                 StateHasChanged();
             };
