@@ -1,21 +1,64 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+@inject ThemeService ThemeService
+
+<MudThemeProvider @ref="@_mudThemeProvider" Theme="_mudTheme" IsDarkMode=@ThemeService.IsDarkMode/>
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<div class="page">
-    <div class="sidebar">
-    </div>
+<MudLayout>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+@code {
+    private MudThemeProvider? _mudThemeProvider;
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+    private MudTheme _mudTheme = new()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Background = Colors.Gray.Lighten5,
+            AppbarBackground = Colors.Gray.Lighten5,
+            DrawerBackground = Colors.Gray.Lighten5,
+            AppbarText = Colors.Shades.Black,
+            Surface = Colors.Gray.Lighten5,
+            Primary = Colors.Indigo.Accent4
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Background = Colors.Gray.Darken4,
+            AppbarBackground = Colors.Gray.Darken4,
+            DrawerBackground = Colors.Gray.Darken4,
+            AppbarText = Colors.Gray.Default,
+            Surface = Colors.Gray.Darken4,
+            Primary = Colors.Blue.Accent4
+        },
+    };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var systemPreference = await _mudThemeProvider.GetSystemPreference();
+            ThemeService.SetSystemPreference(systemPreference);
+
+            await _mudThemeProvider.WatchSystemPreference(newValue =>
+            {
+                ThemeService.SetSystemPreference(newValue);
+                StateHasChanged();
+                return Task.CompletedTask;
+            });
+
+            ThemeService.ThemeChanged += (isDarkMode) =>
+            {
+                // Re-render pour appliquer le nouveau thème
+                StateHasChanged();
+            };
+
+            StateHasChanged();
+        }
+    }
+}
