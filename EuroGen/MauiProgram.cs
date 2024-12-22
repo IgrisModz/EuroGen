@@ -62,6 +62,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ThemeService>();
 
+        builder.Services.AddSingleton<DrawService>();
+
         builder.Services.AddMauiBlazorWebView();
 
         builder.Services.AddMudServices();
