@@ -60,6 +60,8 @@ public static class MauiProgram
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
         builder.Services.AddSingleton<LocalizationService>();
 
+        builder.Services.AddSingleton<ThemeService>();
+
         builder.Services.AddMauiBlazorWebView();
 
         builder.Services.AddMudServices();
