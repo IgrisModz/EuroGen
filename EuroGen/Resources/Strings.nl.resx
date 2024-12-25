@@ -246,4 +246,10 @@
   <data name="SelectTheMaxYear" xml:space="preserve">
     <value>Selecteer het maximale jaar</value>
   </data>
+  <data name="TimeRestrict" xml:space="preserve">
+    <value>Mogelijkheid om statistieken te beperken tot een specifiek jaarbereik.</value>
+  </data>
+  <data name="SimultaneousDraws" xml:space="preserve">
+    <value>Mogelijkheid om gelijktijdige trekkingen uit te voeren.</value>
+  </data>
 </root>

@@ -246,4 +246,10 @@
   <data name="SelectTheMaxYear" xml:space="preserve">
     <value>Taght yn vlein smoo</value>
   </data>
+  <data name="TimeRestrict" xml:space="preserve">
+    <value>Cooidjagh y statistickyn gys rang-bleeaney ry-hoi.</value>
+  </data>
+  <data name="SimultaneousDraws" xml:space="preserve">
+    <value>Possibility dy yannoo drawnyn ec y traa cheddin.</value>
+  </data>
 </root>

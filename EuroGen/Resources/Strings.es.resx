@@ -246,4 +246,10 @@
   <data name="SelectTheMaxYear" xml:space="preserve">
     <value>Seleccione el año máximo</value>
   </data>
+  <data name="TimeRestrict" xml:space="preserve">
+    <value>Capacidad de restringir las estadísticas a un rango de años específico.</value>
+  </data>
+  <data name="SimultaneousDraws" xml:space="preserve">
+    <value>Posibilidad de realizar sorteos simultáneos.</value>
+  </data>
 </root>

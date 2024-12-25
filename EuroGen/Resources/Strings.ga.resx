@@ -246,4 +246,10 @@
   <data name="SelectTheMaxYear" xml:space="preserve">
     <value>Roghnaigh an bhliain uasta</value>
   </data>
+  <data name="TimeRestrict" xml:space="preserve">
+    <value>Cumas staitisticí a shrianadh go raon bliana ar leith.</value>
+  </data>
+  <data name="SimultaneousDraws" xml:space="preserve">
+    <value>Féidearthacht tarraingtí comhuaineacha a dhéanamh.</value>
+  </data>
 </root>
