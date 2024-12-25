@@ -1,5 +1,145 @@
 ﻿@page "/stats"
+@using System.Globalization
+
+@inject DrawService DrawService
+@inject ILogger<Draw> Logger
+@inject LocalizationService Localizer
+
+<PageTitle>@Localizer["Stats"]</PageTitle>
+
+@if (_isLoading)
+{
+    <MudProgressLinear Class="mb-3" Color="Color.Primary" Indeterminate="true" />
+}
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="pa-4">
+    @if (_isLoading)
+    {
+        <MudStack AlignItems="AlignItems.Center">
+            <MudSkeleton Width="140px" Height="37px" SkeletonType="SkeletonType.Rectangle" />
+        </MudStack>
+
+        <MudPaper Class="pa-4 mt-4 rounded-lg" Elevation="24">
+            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+        </MudPaper>
+    }
+    else
+    {
+        <MudStack AlignItems="AlignItems.Center">
+            <MudToggleGroup T="SearchType" SelectionMode="SelectionMode.SingleSelection" Value="@_selectedSearchType" ValueChanged="async searchType => await OnSelectedSearchTypeChanged(searchType)" Color="Color.Primary">
+                <MudToggleItem Value="@(SearchType.Number)" Text="@Localizer["Numbers"]" />
+                <MudToggleItem Value="@(SearchType.Star)" Text="@Localizer["Stars"]" />
+            </MudToggleGroup>
+            </MudStack>
+
+        <MudDataGrid Class="mt-4 rounded-lg" Elevation="24" Items="@_stats">
+            <Columns>
+                <PropertyColumn Property="x => x.Number" Title="@Localizer["Number"]" />
+                <PropertyColumn Property="x => x.NumberOfOutput" Title="@Localizer["NumberOfOutput"]" />
+                <PropertyColumn Property="x => x.PercentOfOutput" Title="@Localizer["PercentOfOutput"]" />
+                <PropertyColumn Property="x => x.LastRelease" Title="@Localizer["LastOuting"]" />
+            </Columns>
+        </MudDataGrid>
+    }
+</MudContainer>
 
 @code {
+    public enum SearchType
+    {
+        Number,
+        Star
+    }
 
+    private bool _isLoading = false;
+
+    private IEnumerable<Models.Stats> _stats = [];
+
+    private SearchType _selectedSearchType;
+
+    private int SelectedYear => Preferences.Default.Get("Date", 2004);
+
+    private CalculStatsType SelectedCalculType => (CalculStatsType)Preferences.Default.Get("StatsCalcul", (int)CalculStatsType.TotalDraw);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDataAsync(true);
+    }
+
+    private async Task LoadDataAsync(bool isInitialLoad = false)
+    {
+        _isLoading = true;
+
+        if (DrawService.Draws == null || DrawService.Draws.Count() == 0)
+        {
+            DrawService.Draws = await DrawService.LoadDraws();
+        }
+        await Refresh(_selectedSearchType);
+
+        _isLoading = false;
+    }
+
+    private async Task OnSelectedSearchTypeChanged(SearchType searchType)
+    {
+        _selectedSearchType = searchType;
+        await Refresh(searchType);
+    }
+
+    private async Task Refresh(SearchType searchType)
+    {
+        if (searchType == SearchType.Number)
+            await GetNumbers();
+        else
+            await GetStars();
+    }
+
+    private async Task GetNumbers()
+    {
+        var totalDraw = SelectedCalculType == CalculStatsType.TotalDraw;
+        _stats = await GetStats(DrawService.Draws,
+        [
+            nameof(Draw.FirstNumber), nameof(Draw.SecondNumber), nameof(Draw.ThirdNumber), nameof(Draw.FourthNumber), nameof(Draw.FifthNumber)
+        ], SelectedYear, totalDraw);
+    }
+
+    private async Task GetStars()
+    {
+        var totalDraw = SelectedCalculType == CalculStatsType.TotalDraw;
+        _stats = await GetStats(DrawService.Draws, [nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedYear, totalDraw);
+    }
+
+    private static async Task<IEnumerable<Models.Stats>> GetStats(IEnumerable<Draw> draws, string[] propertyNames, int year, bool totalDraw = false)
+    {
+        List<Models.Stats> stats = [];
+
+        var filteredDraws = draws.Where(d => d.DrawDate.Year >= year).ToList();
+
+        var valuesAndDates = filteredDraws.SelectMany(d => propertyNames.Select(d.GetPropertyValueAndDate)).ToList();
+
+        var counts = await Task.Run(() => valuesAndDates.Select(vd => vd.Value).CalculateNumbers());
+
+        var distinctDates = filteredDraws.Select(o => o.DrawDate).Distinct().Count();
+
+        var percentages = await Task.Run(() => counts.CalculateNumbersPercent(totalDraw ? distinctDates : null));
+
+        var lastDates = await Task.Run(valuesAndDates.CalculateLastDates);
+
+        foreach (var kvp in counts.OrderBy(n => n.Key))
+        {
+            stats.Add(new Models.Stats
+                {
+                    Id = kvp.Key - 1,
+                    Number = kvp.Key,
+                    NumberOfOutput = kvp.Value,
+                    PercentOfOutput = $"{percentages[kvp.Key]:F2}%",
+                    LastRelease = lastDates[kvp.Key].ToShortDateString(),
+                });
+        }
+
+        return stats;
+    }
 }
