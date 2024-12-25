@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AboutTheApp" xml:space="preserve">
+    <value>About the app</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>This application was designed to analyze EuroMillions draw statistics and generate optimized combinations based on probabilities. It also allows you to view statistics for the main balls and stars, in order to better understand draw trends.</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Application version</value>
+  </data>
   <data name="AsNotConnection" xml:space="preserve">
     <value>We feel a bit guilty... We should have learned how to survive without the Internet. Maybe next time?</value>
   </data>
@@ -126,8 +138,23 @@
   <data name="CalculOutputPercent" xml:space="preserve">
     <value>Calculation of % of outputs</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Developed by</value>
+  </data>
+  <data name="CreditsAndLegalNotices" xml:space="preserve">
+    <value>Credits and legal notices:</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Dark</value>
+  </data>
+  <data name="DataSource" xml:space="preserve">
+    <value>Data sources:</value>
+  </data>
+  <data name="DataSourceDetails" xml:space="preserve">
+    <value>The data used in this application comes from CSV files containing the history of EuroMillions draws. This data is updated at each start to ensure its accuracy.</value>
+  </data>
+  <data name="DetailedAnalysis" xml:space="preserve">
+    <value>Detailed analysis of past draw statistics.</value>
   </data>
   <data name="Draw" xml:space="preserve">
     <value>Draw</value>
@@ -135,8 +162,17 @@
   <data name="Draws" xml:space="preserve">
     <value>Draws</value>
   </data>
+  <data name="FilterAnalysis" xml:space="preserve">
+    <value>Filter management to analyze draws as a whole or each ball and star separately.</value>
+  </data>
+  <data name="GenerationByProbabilities" xml:space="preserve">
+    <value>Generation of combinations based on probabilities.</value>
+  </data>
   <data name="GetBestDraw" xml:space="preserve">
     <value>Get the best draw</value>
+  </data>
+  <data name="GithubLink" xml:space="preserve">
+    <value>Github Link</value>
   </data>
   <data name="IsNotAvailableWebsite" xml:space="preserve">
     <value>This was supposed to work. In theory. But well, we messed up something, and the site we use decided not to cooperate. We’re on it (or almost).</value>
@@ -150,8 +186,14 @@
   <data name="LastOuting" xml:space="preserve">
     <value>Last outing</value>
   </data>
+  <data name="LegalNotices" xml:space="preserve">
+    <value>This application is a tool based on statistical calculations and does not guarantee any gain.</value>
+  </data>
   <data name="Light" xml:space="preserve">
     <value>Light</value>
+  </data>
+  <data name="MainFeatures" xml:space="preserve">
+    <value>Main features:</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Number</value>
@@ -170,6 +212,9 @@
   </data>
   <data name="PercentPerDraw" xml:space="preserve">
     <value>Percentage of outputs per draws</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>For any questions or suggestions, please report an issue:</value>
   </data>
   <data name="SelectAYear" xml:space="preserve">
     <value>Select a year</value>

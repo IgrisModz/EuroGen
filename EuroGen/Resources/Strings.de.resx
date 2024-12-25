@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Um</value>
+  </data>
+  <data name="AboutTheApp" xml:space="preserve">
+    <value>Über die App</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Diese Anwendung wurde entwickelt, um die Ziehungsstatistiken von EuroMillions zu analysieren und optimierte Kombinationen auf der Grundlage von Wahrscheinlichkeiten zu generieren. Sie können damit auch Statistiken für die Hauptbälle und Sterne anzeigen, um Ziehungstrends besser zu verstehen.</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Anwendungsversion</value>
+  </data>
   <data name="AsNotConnection" xml:space="preserve">
     <value>Wir schämen uns ein bisschen... Wir hätten lernen sollen, ohne Internet zu überleben. Vielleicht nächstes Mal?</value>
   </data>
@@ -126,8 +138,23 @@
   <data name="CalculOutputPercent" xml:space="preserve">
     <value>Berechnung des Prozentsatzes der Ausgaben</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Entwickelt von</value>
+  </data>
+  <data name="CreditsAndLegalNotices" xml:space="preserve">
+    <value>Credits und rechtliche Hinweise:</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Dunkel</value>
+  </data>
+  <data name="DataSource" xml:space="preserve">
+    <value>Datenquellen:</value>
+  </data>
+  <data name="DataSourceDetails" xml:space="preserve">
+    <value>Die in dieser Anwendung verwendeten Daten stammen aus CSV-Dateien, die den Verlauf der EuroMillions-Ziehungen enthalten. Diese Daten werden bei jedem Start aktualisiert, um ihre Genauigkeit sicherzustellen.</value>
+  </data>
+  <data name="DetailedAnalysis" xml:space="preserve">
+    <value>Detaillierte Analyse der Ziehungsstatistiken der Vergangenheit.</value>
   </data>
   <data name="Draw" xml:space="preserve">
     <value>Ziehen</value>
@@ -135,8 +162,17 @@
   <data name="Draws" xml:space="preserve">
     <value>Zieht</value>
   </data>
+  <data name="FilterAnalysis" xml:space="preserve">
+    <value>Filterverwaltung zur Analyse der Ziehungen als Ganzes oder jeder Kugel und jedes Sterns separat.</value>
+  </data>
+  <data name="GenerationByProbabilities" xml:space="preserve">
+    <value>Generierung von Kombinationen auf Basis von Wahrscheinlichkeiten.</value>
+  </data>
   <data name="GetBestDraw" xml:space="preserve">
     <value>Holen Sie sich die beste Ziehung</value>
+  </data>
+  <data name="GithubLink" xml:space="preserve">
+    <value>Github-Link</value>
   </data>
   <data name="IsNotAvailableWebsite" xml:space="preserve">
     <value>Theoretisch hätte das funktionieren sollen. Aber na ja, wir haben etwas vermasselt, und die Seite, die wir nutzen, spielt nicht mit. Wir kümmern uns drum (so gut wie).</value>
@@ -150,8 +186,14 @@
   <data name="LastOuting" xml:space="preserve">
     <value>Letzter Ausflug</value>
   </data>
+  <data name="LegalNotices" xml:space="preserve">
+    <value>Bei dieser Anwendung handelt es sich um ein auf statistischen Berechnungen basierendes Tool, das keinen Gewinn garantiert.</value>
+  </data>
   <data name="Light" xml:space="preserve">
     <value>Licht</value>
+  </data>
+  <data name="MainFeatures" xml:space="preserve">
+    <value>Haupteigenschaften:</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Nummer</value>
@@ -170,6 +212,9 @@
   </data>
   <data name="PercentPerDraw" xml:space="preserve">
     <value>Prozentsatz der Ausgaben pro Ziehung</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Wenn Sie Fragen oder Anregungen haben, melden Sie bitte ein Problem:</value>
   </data>
   <data name="SelectAYear" xml:space="preserve">
     <value>Wähle ein Jahr</value>

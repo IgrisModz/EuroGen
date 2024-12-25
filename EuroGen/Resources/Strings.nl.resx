@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Over</value>
+  </data>
+  <data name="AboutTheApp" xml:space="preserve">
+    <value>Over de app</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Deze applicatie is ontworpen om EuroMillions-trekkingsstatistieken te analyseren en geoptimaliseerde combinaties te genereren op basis van waarschijnlijkheid. Het stelt u ook in staat om statistieken te bekijken voor de belangrijkste ballen en sterren, om zo de trekkingstrends beter te begrijpen.</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Toepassingsversie</value>
+  </data>
   <data name="AsNotConnection" xml:space="preserve">
     <value>We voelen ons een beetje schuldig... We hadden moeten leren overleven zonder internet. Volgende keer misschien?</value>
   </data>
@@ -126,8 +138,23 @@
   <data name="CalculOutputPercent" xml:space="preserve">
     <value>Berekening van % van de outputs</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Ontwikkeld door</value>
+  </data>
+  <data name="CreditsAndLegalNotices" xml:space="preserve">
+    <value>Credits en juridische mededelingen:</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Donker</value>
+  </data>
+  <data name="DataSource" xml:space="preserve">
+    <value>Gegevensbronnen:</value>
+  </data>
+  <data name="DataSourceDetails" xml:space="preserve">
+    <value>De data die in deze applicatie wordt gebruikt, komt uit CSV-bestanden met de geschiedenis van EuroMillions-trekkingen. Deze data wordt bij elke start bijgewerkt om de nauwkeurigheid ervan te garanderen.</value>
+  </data>
+  <data name="DetailedAnalysis" xml:space="preserve">
+    <value>Gedetailleerde analyse van eerdere trekkingsstatistieken.</value>
   </data>
   <data name="Draw" xml:space="preserve">
     <value>Tekenen</value>
@@ -135,8 +162,17 @@
   <data name="Draws" xml:space="preserve">
     <value>Trekt</value>
   </data>
+  <data name="FilterAnalysis" xml:space="preserve">
+    <value>Filterbeheer om trekkingen als geheel of elke bal en ster afzonderlijk te analyseren.</value>
+  </data>
+  <data name="GenerationByProbabilities" xml:space="preserve">
+    <value>Genereren van combinaties op basis van waarschijnlijkheid.</value>
+  </data>
   <data name="GetBestDraw" xml:space="preserve">
     <value>Haal de beste trekking</value>
+  </data>
+  <data name="GithubLink" xml:space="preserve">
+    <value>Github-link</value>
   </data>
   <data name="IsNotAvailableWebsite" xml:space="preserve">
     <value>In theorie had dit moeten werken. Maar goed, we hebben iets gemist, en de site die we gebruiken besloot niet mee te werken. We lossen het op (of bijna).</value>
@@ -150,8 +186,14 @@
   <data name="LastOuting" xml:space="preserve">
     <value>Laatste uitje</value>
   </data>
+  <data name="LegalNotices" xml:space="preserve">
+    <value>Deze applicatie is een hulpmiddel gebaseerd op statistische berekeningen en garandeert geen enkel voordeel.</value>
+  </data>
   <data name="Light" xml:space="preserve">
     <value>Licht</value>
+  </data>
+  <data name="MainFeatures" xml:space="preserve">
+    <value>Belangrijkste kenmerken:</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Nummer</value>
@@ -170,6 +212,9 @@
   </data>
   <data name="PercentPerDraw" xml:space="preserve">
     <value>Percentage van de outputs per trekking</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Voor vragen of suggesties kunt u een probleem melden:</value>
   </data>
   <data name="SelectAYear" xml:space="preserve">
     <value>Selecteer een jaar</value>

@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Iwwer</value>
+  </data>
+  <data name="AboutTheApp" xml:space="preserve">
+    <value>Iwwer d'App</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Dës Applikatioun gouf entwéckelt fir EuroMillions Zeechnungsstatistiken ze analyséieren an optimiséiert Kombinatiounen op Basis vu Wahrscheinlechkeeten ze generéieren. Et erlaabt Iech och Statistiken fir d'Haaptbäll a Stären ze gesinn, fir Zeechnen Trends besser ze verstoen.</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Applikatioun Versioun</value>
+  </data>
   <data name="AsNotConnection" xml:space="preserve">
     <value>Mir schummen eis e bësse... Mir hätte solle léieren, ouni Internet ze iwwerliewen. Vläicht déi nächst Kéier?</value>
   </data>
@@ -126,8 +138,23 @@
   <data name="CalculOutputPercent" xml:space="preserve">
     <value>Berechnung vum % vun den Ausgängen</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Entwéckelt vun</value>
+  </data>
+  <data name="CreditsAndLegalNotices" xml:space="preserve">
+    <value>Credits a legal Notifikatiounen:</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Däischter</value>
+  </data>
+  <data name="DataSource" xml:space="preserve">
+    <value>Datenquellen:</value>
+  </data>
+  <data name="DataSourceDetails" xml:space="preserve">
+    <value>D'Daten, déi an dëser Applikatioun benotzt ginn, kommen aus CSV Dateien déi d'Geschicht vun EuroMillions Zeechnungen enthalen. Dës Donnéeë ginn op all Start aktualiséiert fir seng Genauegkeet ze garantéieren.</value>
+  </data>
+  <data name="DetailedAnalysis" xml:space="preserve">
+    <value>Detailléiert Analyse vun Vergaangenheet Zeechnen Statistiken.</value>
   </data>
   <data name="Draw" xml:space="preserve">
     <value>Zeechnen</value>
@@ -135,8 +162,17 @@
   <data name="Draws" xml:space="preserve">
     <value>Zeechnen</value>
   </data>
+  <data name="FilterAnalysis" xml:space="preserve">
+    <value>Filtermanagement fir Zeechnungen als Ganzt ze analyséieren oder all Kugel a Stär separat.</value>
+  </data>
+  <data name="GenerationByProbabilities" xml:space="preserve">
+    <value>Generatioun vu Kombinatioune baséiert op Wahrscheinlechkeeten.</value>
+  </data>
   <data name="GetBestDraw" xml:space="preserve">
     <value>Kritt déi bescht Zeechnen</value>
+  </data>
+  <data name="GithubLink" xml:space="preserve">
+    <value>Github Link</value>
   </data>
   <data name="IsNotAvailableWebsite" xml:space="preserve">
     <value>An der Theorie hätt et solle funktionéieren. Mä jo, mir huppescht eppes iwwersinn, an de Site, deen mir benotzen, mécht net mat. Mir këmmeren eis drëm (oder bal).</value>
@@ -150,8 +186,14 @@
   <data name="LastOuting" xml:space="preserve">
     <value>Leschten Ausfluch</value>
   </data>
+  <data name="LegalNotices" xml:space="preserve">
+    <value>Dës Applikatioun ass en Tool baséiert op statistesche Berechnungen a garantéiert kee Gewënn.</value>
+  </data>
   <data name="Light" xml:space="preserve">
     <value>Liicht</value>
+  </data>
+  <data name="MainFeatures" xml:space="preserve">
+    <value>Haaptfeatures:</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Zuel</value>
@@ -170,6 +212,9 @@
   </data>
   <data name="PercentPerDraw" xml:space="preserve">
     <value>Prozentsaz vun Ausgänge pro Zeechnungen</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Fir all Froen oder Virschléi, mellt w.e.g. en Thema:</value>
   </data>
   <data name="SelectAYear" xml:space="preserve">
     <value>Wielt e Joer</value>

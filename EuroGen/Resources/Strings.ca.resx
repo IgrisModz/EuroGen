@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Sobre</value>
+  </data>
+  <data name="AboutTheApp" xml:space="preserve">
+    <value>Sobre l'aplicació</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Aquesta aplicació va ser dissenyada per analitzar les estadístiques de dibuix d'EuroMillions i generar combinacions optimitzades basades en probabilitats. També us permet veure les estadístiques de les principals boles i estrelles, per tal d'entendre millor les tendències de dibuix.</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Versió de l'aplicació</value>
+  </data>
   <data name="AsNotConnection" xml:space="preserve">
     <value>Ens sap greu... Hauríem d’haver après a sobreviure sense Internet. Potser la pròxima vegada?</value>
   </data>
@@ -126,8 +138,23 @@
   <data name="CalculOutputPercent" xml:space="preserve">
     <value>Càlcul del % de sortides</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Desenvolupat per</value>
+  </data>
+  <data name="CreditsAndLegalNotices" xml:space="preserve">
+    <value>Crèdits i avisos legals:</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Fosc</value>
+  </data>
+  <data name="DataSource" xml:space="preserve">
+    <value>Fonts de dades:</value>
+  </data>
+  <data name="DataSourceDetails" xml:space="preserve">
+    <value>Les dades utilitzades en aquesta aplicació provenen de fitxers CSV que contenen l'historial dels sortejos d'EuroMillions. Aquestes dades s'actualitzen a cada inici per garantir la seva exactitud.</value>
+  </data>
+  <data name="DetailedAnalysis" xml:space="preserve">
+    <value>Anàlisi detallada de les estadístiques de sorteig anteriors.</value>
   </data>
   <data name="Draw" xml:space="preserve">
     <value>Dibuixa</value>
@@ -135,8 +162,17 @@
   <data name="Draws" xml:space="preserve">
     <value>Empates</value>
   </data>
+  <data name="FilterAnalysis" xml:space="preserve">
+    <value>Gestió de filtres per analitzar els empats en conjunt o cada bola i estrella per separat.</value>
+  </data>
+  <data name="GenerationByProbabilities" xml:space="preserve">
+    <value>Generació de combinacions a partir de probabilitats.</value>
+  </data>
   <data name="GetBestDraw" xml:space="preserve">
     <value>Aconsegueix el millor sorteig</value>
+  </data>
+  <data name="GithubLink" xml:space="preserve">
+    <value>Enllaç Github</value>
   </data>
   <data name="IsNotAvailableWebsite" xml:space="preserve">
     <value>En teoria, això havia de funcionar. Però bé, hem fallat en alguna cosa i el lloc web que fem servir ha decidit no col·laborar. Ens hi posem (o gairebé).</value>
@@ -150,8 +186,14 @@
   <data name="LastOuting" xml:space="preserve">
     <value>Última sortida</value>
   </data>
+  <data name="LegalNotices" xml:space="preserve">
+    <value>Aquesta aplicació és una eina basada en càlculs estadístics i no garanteix cap guany.</value>
+  </data>
   <data name="Light" xml:space="preserve">
     <value>Llum</value>
+  </data>
+  <data name="MainFeatures" xml:space="preserve">
+    <value>Característiques principals:</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Número</value>
@@ -170,6 +212,9 @@
   </data>
   <data name="PercentPerDraw" xml:space="preserve">
     <value>Percentatge de sortides per sorteig</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Per a qualsevol pregunta o suggeriment, si us plau, informeu d'un problema:</value>
   </data>
   <data name="SelectAYear" xml:space="preserve">
     <value>Seleccioneu un any</value>

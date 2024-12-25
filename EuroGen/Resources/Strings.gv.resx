@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Mygeayrt</value>
+  </data>
+  <data name="AboutTheApp" xml:space="preserve">
+    <value>Mychione yn app</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Va'n application shoh er ny yannoo dy analysaghey statistickyn tarraing EuroMillions as dy ghra co-chommeydyn ry-hoi ry-hoi. Ta'n staid shoh myrgeddin cowraghey statistickyn son ny prìomh baljyn as y steyr, er-yn-oyr dy vod ad tushtey y ghoaill jeh tendencies draw.</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Version ymmyd</value>
+  </data>
   <data name="AsNotConnection" xml:space="preserve">
     <value>Va shirree shoh dy obbraghey. Agh myr shen, va shinrycan mie ayns ennagh reddyn, as y ynnyd-eggey ta shin cooney er, cha vel ee cloie dy mie. Ta shin jannoo ym-lioar (ny er lhiam).</value>
   </data>
@@ -126,8 +138,23 @@
   <data name="CalculOutputPercent" xml:space="preserve">
     <value>Reihys % jeh ny h-outputyn</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Formaghey liorish</value>
+  </data>
+  <data name="CreditsAndLegalNotices" xml:space="preserve">
+    <value>Credityn as fysseree leigh:</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Coraa-dorraghey</value>
+  </data>
+  <data name="DataSource" xml:space="preserve">
+    <value>Fointyn coontey:</value>
+  </data>
+  <data name="DataSourceDetails" xml:space="preserve">
+    <value>Ta'n data t'er ny h-ussaghey 'sy 'application' shoh cheet magh ass coadanyn CSV ta 'sy stayr 'sy 'EuroMillions draws'. Ta'n data shoh ry-hickyraghey ec gagh toshiaght dy 'yannoo shickyr dy vel eh ry-hoi.</value>
+  </data>
+  <data name="DetailedAnalysis" xml:space="preserve">
+    <value>Mishaghey mishaghey statistickyn draw er-dy-henney.</value>
   </data>
   <data name="Draw" xml:space="preserve">
     <value>Lhiaggoo</value>
@@ -135,8 +162,17 @@
   <data name="Draws" xml:space="preserve">
     <value>Tarrooghyn</value>
   </data>
+  <data name="FilterAnalysis" xml:space="preserve">
+    <value>Riaghlagh filter dy analysaghey tarrooghyn myr immeeaght ny gagh baljyn as steyr er-lheh.</value>
+  </data>
+  <data name="GenerationByProbabilities" xml:space="preserve">
+    <value>Generation dy cho-chosney er y thalloo.</value>
+  </data>
   <data name="GetBestDraw" xml:space="preserve">
     <value>Faigh y draw share</value>
+  </data>
+  <data name="GithubLink" xml:space="preserve">
+    <value>Ceaghlagh Github</value>
   </data>
   <data name="IsNotAvailableWebsite" xml:space="preserve">
     <value>Ta shin nearey beggan... Mannagh by lhiat, va shin geearree gyn yn Internet dy ve bio. Yn cheayrt elley, foddee?</value>
@@ -150,8 +186,14 @@
   <data name="LastOuting" xml:space="preserve">
     <value>Yn veeal s'jerree</value>
   </data>
+  <data name="LegalNotices" xml:space="preserve">
+    <value>Ta'n application shoh ny h-instrument s'cosoylagh rish rieughid statistickys as cha nel eh cur ymmyd jeh'n aght shoh.</value>
+  </data>
   <data name="Light" xml:space="preserve">
     <value>Gillid</value>
+  </data>
+  <data name="MainFeatures" xml:space="preserve">
+    <value>Pryssoonyn mooarey:</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Oar</value>
@@ -170,6 +212,9 @@
   </data>
   <data name="PercentPerDraw" xml:space="preserve">
     <value>Percentage jeh ny toshiaghtyn dagh tarraing</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Son ceashtyn ny mooads erbee, cur fys er y chooish:</value>
   </data>
   <data name="SelectAYear" xml:space="preserve">
     <value>Taght blein</value>

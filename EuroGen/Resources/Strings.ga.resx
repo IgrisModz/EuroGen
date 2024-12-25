@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Maidir</value>
+  </data>
+  <data name="AboutTheApp" xml:space="preserve">
+    <value>Maidir leis an app</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Dearadh an feidhmchlár seo chun anailís a dhéanamh ar staitisticí tarraingthe EuroMillions agus chun teaglaim optamaithe a ghiniúint bunaithe ar dhóchúlachtaí. Ligeann sé duit freisin staitisticí a fheiceáil do na príomh-liathróidí agus na réaltaí, chun tuiscint níos fearr a fháil ar threochtaí tarraingthe.</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Leagan feidhmchláir</value>
+  </data>
   <data name="AsNotConnection" xml:space="preserve">
     <value>Táimid beagán ciontach... Ba chóir dúinn a bheith tar éis foghlaim conas maireachtáil gan an tIdirlíon. An chéad uair eile, b’fhéidir?</value>
   </data>
@@ -126,8 +138,23 @@
   <data name="CalculOutputPercent" xml:space="preserve">
     <value>% na n-aschur a ríomh</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Arna fhorbairt ag</value>
+  </data>
+  <data name="CreditsAndLegalNotices" xml:space="preserve">
+    <value>Creidmheasanna agus fógraí dlíthiúla:</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Dorcha</value>
+  </data>
+  <data name="DataSource" xml:space="preserve">
+    <value>Foinsí sonraí:</value>
+  </data>
+  <data name="DataSourceDetails" xml:space="preserve">
+    <value>Tagann na sonraí a úsáidtear san fheidhmchlár seo ó chomhaid CSV ina bhfuil stair tharraingí EuroMillions. Déantar na sonraí seo a nuashonrú ag gach tús lena chinntiú go bhfuil siad cruinn.</value>
+  </data>
+  <data name="DetailedAnalysis" xml:space="preserve">
+    <value>Anailís mhionsonraithe ar staitisticí tarraingthe san am atá thart.</value>
   </data>
   <data name="Draw" xml:space="preserve">
     <value>Tarraingt</value>
@@ -135,8 +162,17 @@
   <data name="Draws" xml:space="preserve">
     <value>Tarraingíonn</value>
   </data>
+  <data name="FilterAnalysis" xml:space="preserve">
+    <value>Bainistiú scagairí chun anailís a dhéanamh ar tharraingt ina n-iomláine nó gach liathróid agus réalta ar leithligh.</value>
+  </data>
+  <data name="GenerationByProbabilities" xml:space="preserve">
+    <value>Giniúint comhcheangail bunaithe ar dhóchúlachtaí.</value>
+  </data>
   <data name="GetBestDraw" xml:space="preserve">
     <value>Faigh an tarraingt is fearr</value>
+  </data>
+  <data name="GithubLink" xml:space="preserve">
+    <value>Nasc Github</value>
   </data>
   <data name="IsNotAvailableWebsite" xml:space="preserve">
     <value>Ba chóir go raibh sé seo ag obair. I dteoiric. Ach, sea, rinneamar praiseach de rud éigin, agus shocraigh an suíomh a úsáidimid gan comhoibriú. Táimid ag tabhairt faoi (nó beagnach).</value>
@@ -150,8 +186,14 @@
   <data name="LastOuting" xml:space="preserve">
     <value>An turas deireanach</value>
   </data>
+  <data name="LegalNotices" xml:space="preserve">
+    <value>Is uirlis é an feidhmchlár seo atá bunaithe ar ríomhanna staidrimh agus ní ráthaíonn sé aon ghnóthachan.</value>
+  </data>
   <data name="Light" xml:space="preserve">
     <value>Solas</value>
+  </data>
+  <data name="MainFeatures" xml:space="preserve">
+    <value>Príomhghnéithe:</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Uimhir</value>
@@ -170,6 +212,9 @@
   </data>
   <data name="PercentPerDraw" xml:space="preserve">
     <value>Céatadán na n-aschur in aghaidh na dtarraingtí</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Le haghaidh aon cheisteanna nó moltaí, tuairiscigh ceist le do thoil:</value>
   </data>
   <data name="SelectAYear" xml:space="preserve">
     <value>Roghnaigh bliain</value>

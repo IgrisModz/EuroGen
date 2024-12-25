@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Acerca de</value>
+  </data>
+  <data name="AboutTheApp" xml:space="preserve">
+    <value>Acerca de la aplicación</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Esta aplicación está diseñada para analizar las estadísticas del sorteo de Euromillones y generar combinaciones optimizadas en función de las probabilidades. También permite visualizar las estadísticas de las bolas y estrellas principales, para entender mejor las tendencias del sorteo.</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Versión de la aplicación</value>
+  </data>
   <data name="AsNotConnection" xml:space="preserve">
     <value>Nos sentimos un poco culpables... Deberíamos haber aprendido a sobrevivir sin Internet. ¿Quizás la próxima vez?</value>
   </data>
@@ -126,8 +138,23 @@
   <data name="CalculOutputPercent" xml:space="preserve">
     <value>Cálculo del % de salidas</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Desarrollado por</value>
+  </data>
+  <data name="CreditsAndLegalNotices" xml:space="preserve">
+    <value>Créditos y avisos legales:</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Oscuro</value>
+  </data>
+  <data name="DataSource" xml:space="preserve">
+    <value>Fuentes de datos:</value>
+  </data>
+  <data name="DataSourceDetails" xml:space="preserve">
+    <value>Los datos utilizados en esta aplicación proceden de archivos CSV que contienen el histórico de sorteos de Euromillones. Estos datos se actualizan en cada inicio para garantizar su exactitud.</value>
+  </data>
+  <data name="DetailedAnalysis" xml:space="preserve">
+    <value>Análisis detallado de estadísticas de sorteos anteriores.</value>
   </data>
   <data name="Draw" xml:space="preserve">
     <value>Dibujar</value>
@@ -135,8 +162,17 @@
   <data name="Draws" xml:space="preserve">
     <value>Sorteos</value>
   </data>
+  <data name="FilterAnalysis" xml:space="preserve">
+    <value>Gestión de filtros para analizar los sorteos en su conjunto o cada bola y estrella por separado.</value>
+  </data>
+  <data name="GenerationByProbabilities" xml:space="preserve">
+    <value>Generación de combinaciones basadas en probabilidades.</value>
+  </data>
   <data name="GetBestDraw" xml:space="preserve">
     <value>Consigue el mejor sorteo</value>
+  </data>
+  <data name="GithubLink" xml:space="preserve">
+    <value>Enlace de Github</value>
   </data>
   <data name="IsNotAvailableWebsite" xml:space="preserve">
     <value>En teoría, esto debería haber funcionado. Pero bueno, fallamos en algo y el sitio que usamos decidió no colaborar. Nos ocupamos de ello (o casi).</value>
@@ -150,8 +186,14 @@
   <data name="LastOuting" xml:space="preserve">
     <value>Última salida</value>
   </data>
+  <data name="LegalNotices" xml:space="preserve">
+    <value>Esta aplicación es una herramienta basada en cálculos estadísticos y no garantiza ninguna ganancia.</value>
+  </data>
   <data name="Light" xml:space="preserve">
     <value>Ligero</value>
+  </data>
+  <data name="MainFeatures" xml:space="preserve">
+    <value>Características principales:</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Número</value>
@@ -170,6 +212,9 @@
   </data>
   <data name="PercentPerDraw" xml:space="preserve">
     <value>Porcentaje de salidas por extracción</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Para cualquier pregunta o sugerencia, por favor informe un problema:</value>
   </data>
   <data name="SelectAYear" xml:space="preserve">
     <value>Seleccione un año</value>
