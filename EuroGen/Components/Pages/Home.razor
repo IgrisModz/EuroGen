@@ -55,7 +55,7 @@
     {
         @foreach (var draw in _newDraws)
         {
-            <MudPaper Elevation="24">
+            <MudPaper Class="@($"{(!draw.Equals(_newDraws.Last()) ? "mb-4" : "")}")" Elevation="24">
                 <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2" Class="pa-4 rounded-lg">
                     <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2">
                         <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
