@@ -31,7 +31,7 @@
                        Color="Color.Inherit"
                        Style="@($"text-transform:none;")"
                        Class="@($"{(IsActive("/about") ? "mud-chip-text mud-chip-color-primary" : "")} mx-2")"
-                       OnClick="@(() => GoTo("/about"))">About</MudButton>
+                       OnClick="@(() => GoTo("/about"))">@Localizer["About"]</MudButton>
             <MudButton StartIcon="@Icons.Material.Filled.Settings"
                        Color="Color.Inherit"
                        Style="@($"text-transform:none;")"
@@ -51,7 +51,7 @@
             <MudNavMenu>
                 <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Draw">@Localizer["Draws"]</MudNavLink>
                 <MudNavLink Href="/stats" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.DataExploration">@Localizer["Stats"]</MudNavLink>
-                <MudNavLink Href="/about" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Description">About</MudNavLink>
+                <MudNavLink Href="/about" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Description">@Localizer["About"]</MudNavLink>
                 <MudNavLink Href="/settings" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Settings">@Localizer["Settings"]</MudNavLink>
             </MudNavMenu>
         </MudDrawer>
