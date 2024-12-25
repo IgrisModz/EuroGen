@@ -61,9 +61,11 @@
 
     private SearchType _selectedSearchType;
 
-    private int SelectedYear => Preferences.Default.Get("Date", 2004);
-
+    private int SelectedMinYear => Preferences.Default.Get("MinDate", _years.First());
+    private int SelectedMaxYear => Preferences.Default.Get("MaxDate", _years.Last());
     private CalculStatsType SelectedCalculType => (CalculStatsType)Preferences.Default.Get("StatsCalcul", (int)CalculStatsType.TotalDraw);
+
+    private List<int> _years = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -78,6 +80,9 @@
         {
             DrawService.Draws = await DrawService.LoadDraws();
         }
+
+        _years = [.. DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order()];
+
         await Refresh(_selectedSearchType);
 
         _isLoading = false;
@@ -103,20 +108,20 @@
         _stats = await GetStats(DrawService.Draws,
         [
             nameof(Draw.FirstNumber), nameof(Draw.SecondNumber), nameof(Draw.ThirdNumber), nameof(Draw.FourthNumber), nameof(Draw.FifthNumber)
-        ], SelectedYear, totalDraw);
+        ], SelectedMinYear, SelectedMaxYear, totalDraw);
     }
 
     private async Task GetStars()
     {
         var totalDraw = SelectedCalculType == CalculStatsType.TotalDraw;
-        _stats = await GetStats(DrawService.Draws, [nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedYear, totalDraw);
+        _stats = await GetStats(DrawService.Draws, [nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
     }
 
-    private static async Task<IEnumerable<Models.Stats>> GetStats(IEnumerable<Draw> draws, string[] propertyNames, int year, bool totalDraw = false)
+    private static async Task<IEnumerable<Models.Stats>> GetStats(IEnumerable<Draw> draws, string[] propertyNames, int minYear, int maxYear, bool totalDraw = false)
     {
         List<Models.Stats> stats = [];
 
-        var filteredDraws = draws.Where(d => d.DrawDate.Year >= year).ToList();
+        var filteredDraws = draws.Where(d => d.DrawDate.Year >= minYear && d.DrawDate.Year <= maxYear).ToList();
 
         var valuesAndDates = filteredDraws.SelectMany(d => propertyNames.Select(d.GetPropertyValueAndDate)).ToList();
 
