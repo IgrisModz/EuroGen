@@ -223,7 +223,7 @@
     <value>Aktualiséiert d'Wahrscheinlechkeetsstatistiken baséiert op den verfügbaren Daten tëscht dem ausgewielten Minimum Joer an dem ausgewielten Maximum Joer.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
-    <value>Wielt d'Zuel vun Zeechnungen</value>
+    <value>Wielt d'Zuel vun simultan Zeechnungen</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Astellungen</value>

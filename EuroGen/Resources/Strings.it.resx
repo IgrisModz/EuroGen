@@ -223,7 +223,7 @@
     <value>Aggiorna le statistiche di probabilità in base ai dati disponibili tra l'anno minimo selezionato e l'anno massimo selezionato.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
-    <value>Seleziona il numero di estrazioni</value>
+    <value>Seleziona il numero di estrazioni simultanee</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Impostazioni</value>

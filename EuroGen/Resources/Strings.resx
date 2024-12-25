@@ -223,7 +223,7 @@
     <value>Updates the probability statistics based on the data available between the selected minimum year and the selected maximum year.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
-    <value>Select the number of draws</value>
+    <value>Select the number of simultaneous draws</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>

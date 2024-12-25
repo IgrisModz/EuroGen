@@ -223,7 +223,7 @@
     <value>Werkt de waarschijnlijkheidsstatistieken bij op basis van de beschikbare gegevens tussen het geselecteerde minimumjaar en het geselecteerde maximumjaar.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
-    <value>Selecteer het aantal trekkingen</value>
+    <value>Selecteer het aantal gelijktijdige trekkingen</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Instellingen</value>

@@ -223,7 +223,7 @@
     <value>Mets à jour les statistiques de probabilités en se basant sur les données disponibles entre l'année minimale sélectionnée et l'année maximale sélectionnée.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
-    <value>Sélectionne le nombre de tirages au sort</value>
+    <value>Sélectionnez le nombre de tirages simultanés</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>

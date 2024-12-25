@@ -223,7 +223,7 @@
     <value>Aktualisiert die Wahrscheinlichkeitsstatistik basierend auf den zwischen dem ausgewählten Minimaljahr und dem ausgewählten Maximaljahr verfügbaren Daten.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
-    <value>Wählen Sie die Anzahl der Ziehungen</value>
+    <value>Wählen Sie die Anzahl gleichzeitiger Ziehungen</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Einstellungen</value>

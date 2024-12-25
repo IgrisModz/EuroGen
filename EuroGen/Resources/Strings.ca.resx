@@ -223,7 +223,7 @@
     <value>Actualitza les estadístiques de probabilitat en funció de les dades disponibles entre l'any mínim seleccionat i l'any màxim seleccionat.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
-    <value>Seleccioneu el nombre de sorteigs</value>
+    <value>Seleccioneu el nombre de sorteigs simultanis</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Configuració</value>

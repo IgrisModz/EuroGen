@@ -114,6 +114,13 @@
 
             <MudDivider Class="my-3"/>
 
+            <MudSelect Class="mb-4" T="int" Label="@Localizer["SelectDrawNumber"]" Variant="Variant.Filled" @bind-Value="@SelectedDrawLength">
+                <MudSelectItem Value="@(1)">1</MudSelectItem>
+                <MudSelectItem Value="@(2)">2</MudSelectItem>
+                <MudSelectItem Value="@(5)">5</MudSelectItem>
+                <MudSelectItem Value="@(10)">10</MudSelectItem>
+            </MudSelect>
+
             <MudSelect T="CalculDrawType" Class="mb-4" Label="@Localizer["CalculOutputPercent"]" Variant="Variant.Filled" @bind-Value="@SelectedCalculDrawType">
                 <MudSelectItem Value="@(CalculDrawType.TotalDraw)">@Localizer["PercentPerDraw"]</MudSelectItem>
                 <MudSelectItem Value="@(CalculDrawType.TotalNumber)">@Localizer["PercentPerBall"]</MudSelectItem>
@@ -154,6 +161,12 @@
         set => Preferences.Default.Set("MaxDate", value);
     }
 
+    private int SelectedDrawLength
+    {
+        get => Preferences.Default.Get("DrawLength", 1);
+        set => Preferences.Default.Set("DrawLength", value);
+    }
+
     private CalculDrawType SelectedCalculDrawType
     {
         get => (CalculDrawType)Preferences.Default.Get("DrawCalcul", (int)CalculDrawType.TotalDraw);
@@ -165,6 +178,7 @@
         get => (CalculStatsType)Preferences.Default.Get("StatsCalcul", (int)CalculStatsType.TotalDraw);
         set => Preferences.Default.Set("StatsCalcul", (int)value);
     }
+
 
     protected override async Task OnInitializedAsync()
     {
