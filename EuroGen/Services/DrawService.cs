@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO.Compression;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -14,7 +13,7 @@ namespace EuroGen.Services;
 
 public class DrawService
 {
-    public Action StatusChanged;
+    public Action? StatusChanged;
 
     private readonly ILogger<DrawService> _logger;
 
@@ -32,7 +31,7 @@ public class DrawService
             UpdateStatus();
         }
     }
-    public bool _isAvailableWebsite = true;
+    private bool _isAvailableWebsite = true;
     public bool IsAvailableWebsite
     {
         get => _isAvailableWebsite;
@@ -43,7 +42,7 @@ public class DrawService
         }
     }
 
-    public bool _isLoading;
+    private bool _isLoading;
     public bool IsLoading
     {
         get => _isLoading;
@@ -157,7 +156,7 @@ public class DrawService
             var response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            var zipFilePath = Path.GetRandomFileName();
+            var zipFilePath = Path.GetTempFileName();
             await using (var zipFileStream = new FileStream(zipFilePath, FileMode.Create))
             {
                 await response.Content.CopyToAsync(zipFileStream);
