@@ -7,46 +7,39 @@
 
 <PageTitle>@Localizer["Stats"]</PageTitle>
 
-@if (_isLoading)
+@if (DrawService.IsLoading)
 {
-    <MudProgressLinear Class="mb-3" Color="Color.Primary" Indeterminate="true" />
-}
+    <MudStack AlignItems="AlignItems.Center">
+        <MudSkeleton Width="140px" Height="37px" SkeletonType="SkeletonType.Rectangle" />
+    </MudStack>
 
-<MudContainer MaxWidth="MaxWidth.Medium" Class="pa-4">
-    @if (_isLoading)
-    {
-        <MudStack AlignItems="AlignItems.Center">
-            <MudSkeleton Width="140px" Height="37px" SkeletonType="SkeletonType.Rectangle" />
+    <MudPaper Class="pa-4 mt-4 rounded-lg" Elevation="24">
+        <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+        <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+        <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+        <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+        <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+        <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
+    </MudPaper>
+}
+else
+{
+    <MudStack AlignItems="AlignItems.Center">
+        <MudToggleGroup T="SearchType" SelectionMode="SelectionMode.SingleSelection" Value="@_selectedSearchType" ValueChanged="async searchType => await OnSelectedSearchTypeChanged(searchType)" Color="Color.Primary">
+            <MudToggleItem Value="@(SearchType.Number)" Text="@Localizer["Numbers"]" />
+            <MudToggleItem Value="@(SearchType.Star)" Text="@Localizer["Stars"]" />
+        </MudToggleGroup>
         </MudStack>
 
-        <MudPaper Class="pa-4 mt-4 rounded-lg" Elevation="24">
-            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
-            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
-            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
-            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
-            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
-            <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
-        </MudPaper>
-    }
-    else
-    {
-        <MudStack AlignItems="AlignItems.Center">
-            <MudToggleGroup T="SearchType" SelectionMode="SelectionMode.SingleSelection" Value="@_selectedSearchType" ValueChanged="async searchType => await OnSelectedSearchTypeChanged(searchType)" Color="Color.Primary">
-                <MudToggleItem Value="@(SearchType.Number)" Text="@Localizer["Numbers"]" />
-                <MudToggleItem Value="@(SearchType.Star)" Text="@Localizer["Stars"]" />
-            </MudToggleGroup>
-            </MudStack>
-
-        <MudDataGrid Class="mt-4 rounded-lg" Elevation="24" Items="@_stats">
-            <Columns>
-                <PropertyColumn Property="x => x.Number" Title="@Localizer["Number"]" />
-                <PropertyColumn Property="x => x.NumberOfOutput" Title="@Localizer["NumberOfOutput"]" />
-                <PropertyColumn Property="x => x.PercentOfOutput" Title="@Localizer["PercentOfOutput"]" />
-                <PropertyColumn Property="x => x.LastRelease" Title="@Localizer["LastOuting"]" />
-            </Columns>
-        </MudDataGrid>
-    }
-</MudContainer>
+    <MudDataGrid Class="mt-4 rounded-lg" Elevation="24" Items="@_stats">
+        <Columns>
+            <PropertyColumn Property="x => x.Number" Title="@Localizer["Number"]" />
+            <PropertyColumn Property="x => x.NumberOfOutput" Title="@Localizer["NumberOfOutput"]" />
+            <PropertyColumn Property="x => x.PercentOfOutput" Title="@Localizer["PercentOfOutput"]" />
+            <PropertyColumn Property="x => x.LastRelease" Title="@Localizer["LastOuting"]" />
+        </Columns>
+    </MudDataGrid>
+}
 
 @code {
     public enum SearchType
@@ -54,8 +47,6 @@
         Number,
         Star
     }
-
-    private bool _isLoading = false;
 
     private IEnumerable<Models.Stats> _stats = [];
 
@@ -74,7 +65,7 @@
 
     private async Task LoadDataAsync(bool isInitialLoad = false)
     {
-        _isLoading = true;
+        DrawService.IsLoading = true;
 
         if (DrawService.Draws == null || DrawService.Draws.Count() == 0)
         {
@@ -85,7 +76,7 @@
 
         await Refresh(_selectedSearchType);
 
-        _isLoading = false;
+        DrawService.IsLoading = false;
     }
 
     private async Task OnSelectedSearchTypeChanged(SearchType searchType)

@@ -43,6 +43,17 @@ public class DrawService
         }
     }
 
+    public bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            UpdateStatus();
+        }
+    }
+
     public IEnumerable<Draw>? Draws { get; set; }
 
     public DrawService(ILogger<DrawService> logger)

@@ -5,6 +5,16 @@
 @inject LocalizationService Localizer
 @inject DrawService DrawService
 
+<style>
+    .fixed-progress {
+        position: fixed;
+        top: var(--mud-appbar-height, 64px); /* Prend en compte la hauteur de l'AppBar */
+        left: 0;
+        width: 100%;
+        z-index: 1000; /* Au-dessus des autres éléments */
+    }
+</style>
+
 <MudThemeProvider @ref="@_mudThemeProvider" Theme="_mudTheme" IsDarkMode=@ThemeService.IsDarkMode/>
 <MudPopoverProvider />
 <MudDialogProvider />
@@ -57,6 +67,10 @@
         </MudDrawer>
     </MudHidden>
     <MudMainContent>
+        @if (DrawService.IsLoading)
+        {
+            <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="fixed-progress" />
+        }
         @if (!DrawService.AsConnection)
         {
             <MudAlert Severity="Severity.Error" Square="true">@Localizer["AsNotConnection"]</MudAlert>
@@ -65,7 +79,9 @@
         {
             <MudAlert Severity="Severity.Error" Square="true">@Localizer["IsNotAvailableWebsite"]</MudAlert>
         }
-        @Body
+        <MudContainer MaxWidth="MaxWidth.Medium" Class="pa-4">
+            @Body
+        </MudContainer>
         <MudScrollToTop>
             <MudFab Style="opacity:.8"
             Color="Color.Primary"
@@ -80,26 +96,26 @@
     private MudThemeProvider? _mudThemeProvider;
 
     private MudTheme _mudTheme = new()
-    {
-        PaletteLight = new PaletteLight()
         {
-            Background = Colors.Gray.Lighten5,
-            AppbarBackground = Colors.Gray.Lighten5,
-            DrawerBackground = Colors.Gray.Lighten5,
-            AppbarText = Colors.Shades.Black,
-            Surface = Colors.Gray.Lighten5,
-            Primary = Colors.Indigo.Accent4
-        },
-        PaletteDark = new PaletteDark()
-        {
-            Background = Colors.Gray.Darken4,
-            AppbarBackground = Colors.Gray.Darken4,
-            DrawerBackground = Colors.Gray.Darken4,
-            AppbarText = Colors.Gray.Default,
-            Surface = Colors.Gray.Darken4,
-            Primary = Colors.Blue.Accent4
-        },
-    };
+            PaletteLight = new PaletteLight()
+            {
+                Background = Colors.Gray.Lighten5,
+                AppbarBackground = Colors.Gray.Lighten5,
+                DrawerBackground = Colors.Gray.Lighten5,
+                AppbarText = Colors.Shades.Black,
+                Surface = Colors.Gray.Lighten5,
+                Primary = Colors.Indigo.Accent4
+            },
+            PaletteDark = new PaletteDark()
+            {
+                Background = Colors.Gray.Darken4,
+                AppbarBackground = Colors.Gray.Darken4,
+                DrawerBackground = Colors.Gray.Darken4,
+                AppbarText = Colors.Gray.Default,
+                Surface = Colors.Gray.Darken4,
+                Primary = Colors.Blue.Accent4
+            },
+        };
 
     private void DrawerToggle()
     {

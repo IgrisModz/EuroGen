@@ -6,32 +6,13 @@
 
 <PageTitle>@Localizer["Draws"]</PageTitle>
 
-@if (_isLoading)
+@if (DrawService.IsLoading)
 {
-    <MudProgressLinear Class="mb-3" Color="Color.Primary" Indeterminate="true" />
-}
-
-<MudContainer MaxWidth="MaxWidth.Medium" Class="pa-4">
-    @if (_isLoading)
+    @if (Preferences.Get("LastMethodUsed", "") != "GetBestDraw")
     {
-        @if (Preferences.Get("LastMethodUsed", "") != "GetBestDraw")
+        @for (var i = 0; i < DrawLength; i++)
         {
-            @for (var i = 0; i < DrawLength; i++)
-            {
-                <MudPaper Class="@($"pa-4 {(i != DrawLength - 1 ? "mb-4" : "")} rounded-lg d-flex justify-center gap-2 flex-wrap")" Elevation="24">
-                    <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
-                    <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
-                    <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
-                    <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
-                    <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
-                    <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
-                    <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
-                </MudPaper>
-            }
-        }
-        else
-        {
-            <MudPaper Class="pa-4 rounded-lg d-flex justify-center gap-2 flex-wrap" Elevation="24">
+            <MudPaper Class="@($"pa-4 {(i != DrawLength - 1 ? "mb-4" : "")} rounded-lg d-flex justify-center gap-2 flex-wrap")" Elevation="24">
                 <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
                 <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
                 <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
@@ -41,78 +22,90 @@
                 <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
             </MudPaper>
         }
-
-        <MudGrid Spacing="2" Class="mt-2">
-            <MudItem xs="12" sm="6">
-                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg" Height="37px" />
-            </MudItem>
-            <MudItem xs="12" sm="6">
-                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg" Height="37px" />
-            </MudItem>
-        </MudGrid>
     }
     else
     {
-        @foreach (var draw in _newDraws)
-        {
-            <MudPaper Class="@($"{(!draw.Equals(_newDraws.Last()) ? "mb-4" : "")}")" Elevation="24">
-                <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2" Class="pa-4 rounded-lg">
-                    <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2">
-                        <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
-                            <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
-                            <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.FirstNumber</b></MudText>
-                        </MudStack>
-                        <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
-                            <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
-                            <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.SecondNumber</b></MudText>
-                        </MudStack>
-                        <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
-                            <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
-                            <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.ThirdNumber</b></MudText>
-                        </MudStack>
-                        <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
-                            <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
-                            <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.FourthNumber</b></MudText>
-                        </MudStack>
-                        <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
-                            <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
-                            <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.FifthNumber</b></MudText>
-                        </MudStack>
+        <MudPaper Class="pa-4 rounded-lg d-flex justify-center gap-2 flex-wrap" Elevation="24">
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
+            <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
+        </MudPaper>
+    }
+
+    <MudGrid Spacing="2" Class="mt-2">
+        <MudItem xs="12" sm="6">
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg" Height="37px" />
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg" Height="37px" />
+        </MudItem>
+    </MudGrid>
+}
+else
+{
+    @foreach (var draw in _newDraws)
+    {
+        <MudPaper Class="@($"{(!draw.Equals(_newDraws.Last()) ? "mb-4" : "")}")" Elevation="24">
+            <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2" Class="pa-4 rounded-lg">
+                <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2">
+                    <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
+                        <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
+                        <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.FirstNumber</b></MudText>
                     </MudStack>
-                    <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2">
-                        <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
-                            <MudIcon Icon="@Icons.Material.Filled.Star" class="draw-icon star-icon" />
-                            <MudText Align="Align.Center" Color="Color.Dark" Class="draw-text"><b>@draw.FirstStar</b></MudText>
-                        </MudStack>
-                        <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
-                            <MudIcon Icon="@Icons.Material.Filled.Star" class="draw-icon star-icon" />
-                            <MudText Align="Align.Center" Color="Color.Dark" Class="draw-text"><b>@draw.SecondStar</b></MudText>
-                        </MudStack>
+                    <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
+                        <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
+                        <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.SecondNumber</b></MudText>
+                    </MudStack>
+                    <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
+                        <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
+                        <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.ThirdNumber</b></MudText>
+                    </MudStack>
+                    <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
+                        <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
+                        <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.FourthNumber</b></MudText>
+                    </MudStack>
+                    <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
+                        <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" class="draw-icon" />
+                        <MudText Align="Align.Center" Class="draw-text ball-text"><b>@draw.FifthNumber</b></MudText>
                     </MudStack>
                 </MudStack>
-            </MudPaper>
-        }
-
-        <MudGrid Class="mt-2" Spacing="2">
-            <MudItem xs="12" sm="6">
-                <MudButton Color="Color.Primary" Variant="Variant.Filled"
-                Style="@($"text-transform:none;")"
-                Class="rounded-lg"
-                FullWidth="true"
-                Disabled="_isLoading"
-                OnClick="async () => await GenerateDraw()">@Localizer["Draw"]</MudButton>
-            </MudItem>
-            <MudItem xs="12" sm="6">
-                <MudButton Color="Color.Primary" Variant="Variant.Filled"
-                Style="@($"text-transform:none;")"
-                Class="rounded-lg"
-                FullWidth="true"
-                Disabled="_isLoading"
-                OnClick="async () => await GetBestDraw()">@Localizer["GetBestDraw"]</MudButton>
-            </MudItem>
-        </MudGrid>
+                <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2">
+                    <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" class="draw-icon star-icon" />
+                        <MudText Align="Align.Center" Color="Color.Dark" Class="draw-text"><b>@draw.FirstStar</b></MudText>
+                    </MudStack>
+                    <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" class="draw-icon star-icon" />
+                        <MudText Align="Align.Center" Color="Color.Dark" Class="draw-text"><b>@draw.SecondStar</b></MudText>
+                    </MudStack>
+                </MudStack>
+            </MudStack>
+        </MudPaper>
     }
-</MudContainer>
+
+    <MudGrid Class="mt-2" Spacing="2">
+        <MudItem xs="12" sm="6">
+            <MudButton Color="Color.Primary" Variant="Variant.Filled"
+            Style="@($"text-transform:none;")"
+            Class="rounded-lg"
+            FullWidth="true"
+            Disabled="DrawService.IsLoading"
+            OnClick="async () => await GenerateDraw()">@Localizer["Draw"]</MudButton>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudButton Color="Color.Primary" Variant="Variant.Filled"
+            Style="@($"text-transform:none;")"
+            Class="rounded-lg"
+            FullWidth="true"
+                       Disabled="DrawService.IsLoading"
+            OnClick="async () => await GetBestDraw()">@Localizer["GetBestDraw"]</MudButton>
+        </MudItem>
+    </MudGrid>
+}
 
 <style>
     .draw-item {
@@ -152,8 +145,6 @@
 
     private List<int> _years = [];
 
-    private bool _isLoading = false;
-
     protected override async Task OnInitializedAsync()
     {
         await LoadDataAsync();
@@ -161,7 +152,7 @@
 
     private async Task LoadDataAsync()
     {
-        _isLoading = true;
+        DrawService.IsLoading = true;
 
         _newDraws = LoadPreviouslyGenratedDraws();
 
@@ -172,7 +163,7 @@
 
         _years = [.. DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order()];
 
-        _isLoading = false;
+        DrawService.IsLoading = false;
     }
 
     private List<Draw> LoadPreviouslyGenratedDraws()
@@ -207,7 +198,7 @@
 
     private async Task GenerateDraw()
     {
-        _isLoading = true;
+        DrawService.IsLoading = true;
 
         try
         {
@@ -220,10 +211,10 @@
             {
                 var numbersPercentages = await GetPercents([
                     nameof(Draw.FirstNumber),
-            nameof(Draw.SecondNumber),
-            nameof(Draw.ThirdNumber),
-            nameof(Draw.FourthNumber),
-            nameof(Draw.FifthNumber)
+        nameof(Draw.SecondNumber),
+        nameof(Draw.ThirdNumber),
+        nameof(Draw.FourthNumber),
+        nameof(Draw.FifthNumber)
                 ], SelectedMinYear, SelectedMaxYear, totalDraw);
 
                 var starsPercentages = await GetPercents([nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
@@ -306,14 +297,14 @@
         }
         finally
         {
-            _isLoading = false;
+            DrawService.IsLoading = false;
             Preferences.Set("LastMethodUsed", "GetDraw");
         }
     }
 
     private async Task GetBestDraw()
     {
-        _isLoading = true;
+        DrawService.IsLoading = true;
 
         try
         {
@@ -325,10 +316,10 @@
             {
                 var numbersPercentages = await GetPercents([
                     nameof(Draw.FirstNumber),
-            nameof(Draw.SecondNumber),
-            nameof(Draw.ThirdNumber),
-            nameof(Draw.FourthNumber),
-            nameof(Draw.FifthNumber)
+        nameof(Draw.SecondNumber),
+        nameof(Draw.ThirdNumber),
+        nameof(Draw.FourthNumber),
+        nameof(Draw.FifthNumber)
                 ], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
 
                 var starsPercentages = await GetPercents([nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
@@ -395,7 +386,7 @@
         }
         finally
         {
-            _isLoading = false;
+            DrawService.IsLoading = false;
             Preferences.Set("LastMethodUsed", "GetBestDraw");
         }
     }
