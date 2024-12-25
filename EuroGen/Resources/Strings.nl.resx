@@ -216,11 +216,11 @@
   <data name="Questions" xml:space="preserve">
     <value>Voor vragen of suggesties kunt u een probleem melden:</value>
   </data>
-  <data name="SelectAYear" xml:space="preserve">
-    <value>Selecteer een jaar</value>
+  <data name="SelectTheMinYear" xml:space="preserve">
+    <value>Selecteer het minimale jaar</value>
   </data>
   <data name="SelectAYearDescription" xml:space="preserve">
-    <value>Werkt de waarschijnlijkheidsstatistieken bij met behulp van beschikbare gegevens van het geselecteerde jaar tot vandaag.</value>
+    <value>Werkt de waarschijnlijkheidsstatistieken bij op basis van de beschikbare gegevens tussen het geselecteerde minimumjaar en het geselecteerde maximumjaar.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
     <value>Selecteer het aantal trekkingen</value>
@@ -242,5 +242,8 @@
   </data>
   <data name="ThemeChanged" xml:space="preserve">
     <value>Thema gewijzigd</value>
+  </data>
+  <data name="SelectTheMaxYear" xml:space="preserve">
+    <value>Selecteer het maximale jaar</value>
   </data>
 </root>

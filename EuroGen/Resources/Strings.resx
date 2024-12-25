@@ -216,11 +216,11 @@
   <data name="Questions" xml:space="preserve">
     <value>For any questions or suggestions, please report an issue:</value>
   </data>
-  <data name="SelectAYear" xml:space="preserve">
-    <value>Select a year</value>
+  <data name="SelectTheMinYear" xml:space="preserve">
+    <value>Select the minimum year</value>
   </data>
   <data name="SelectAYearDescription" xml:space="preserve">
-    <value>Updates the probabilities statistics using available data from the selected year to today.</value>
+    <value>Updates the probability statistics based on the data available between the selected minimum year and the selected maximum year.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
     <value>Select the number of draws</value>
@@ -242,5 +242,8 @@
   </data>
   <data name="ThemeChanged" xml:space="preserve">
     <value>Theme changed</value>
+  </data>
+  <data name="SelectTheMaxYear" xml:space="preserve">
+    <value>Select the maximum year</value>
   </data>
 </root>

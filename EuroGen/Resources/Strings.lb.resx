@@ -216,11 +216,11 @@
   <data name="Questions" xml:space="preserve">
     <value>Fir all Froen oder Virschléi, mellt w.e.g. en Thema:</value>
   </data>
-  <data name="SelectAYear" xml:space="preserve">
-    <value>Wielt e Joer</value>
+  <data name="SelectTheMinYear" xml:space="preserve">
+    <value>Wielt de Minimum Joer</value>
   </data>
   <data name="SelectAYearDescription" xml:space="preserve">
-    <value>Aktualiséiert d'Wahrscheinlechkeetsstatistike mat verfügbaren Daten vum ausgewielten Joer bis haut.</value>
+    <value>Aktualiséiert d'Wahrscheinlechkeetsstatistiken baséiert op den verfügbaren Daten tëscht dem ausgewielten Minimum Joer an dem ausgewielten Maximum Joer.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
     <value>Wielt d'Zuel vun Zeechnungen</value>
@@ -242,5 +242,8 @@
   </data>
   <data name="ThemeChanged" xml:space="preserve">
     <value>Thema geännert</value>
+  </data>
+  <data name="SelectTheMaxYear" xml:space="preserve">
+    <value>Wielt déi maximal Joer</value>
   </data>
 </root>

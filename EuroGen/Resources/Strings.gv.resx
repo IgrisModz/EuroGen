@@ -216,11 +216,11 @@
   <data name="Questions" xml:space="preserve">
     <value>Son ceashtyn ny mooads erbee, cur fys er y chooish:</value>
   </data>
-  <data name="SelectAYear" xml:space="preserve">
-    <value>Taght blein</value>
+  <data name="SelectTheMinYear" xml:space="preserve">
+    <value>Taght yn vlein sloo</value>
   </data>
   <data name="SelectAYearDescription" xml:space="preserve">
-    <value>Ta'n statistick probabilities ry-hickyraghey liorish ymmyd jeh'n data ta ry-gheddyn veih'n vleïn roghnit gys y laa jiu.</value>
+    <value>Ta'n statistick probability ry-hickyraghey er y stayd t'ayn eddyr y vleïn s'inshley taghyrtagh as y vleïn s'inshley taghyrtagh.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
     <value>Taght yn earroo dy tarrooghyn</value>
@@ -242,5 +242,8 @@
   </data>
   <data name="ThemeChanged" xml:space="preserve">
     <value>Yn theme er ny chaghlaa</value>
+  </data>
+  <data name="SelectTheMaxYear" xml:space="preserve">
+    <value>Taght yn vlein smoo</value>
   </data>
 </root>

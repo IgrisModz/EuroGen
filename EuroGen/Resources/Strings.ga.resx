@@ -216,11 +216,11 @@
   <data name="Questions" xml:space="preserve">
     <value>Le haghaidh aon cheisteanna nó moltaí, tuairiscigh ceist le do thoil:</value>
   </data>
-  <data name="SelectAYear" xml:space="preserve">
-    <value>Roghnaigh bliain</value>
+  <data name="SelectTheMinYear" xml:space="preserve">
+    <value>Roghnaigh an bhliain íosta</value>
   </data>
   <data name="SelectAYearDescription" xml:space="preserve">
-    <value>Nuashonraítear na staitisticí dóchúlachta agus úsáid á baint as sonraí atá ar fáil ón mbliain roghnaithe go dtí an lá inniu.</value>
+    <value>Nuashonraítear na staitisticí dóchúlachta bunaithe ar na sonraí atá ar fáil idir an íosbhliain roghnaithe agus an t-uasbhliain roghnaithe.</value>
   </data>
   <data name="SelectDrawNumber" xml:space="preserve">
     <value>Roghnaigh líon na dtarraingtí</value>
@@ -242,5 +242,8 @@
   </data>
   <data name="ThemeChanged" xml:space="preserve">
     <value>Athraíodh an téama</value>
+  </data>
+  <data name="SelectTheMaxYear" xml:space="preserve">
+    <value>Roghnaigh an bhliain uasta</value>
   </data>
 </root>

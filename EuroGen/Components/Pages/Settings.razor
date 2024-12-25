@@ -10,7 +10,7 @@
 
 @if (_isLoading)
 {
-            <MudProgressLinear Class="mb-3" Color="Color.Primary" Indeterminate="true" />
+    <MudProgressLinear Class="mb-3" Color="Color.Primary" Indeterminate="true" />
 }
 
 <MudContainer MaxWidth="MaxWidth.Medium">
@@ -96,8 +96,15 @@
 
             <MudDivider Class="my-3"/>
 
-            <MudSelect T="int" Class="mb-4" Label="@Localizer["SelectAYear"]" Variant="Variant.Filled" HelperText="@Localizer["SelectAYearDescription"]" @bind-Value="@SelectedYear">
-                @foreach (var year in _years)
+            <MudSelect T="int" Class="mb-4" Label="@Localizer["SelectTheMinYear"]" Variant="Variant.Filled" HelperText="@Localizer["SelectAYearDescription"]" Value="@SelectedMinYear" ValueChanged="OnSelectedMinYearChanged">
+                @foreach (var year in _minYears)
+                {
+                    <MudSelectItem Value="@(year)">@year</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="int" Class="mb-4" Label="@Localizer["SelectTheMaxYear"]" Variant="Variant.Filled" HelperText="@Localizer["SelectAYearDescription"]" Value="@SelectedMaxYear" ValueChanged="OnSelectedMaxYearChanged">
+                @foreach (var year in _maxYears)
                 {
                     <MudSelectItem Value="@(year)">@year</MudSelectItem>
                 }
@@ -131,10 +138,20 @@
 
     private List<int> _years = [];
 
-    private int SelectedYear
+    private List<int> _minYears = [];
+
+    private List<int> _maxYears = [];
+
+    private int SelectedMinYear
     {
-        get => Preferences.Default.Get("Date", 2004);
-        set => Preferences.Default.Set("Date", value);
+        get => Preferences.Default.Get("MinDate", _years.First());
+        set => Preferences.Default.Set("MinDate", value);
+    }
+
+    private int SelectedMaxYear
+    {
+        get => Preferences.Default.Get("MaxDate", _years.Last());
+        set => Preferences.Default.Set("MaxDate", value);
     }
 
     private CalculDrawType SelectedCalculDrawType
@@ -163,6 +180,8 @@
             DrawService.Draws = await DrawService.LoadDraws();
         }
         _years = [.. DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order()];
+
+        UpdateYearOptions();
 
         _isLoading = false;
     }
@@ -203,5 +222,36 @@
         };
 
         Snackbar.Add($"{Localizer["LanguageChanged"]}: {languageName}", Severity.Success);
+    }
+
+    private void OnSelectedMinYearChanged(int value)
+    {
+        SelectedMinYear = value;
+
+        UpdateYearOptions();
+
+        if (SelectedMaxYear < value)
+        {
+            SelectedMaxYear = _maxYears.First();
+        }
+    }
+
+    private void OnSelectedMaxYearChanged(int value)
+    {
+        SelectedMaxYear = value;
+
+        UpdateYearOptions();
+
+        if (SelectedMinYear > value)
+        {
+            SelectedMinYear = _minYears.Last();
+        }
+    }
+
+    private void UpdateYearOptions()
+    {
+        // Filtrer les options disponibles pour les deux sélections
+        _minYears = _years.Where(year => year <= SelectedMaxYear).ToList();
+        _maxYears = _years.Where(year => year >= SelectedMinYear).ToList();
     }
 }
