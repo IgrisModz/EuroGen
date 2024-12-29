@@ -10,10 +10,10 @@
 @if (DrawService.IsLoading)
 {
     <MudStack AlignItems="AlignItems.Center">
-        <MudSkeleton Width="140px" Height="37px" SkeletonType="SkeletonType.Rectangle" />
+        <MudSkeleton Width="140px" Height="37px" Class="rounded-xl" SkeletonType="SkeletonType.Rectangle" />
     </MudStack>
 
-    <MudPaper Class="pa-4 mt-4 rounded-lg" Elevation="24">
+    <MudPaper Class="pa-4 mt-4 rounded-xl" Elevation="24">
         <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
         <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
         <MudSkeleton Height="50px" SkeletonType="SkeletonType.Text" />
@@ -25,13 +25,13 @@
 else
 {
     <MudStack AlignItems="AlignItems.Center">
-        <MudToggleGroup T="SearchType" SelectionMode="SelectionMode.SingleSelection" Value="@_selectedSearchType" ValueChanged="async searchType => await OnSelectedSearchTypeChanged(searchType)" Color="Color.Primary">
+        <MudToggleGroup Class="rounded-xl" T="SearchType" SelectionMode="SelectionMode.SingleSelection" Value="@_selectedSearchType" ValueChanged="async searchType => await OnSelectedSearchTypeChanged(searchType)" Color="Color.Primary">
             <MudToggleItem Value="@(SearchType.Number)" Text="@Localizer["Numbers"]" />
             <MudToggleItem Value="@(SearchType.Star)" Text="@Localizer["Stars"]" />
         </MudToggleGroup>
         </MudStack>
 
-    <MudDataGrid Class="mt-4 rounded-lg" Elevation="24" Items="@_stats">
+    <MudDataGrid Class="mt-4 rounded-xl" Elevation="24" Items="@_stats">
         <Columns>
             <PropertyColumn Property="x => x.Number" Title="@Localizer["Number"]" />
             <PropertyColumn Property="x => x.NumberOfOutput" Title="@Localizer["NumberOfOutput"]" />

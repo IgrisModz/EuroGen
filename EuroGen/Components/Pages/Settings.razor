@@ -10,7 +10,7 @@
 
 @if (DrawService.IsLoading)
 {
-    <MudPaper Elevation="24" Class="pa-4 rounded-lg">
+    <MudPaper Elevation="24" Class="pa-4 rounded-xl">
         <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
         <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
         <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
@@ -20,7 +20,7 @@
 }
 else
 {
-    <MudPaper Elevation="24" Class="pa-4 rounded-lg">
+    <MudPaper Elevation="24" Class="pa-4 rounded-xl">
         <MudText Typo="Typo.h5">Apparence</MudText>
 
         <MudDivider Class="my-3"/>
@@ -126,7 +126,7 @@ else
 
         <MudDivider Class="my-3"/>
 
-        <MudSelect T="CalculStatsType" Class="mb-4" Label="@Localizer["CalculOutputPercent"]" Variant="Variant.Filled" @bind-Value="@SelectedCalculStatsType">
+        <MudSelect T="CalculStatsType" Label="@Localizer["CalculOutputPercent"]" Variant="Variant.Filled" @bind-Value="@SelectedCalculStatsType">
             <MudSelectItem Value="@(CalculStatsType.TotalDraw)">@Localizer["PercentPerDraw"]</MudSelectItem>
             <MudSelectItem Value="@(CalculStatsType.TotalNumber)">@Localizer["PercentPerBall"]</MudSelectItem>
         </MudSelect>
