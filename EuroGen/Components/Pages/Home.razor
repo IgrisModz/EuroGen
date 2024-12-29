@@ -8,11 +8,17 @@
 
 @if (DrawService.IsLoading)
 {
+    <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center">
+        <MudPaper Class="rounded-xl mb-4 d-flex justify-center" Elevation="24" Height="160px" Width="100%" MaxWidth="440px">
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Pulse" Height="Auto" Width="100%" Class="ma-3 rounded-xl" />
+        </MudPaper>
+    </MudStack>
+
     @if (Preferences.Get("LastMethodUsed", "") != "GetBestDraw")
     {
         @for (var i = 0; i < DrawLength; i++)
         {
-            <MudPaper Class="@($"pa-4 {(i != DrawLength - 1 ? "mb-4" : "")} rounded-lg d-flex justify-center gap-2 flex-wrap")" Elevation="24">
+            <MudPaper Class="@($"pa-4 {(i != DrawLength - 1 ? "mb-4" : "")} rounded-xl d-flex justify-center gap-2 flex-wrap")" Elevation="24">
                 <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
                 <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
                 <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
@@ -25,7 +31,7 @@
     }
     else
     {
-        <MudPaper Class="pa-4 rounded-lg d-flex justify-center gap-2 flex-wrap" Elevation="24">
+        <MudPaper Class="pa-4 rounded-xl d-flex justify-center gap-2 flex-wrap" Elevation="24">
             <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
             <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
             <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
@@ -38,18 +44,24 @@
 
     <MudGrid Spacing="2" Class="mt-2">
         <MudItem xs="12" sm="6">
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg" Height="37px" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-xl" Height="37px" />
         </MudItem>
         <MudItem xs="12" sm="6">
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg" Height="37px" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-xl" Height="37px" />
         </MudItem>
     </MudGrid>
 }
 else
 {
+    <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center">
+        <MudPaper Class="rounded-xl mb-4 d-flex justify-center" Elevation="24" Height="160px" Width="100%" MaxWidth="440px">
+            <MudImage ObjectFit="ObjectFit.Contain" Fluid="true" Src="images/banner.png" Alt="eurogen banner" Class="mx-5"/>
+        </MudPaper>
+    </MudStack>
+
     @foreach (var draw in _newDraws)
     {
-        <MudPaper Class="@($"{(!draw.Equals(_newDraws.Last()) ? "mb-4" : "")}")" Elevation="24">
+        <MudPaper Class="@($"{(!draw.Equals(_newDraws.Last()) ? "mb-4" : "")} rounded-xl")" Elevation="24">
             <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2" Class="pa-4 rounded-lg">
                 <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2">
                     <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
@@ -91,7 +103,7 @@ else
         <MudItem xs="12" sm="6">
             <MudButton Color="Color.Primary" Variant="Variant.Filled"
             Style="@($"text-transform:none;")"
-            Class="rounded-lg"
+            Class="rounded-xl"
             FullWidth="true"
             Disabled="DrawService.IsLoading"
             OnClick="async () => await GenerateDraw()">@Localizer["Draw"]</MudButton>
@@ -99,7 +111,7 @@ else
         <MudItem xs="12" sm="6">
             <MudButton Color="Color.Primary" Variant="Variant.Filled"
             Style="@($"text-transform:none;")"
-            Class="rounded-lg"
+            Class="rounded-xl"
             FullWidth="true"
                        Disabled="DrawService.IsLoading"
             OnClick="async () => await GetBestDraw()">@Localizer["GetBestDraw"]</MudButton>
