@@ -252,4 +252,10 @@
   <data name="SimultaneousDraws" xml:space="preserve">
     <value>Möglichkeit zur Durchführung gleichzeitiger Ziehungen.</value>
   </data>
+  <data name="ResetPreferences" xml:space="preserve">
+    <value>Einstellungen zurücksetzen</value>
+  </data>
+  <data name="ResetPreferencesTooltip" xml:space="preserve">
+    <value>Setzen Sie alle Einstellungen außer Design und Sprache zurück</value>
+  </data>
 </root>

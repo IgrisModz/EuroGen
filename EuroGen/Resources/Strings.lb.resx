@@ -252,4 +252,10 @@
   <data name="SimultaneousDraws" xml:space="preserve">
     <value>Méiglechkeet fir gläichzäiteg Zeechnungen auszeféieren.</value>
   </data>
+  <data name="ResetPreferences" xml:space="preserve">
+    <value>Astellungen zrécksetzen</value>
+  </data>
+  <data name="ResetPreferencesTooltip" xml:space="preserve">
+    <value>Reset all Astellungen ausser Thema a Sprooch</value>
+  </data>
 </root>

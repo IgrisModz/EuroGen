@@ -252,4 +252,10 @@
   <data name="SimultaneousDraws" xml:space="preserve">
     <value>Possibilità di effettuare estrazioni simultanee.</value>
   </data>
+  <data name="ResetPreferences" xml:space="preserve">
+    <value>Reimposta preferenze</value>
+  </data>
+  <data name="ResetPreferencesTooltip" xml:space="preserve">
+    <value>Ripristina tutte le impostazioni tranne tema e lingua</value>
+  </data>
 </root>

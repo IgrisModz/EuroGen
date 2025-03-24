@@ -252,4 +252,10 @@
   <data name="SimultaneousDraws" xml:space="preserve">
     <value>Mogelijkheid om gelijktijdige trekkingen uit te voeren.</value>
   </data>
+  <data name="ResetPreferences" xml:space="preserve">
+    <value>Voorkeuren resetten</value>
+  </data>
+  <data name="ResetPreferencesTooltip" xml:space="preserve">
+    <value>Reset alle instellingen behalve thema en taal</value>
+  </data>
 </root>

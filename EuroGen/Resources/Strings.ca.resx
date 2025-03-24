@@ -252,4 +252,10 @@
   <data name="SimultaneousDraws" xml:space="preserve">
     <value>Possibilitat de realitzar sortejos simultanis.</value>
   </data>
+  <data name="ResetPreferences" xml:space="preserve">
+    <value>Restableix les preferències</value>
+  </data>
+  <data name="ResetPreferencesTooltip" xml:space="preserve">
+    <value>Restableix tota la configuració excepte el tema i l'idioma</value>
+  </data>
 </root>

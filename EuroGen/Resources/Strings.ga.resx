@@ -252,4 +252,10 @@
   <data name="SimultaneousDraws" xml:space="preserve">
     <value>Féidearthacht tarraingtí comhuaineacha a dhéanamh.</value>
   </data>
+  <data name="ResetPreferences" xml:space="preserve">
+    <value>Athshocraigh sainroghanna</value>
+  </data>
+  <data name="ResetPreferencesTooltip" xml:space="preserve">
+    <value>Athshocraigh gach socrú seachas téama agus teanga</value>
+  </data>
 </root>

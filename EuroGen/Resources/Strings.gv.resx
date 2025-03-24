@@ -252,4 +252,10 @@
   <data name="SimultaneousDraws" xml:space="preserve">
     <value>Possibility dy yannoo drawnyn ec y traa cheddin.</value>
   </data>
+  <data name="ResetPreferences" xml:space="preserve">
+    <value>Reset ny roshtyn</value>
+  </data>
+  <data name="ResetPreferencesTooltip" xml:space="preserve">
+    <value>Reset ooilley ny soilshaghyn agh theme as çhengey</value>
+  </data>
 </root>

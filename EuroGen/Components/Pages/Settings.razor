@@ -23,7 +23,7 @@ else
     <MudPaper Elevation="24" Class="pa-4 rounded-xl">
         <MudText Typo="Typo.h5">Apparence</MudText>
 
-        <MudDivider Class="my-3"/>
+        <MudDivider Class="my-3" />
 
         <MudSelect Class="mb-4" T="AppTheme" Label="@Localizer["Theme"]" Variant="Variant.Filled" Value="@ThemeService.AppTheme" ValueChanged="OnThemeChanged">
             <MudSelectItem Value="@(AppTheme.Unspecified)">
@@ -48,7 +48,7 @@ else
 
         <MudText Class="mt-5" Typo="Typo.h5">Localisation</MudText>
 
-        <MudDivider Class="my-3"/>
+        <MudDivider Class="my-3" />
 
         <MudSelect T="string" Class="mb-4" Label="@Localizer["Language"]" Variant="Variant.Filled" Value="@Localizer.Language" ValueChanged="OnLanguageChanged">
             <MudSelectItem Value="@("en")">
@@ -88,7 +88,7 @@ else
 
         <MudText Class="mt-5" Typo="Typo.h5">Filtres de recherche</MudText>
 
-        <MudDivider Class="my-3"/>
+        <MudDivider Class="my-3" />
 
         <MudSelect T="int" Class="mb-4" Label="@Localizer["SelectTheMinYear"]" Variant="Variant.Filled" HelperText="@Localizer["SelectAYearDescription"]" Value="@SelectedMinYear" ValueChanged="OnSelectedMinYearChanged">
             @foreach (var year in _minYears)
@@ -106,7 +106,7 @@ else
 
         <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Draws"]</MudText>
 
-        <MudDivider Class="my-3"/>
+        <MudDivider Class="my-3" />
 
         <MudSelect Class="mb-4" T="int" Label="@Localizer["SelectDrawNumber"]" Variant="Variant.Filled" @bind-Value="@SelectedDrawLength">
             <MudSelectItem Value="@(1)">1</MudSelectItem>
@@ -124,12 +124,20 @@ else
 
         <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Stats"]</MudText>
 
-        <MudDivider Class="my-3"/>
+        <MudDivider Class="my-3" />
 
         <MudSelect T="CalculStatsType" Label="@Localizer["CalculOutputPercent"]" Variant="Variant.Filled" @bind-Value="@SelectedCalculStatsType">
             <MudSelectItem Value="@(CalculStatsType.TotalDraw)">@Localizer["PercentPerDraw"]</MudSelectItem>
             <MudSelectItem Value="@(CalculStatsType.TotalNumber)">@Localizer["PercentPerBall"]</MudSelectItem>
         </MudSelect>
+
+        <MudGrid Class="mt-1" Justify="Justify.Center">
+            <MudItem xs="12" sm="8" md="5">
+                <MudTooltip Title="@Localizer["ResetPreferencesTooltip"]">
+                    <MudButton Class="rounded-xl" FullWidth="true" Size="Size.Large" Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="ResetPreferences">@Localizer["ResetPreferences"]</MudButton>
+                </MudTooltip>
+            </MudItem>
+        </MudGrid>
     </MudPaper>
 }
 
@@ -259,5 +267,16 @@ else
         // Filtrer les options disponibles pour les deux sélections
         _minYears = _years.Where(year => year <= SelectedMaxYear).ToList();
         _maxYears = _years.Where(year => year >= SelectedMinYear).ToList();
+    }
+
+    private void ResetPreferences()
+    {
+        var language = Localizer.Language;
+        var theme = ThemeService.AppTheme;
+
+        Preferences.Default.Clear();
+
+        Localizer.Language = language;
+        ThemeService.AppTheme = theme;
     }
 }

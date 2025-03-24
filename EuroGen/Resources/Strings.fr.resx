@@ -252,4 +252,10 @@
   <data name="SimultaneousDraws" xml:space="preserve">
     <value>Possibilité d'effectuer des tirages au sort simultanés.</value>
   </data>
+  <data name="ResetPreferences" xml:space="preserve">
+    <value>Réinitialiser les préférences</value>
+  </data>
+  <data name="ResetPreferencesTooltip" xml:space="preserve">
+    <value>Réinitialiser tous les paramètres sauf le thème et la langue</value>
+  </data>
 </root>
