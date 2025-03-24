@@ -1,7 +1,5 @@
 ﻿using System.Globalization;
 using System.IO.Compression;
-using System.Text.Json;
-using System.Text.RegularExpressions;
 using CsvHelper;
 using CsvHelper.Configuration;
 using EuroGen.Helpers;
@@ -13,7 +11,7 @@ namespace EuroGen.Services;
 
 public class DrawService
 {
-    public Action? StatusChanged;
+    public event Action? StatusChanged;
 
     private readonly ILogger<DrawService> _logger;
 
@@ -94,7 +92,6 @@ public class DrawService
         StatusChanged?.Invoke();
     }
 
-
     public async Task<IEnumerable<Draw>?> LoadDraws()
     {
         return await RetryUntilSuccessAsync(async () =>
@@ -117,7 +114,7 @@ public class DrawService
     /// <returns>An enumerable of object</returns>
     private async Task<IEnumerable<T>> CsvFilesToObjectList<T>(IEnumerable<string> csvFiles)
     {
-        var tasks = csvFiles.Select(csvFile => CsvFileToObjectList<T>(csvFile));
+        var tasks = csvFiles.Select(CsvFileToObjectList<T>);
         var results = await Task.WhenAll(tasks);
         return results.SelectMany(r => r);
     }
@@ -181,7 +178,6 @@ public class DrawService
         var web = new HtmlWeb();
         var document = await web.LoadFromWebAsync(BaseUrl);
 
-        var drawInfoUrlBase = GetDrawInfoUrlFromDocument(document) ?? BaseDefaultDrawDownload;
 
         var nodes = document.DocumentNode.SelectNodes("//div[contains(@class, 'grid-cols-1')]/a");
         if (nodes == null)
@@ -189,56 +185,10 @@ public class DrawService
             return [];
         }
 
-        var a = nodes.Select(a => a.GetAttributeValue("href", string.Empty).Replace("undefined", drawInfoUrlBase));
+        var a = nodes.Select(a => a.GetAttributeValue("href", string.Empty));
 
         var results = a.Where(href => !string.IsNullOrEmpty(href));
         return results;
-    }
-
-    private string? GetDrawInfoUrlFromDocument(HtmlDocument document)
-    {
-        // Sélectionner le script contenant la clé DrawInfoURL
-        var scriptNode = document.DocumentNode.SelectSingleNode("//script[contains(text(), 'DrawInfoURL')]") ?? LogAndReturnDefault<HtmlNode>("Le script contenant 'DrawInfoURL' n'a pas été trouvé.");
-
-        // Extraire le contenu du script
-        var scriptContent = scriptNode.InnerText;
-
-        // Rechercher la valeur de DrawInfoURL dans le script
-        int jsonStartIndex = scriptContent.IndexOf('{');
-        int jsonEndIndex = scriptContent.LastIndexOf('}');
-        if (jsonStartIndex == -1 || jsonEndIndex == -1 || jsonEndIndex <= jsonStartIndex)
-        {
-            _logger.LogError("EUROMILLIONS SCRIPT: Impossible de trouver un JSON valide dans le script.");
-        }
-
-        string escapedJsonContent = scriptContent.Substring(jsonStartIndex, jsonEndIndex - jsonStartIndex + 1);
-
-        string jsonContent = Regex.Unescape(escapedJsonContent);
-
-        // Analyse du JSON
-        try
-        {
-            var jsonDocument = JsonDocument.Parse(jsonContent);
-            if (jsonDocument.RootElement.TryGetProperty("state", out JsonElement stateElement) &&
-            stateElement.TryGetProperty("queries", out JsonElement queriesElement) &&
-            queriesElement[0].TryGetProperty("state", out JsonElement queryStateElement) &&
-            queryStateElement.TryGetProperty("data", out JsonElement dataElement) &&
-            dataElement.TryGetProperty("urls", out JsonElement urlsElement) &&
-            urlsElement.TryGetProperty("DrawInfoURL", out JsonElement drawInfoUrlElement))
-            {
-                return drawInfoUrlElement.GetString() ?? LogAndReturnDefault<string>("La clé 'DrawInfoURL' existe mais est vide.");
-            }
-            else
-            {
-                _logger.LogWarning("La clé 'DrawInfoURL' n'a pas été trouvée dans le JSON.");
-                return string.Empty;
-            }
-        }
-        catch (JsonException ex)
-        {
-            _logger.LogError($"Erreur lors de l'analyse du JSON : {ex.Message}", ex);
-            return null;
-        }
     }
 
     private async Task<T?> RetryUntilSuccessAsync<T>(Func<Task<T>> action, int retryDelayMilliseconds = 5000, int maxRetries = -1)
@@ -260,12 +210,6 @@ public class DrawService
         }
 
         _logger.LogError("Le nombre maximum de tentatives a été atteint.");
-        return default;
-    }
-
-    private T? LogAndReturnDefault<T>(string? message)
-    {
-        _logger.LogWarning(message);
         return default;
     }
 }
