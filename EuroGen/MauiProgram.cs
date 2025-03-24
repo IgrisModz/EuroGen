@@ -68,6 +68,8 @@ public static class MauiProgram
 
         builder.Services.AddMudServices();
 
+        VersionTracking.Track();
+
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
