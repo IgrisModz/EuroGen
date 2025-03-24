@@ -151,8 +151,8 @@ else
     private List<Draw> _newDraws = [];
 
     private int DrawLength => Preferences.Default.Get("DrawLength", 1);
-    private int SelectedMinYear => Preferences.Default.Get("MinDate", _years.First());
-    private int SelectedMaxYear => Preferences.Default.Get("MaxDate", _years.Last());
+    private int SelectedMinYear => Preferences.Default.Get("MinDate", _years[0]);
+    private int SelectedMaxYear => Preferences.Default.Get("MaxDate", _years[^1]);
     private CalculDrawType SelectedCalculType => (CalculDrawType)Preferences.Default.Get("DrawCalcul", (int)CalculDrawType.TotalDraw);
 
     private List<int> _years = [];
@@ -168,22 +168,21 @@ else
 
         _newDraws = LoadPreviouslyGenratedDraws();
 
-        if (DrawService.Draws == null || DrawService.Draws.Count() == 0)
+        if (DrawService.Draws == null || !DrawService.Draws.Any())
         {
             DrawService.Draws = await DrawService.LoadDraws();
         }
 
-        _years = [.. DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order()];
+        _years = DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? new List<int>();
+
 
         DrawService.IsLoading = false;
     }
 
     private List<Draw> LoadPreviouslyGenratedDraws()
     {
-        List<Draw>? draws = [];
-
         string serializedDraws = Preferences.Default.Get("Draws", "");
-        draws = DeserializeDraws(serializedDraws);
+        var draws = DeserializeDraws(serializedDraws);
 
         if (draws.Count == 0)
         {

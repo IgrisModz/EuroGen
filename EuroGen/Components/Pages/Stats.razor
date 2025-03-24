@@ -52,27 +52,27 @@ else
 
     private SearchType _selectedSearchType;
 
-    private int SelectedMinYear => Preferences.Default.Get("MinDate", _years.First());
-    private int SelectedMaxYear => Preferences.Default.Get("MaxDate", _years.Last());
+    private int SelectedMinYear => Preferences.Default.Get("MinDate", _years[0]);
+    private int SelectedMaxYear => Preferences.Default.Get("MaxDate", _years[^1]);
     private CalculStatsType SelectedCalculType => (CalculStatsType)Preferences.Default.Get("StatsCalcul", (int)CalculStatsType.TotalDraw);
 
     private List<int> _years = [];
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadDataAsync(true);
+        await LoadDataAsync();
     }
 
-    private async Task LoadDataAsync(bool isInitialLoad = false)
+    private async Task LoadDataAsync()
     {
         DrawService.IsLoading = true;
 
-        if (DrawService.Draws == null || DrawService.Draws.Count() == 0)
+        if (DrawService.Draws == null || !DrawService.Draws.Any())
         {
             DrawService.Draws = await DrawService.LoadDraws();
         }
 
-        _years = [.. DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order()];
+        _years = DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? new List<int>();
 
         await Refresh(_selectedSearchType);
 
@@ -96,7 +96,7 @@ else
     private async Task GetNumbers()
     {
         var totalDraw = SelectedCalculType == CalculStatsType.TotalDraw;
-        _stats = await GetStats(DrawService.Draws,
+        _stats = await GetStats(DrawService.Draws!,
         [
             nameof(Draw.FirstNumber), nameof(Draw.SecondNumber), nameof(Draw.ThirdNumber), nameof(Draw.FourthNumber), nameof(Draw.FifthNumber)
         ], SelectedMinYear, SelectedMaxYear, totalDraw);
@@ -105,7 +105,7 @@ else
     private async Task GetStars()
     {
         var totalDraw = SelectedCalculType == CalculStatsType.TotalDraw;
-        _stats = await GetStats(DrawService.Draws, [nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
+        _stats = await GetStats(DrawService.Draws!, [nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
     }
 
     private static async Task<IEnumerable<Models.Stats>> GetStats(IEnumerable<Draw> draws, string[] propertyNames, int minYear, int maxYear, bool totalDraw = false)
