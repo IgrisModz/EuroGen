@@ -1,19 +1,12 @@
 ﻿namespace EuroGen.Services
 {
-    public enum ThemeMode
-    {
-        System,
-        Light,
-        Dark
-    }
-
     public class ThemeService
     {
         private const string ThemeKey = "AppTheme";
 
         public event Action<bool>? ThemeChanged; // Modification ici pour accepter un booléen
 
-        private ThemeMode _themeMode;
+        private AppTheme _appTheme;
         private bool _systemPreference;
 
         public ThemeService()
@@ -22,39 +15,39 @@
             LoadThemePreference();
         }
 
-        public ThemeMode ThemeMode
+        public AppTheme AppTheme
         {
-            get => _themeMode;
+            get => _appTheme;
             set
             {
-                if (_themeMode != value)
+                if (_appTheme != value)
                 {
-                    _themeMode = value;
+                    _appTheme = value;
                     SaveThemePreference();
                     UpdateTheme();
                 }
             }
         }
 
-        public bool IsDarkMode => _themeMode == ThemeMode.Dark ||
-                                   (_themeMode == ThemeMode.System && _systemPreference);
+        public bool IsDarkMode => _appTheme == AppTheme.Dark ||
+                                  (_appTheme == AppTheme.Unspecified && _systemPreference);
 
         // Récupérer et sauvegarder les préférences de thème
         private void SaveThemePreference()
         {
-            Preferences.Set(ThemeKey, _themeMode.ToString());
+            Preferences.Set(ThemeKey, _appTheme.ToString());
         }
 
         private void LoadThemePreference()
         {
             if (Preferences.ContainsKey(ThemeKey))
             {
-                var savedTheme = Preferences.Get(ThemeKey, ThemeMode.System.ToString());
-                _themeMode = Enum.TryParse(savedTheme, out ThemeMode mode) ? mode : ThemeMode.System;
+                var savedTheme = Preferences.Get(ThemeKey, AppTheme.Unspecified.ToString());
+                _appTheme = Enum.TryParse(savedTheme, out AppTheme mode) ? mode : AppTheme.Unspecified;
             }
             else
             {
-                _themeMode = ThemeMode.System;
+                _appTheme = AppTheme.Unspecified;
             }
 
             UpdateTheme();
@@ -62,16 +55,19 @@
 
         private void UpdateTheme()
         {
+            var isDarkMode = IsDarkMode;
             // On passe un booléen pour indiquer si le thème est sombre ou non
-            ThemeChanged?.Invoke(_themeMode == ThemeMode.Dark ||
-                                 (_themeMode == ThemeMode.System && _systemPreference));
+            ThemeChanged?.Invoke(isDarkMode);
+
+            // IMPORTANT: Pour le theme de l'application MAUI
+            Application.Current!.UserAppTheme = _appTheme;
         }
 
         // Définir la préférence système
         public void SetSystemPreference(bool isDark)
         {
             _systemPreference = isDark;
-            if (_themeMode == ThemeMode.System)
+            if (_appTheme == AppTheme.Unspecified)
             {
                 UpdateTheme();
             }
