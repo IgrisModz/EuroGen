@@ -112,7 +112,7 @@ public class DrawService
     /// <typeparam name="T">The type of the object to convert as list</typeparam>
     /// <param name="csvFiles">The uris to the CSV Files</param>
     /// <returns>An enumerable of object</returns>
-    private async Task<IEnumerable<T>> CsvFilesToObjectList<T>(IEnumerable<string> csvFiles)
+    private async static Task<IEnumerable<T>> CsvFilesToObjectList<T>(IEnumerable<string> csvFiles)
     {
         var tasks = csvFiles.Select(CsvFileToObjectList<T>);
         var results = await Task.WhenAll(tasks);
@@ -125,7 +125,7 @@ public class DrawService
     /// <typeparam name="T">The type of the object to convert as list</typeparam>
     /// <param name="csvFile">The uri to the CSV File</param>
     /// <returns>An enumerable of object</returns>
-    private async Task<IEnumerable<T>> CsvFileToObjectList<T>(string csvFile)
+    private async static Task<IEnumerable<T>> CsvFileToObjectList<T>(string csvFile)
     {
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
@@ -144,7 +144,7 @@ public class DrawService
     /// </summary>
     /// <param name="urls">Links of the files</param>
     /// <returns>The paths to the CSV files</returns>
-    private async Task<IEnumerable<string>> DownloadAndExtractZipFilesAsync(IEnumerable<string> urls)
+    private async static Task<IEnumerable<string>> DownloadAndExtractZipFilesAsync(IEnumerable<string> urls)
     {
         var tasks = urls.Select(async url =>
         {
@@ -173,7 +173,7 @@ public class DrawService
     /// Get all the urls of the previous draws in the euromillions history page
     /// </summary>
     /// <returns>The urls of the zip file that contains the previous draws</returns>
-    private async Task<IEnumerable<string>> GetEuromillionZipFiles()
+    private static async Task<IEnumerable<string>> GetEuromillionZipFiles()
     {
         var web = new HtmlWeb();
         var document = await web.LoadFromWebAsync(BaseUrl);
