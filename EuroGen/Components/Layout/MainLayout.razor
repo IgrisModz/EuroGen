@@ -7,14 +7,14 @@
 
 <style>
     .fixed-progress {
-        position: fixed;
-        left: 0;
-        width: 100%;
-        z-index: 1000; /* Au-dessus des autres éléments */
+    position: fixed;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Au-dessus des autres éléments */
     }
 </style>
 
-<MudThemeProvider @ref="@_mudThemeProvider" Theme="_mudTheme" IsDarkMode=@ThemeService.IsDarkMode/>
+<MudThemeProvider @ref="@_mudThemeProvider" Theme="_mudTheme" IsDarkMode=@ThemeService.IsDarkMode />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -27,33 +27,33 @@
         <MudText Color="Color.Primary" Typo="Typo.h5" Class="mr-4">EuroGen</MudText>
         <MudHidden Breakpoint="Breakpoint.SmAndDown">
             <MudButton StartIcon="@Icons.Material.Filled.Draw"
-                       Color="Color.Inherit"
-                       Style="@($"text-transform:none;")"
-                       Class="@(IsActive("/") ? "mud-chip-text mud-chip-color-primary" : "")"
-                       OnClick="@(() => GoTo("/"))">@Localizer["Draws"]</MudButton>
+            Color="Color.Inherit"
+            Style="@($"text-transform:none;")"
+            Class="@(IsActive("/") ? "mud-chip-text mud-chip-color-primary" : "")"
+            OnClick="@(() => GoTo("/"))">@Localizer["Draws"]</MudButton>
             <MudButton StartIcon="@Icons.Material.Filled.DataExploration"
-                       Color="Color.Inherit"
-                       Style="@($"text-transform:none;")"
-                       Class="@($"{(IsActive("/stats") ? "mud-chip-text mud-chip-color-primary" : "")} ml-2")"
-                       OnClick="@(() => GoTo("/stats"))">@Localizer["Stats"]</MudButton>
+            Color="Color.Inherit"
+            Style="@($"text-transform:none;")"
+            Class="@($"{(IsActive("/stats") ? "mud-chip-text mud-chip-color-primary" : "")} ml-2")"
+            OnClick="@(() => GoTo("/stats"))">@Localizer["Stats"]</MudButton>
             <MudButton StartIcon="@Icons.Material.Filled.Description"
-                       Color="Color.Inherit"
-                       Style="@($"text-transform:none;")"
-                       Class="@($"{(IsActive("/about") ? "mud-chip-text mud-chip-color-primary" : "")} mx-2")"
-                       OnClick="@(() => GoTo("/about"))">@Localizer["About"]</MudButton>
+            Color="Color.Inherit"
+            Style="@($"text-transform:none;")"
+            Class="@($"{(IsActive("/about") ? "mud-chip-text mud-chip-color-primary" : "")} mx-2")"
+            OnClick="@(() => GoTo("/about"))">@Localizer["About"]</MudButton>
             <MudButton StartIcon="@Icons.Material.Filled.Settings"
-                       Color="Color.Inherit"
-                       Style="@($"text-transform:none;")"
-                       Class="@(IsActive("/settings") ? "mud-chip-text mud-chip-color-primary" : "")"
-                       OnClick="@(() => GoTo("/settings"))">@Localizer["Settings"]</MudButton>
+            Color="Color.Inherit"
+            Style="@($"text-transform:none;")"
+            Class="@(IsActive("/settings") ? "mud-chip-text mud-chip-color-primary" : "")"
+            OnClick="@(() => GoTo("/settings"))">@Localizer["Settings"]</MudButton>
         </MudHidden>
     </MudAppBar>
     <MudHidden Breakpoint="Breakpoint.MdAndUp">
         <MudDrawer @bind-Open="@_isDrawerOpen"
-                   Elevation="0"
-                   ClipMode="@DrawerClipMode.Docked"
-                   Variant="@DrawerVariant.Responsive"
-                   Breakpoint="Breakpoint.Lg">
+        Elevation="0"
+        ClipMode="@DrawerClipMode.Docked"
+        Variant="@DrawerVariant.Responsive"
+        Breakpoint="Breakpoint.Lg">
             <MudDrawerHeader>
                 <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Inherit" Edge="Edge.Start" OnClick="DrawerToggle" />
             </MudDrawerHeader>
