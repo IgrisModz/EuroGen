@@ -258,4 +258,16 @@
   <data name="ResetPreferencesTooltip" xml:space="preserve">
     <value>Reset alle instellingen behalve thema en taal</value>
   </data>
+  <data name="Thanks" xml:space="preserve">
+    <value>Hartelijk dank aan</value>
+  </data>
+  <data name="AppIdea" xml:space="preserve">
+    <value>voor zijn app-idee!</value>
+  </data>
+  <data name="AvailableLanguages" xml:space="preserve">
+    <value>Beschikbare talen :</value>
+  </data>
+  <data name="AvailableLanguagesDetails" xml:space="preserve">
+    <value>De applicatie is beschikbaar in alle officiële talen van de landen die deelnemen aan de EuroMillions-loterij. Frans en Engels zijn handmatig gecontroleerd, terwijl andere talen automatisch worden vertaald met Google Translate en onnauwkeurigheden kunnen bevatten.</value>
+  </data>
 </root>

@@ -258,4 +258,16 @@
   <data name="ResetPreferencesTooltip" xml:space="preserve">
     <value>Reset ooilley ny soilshaghyn agh theme as çhengey</value>
   </data>
+  <data name="Thanks" xml:space="preserve">
+    <value>Goaill tastey jeh</value>
+  </data>
+  <data name="AppIdea" xml:space="preserve">
+    <value>son e idea app!</value>
+  </data>
+  <data name="AvailableLanguages" xml:space="preserve">
+    <value>Çhengaghyn ta ry gheddyn :</value>
+  </data>
+  <data name="AvailableLanguagesDetails" xml:space="preserve">
+    <value>Ta’n app ry-gheddyn ayns dagh çhengey oikoil jeh ny çheeraghyn t’er goll stiagh ayns yn EuroMillions. Ta Frangish as Baarle er nyn jeeaghyn lesh laue, agh ta ny çhengaghyn elley er nyn goaill trooid Google Translate as foddee mee-chiarail ve ayn.</value>
+  </data>
 </root>

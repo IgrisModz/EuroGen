@@ -258,4 +258,16 @@
   <data name="ResetPreferencesTooltip" xml:space="preserve">
     <value>Reset all Astellungen ausser Thema a Sprooch</value>
   </data>
+  <data name="Thanks" xml:space="preserve">
+    <value>Villmools Merci un</value>
+  </data>
+  <data name="AppIdea" xml:space="preserve">
+    <value>fir seng App Iddi!</value>
+  </data>
+  <data name="AvailableLanguages" xml:space="preserve">
+    <value>Disponibel Sproochen :</value>
+  </data>
+  <data name="AvailableLanguagesDetails" xml:space="preserve">
+    <value>D'Applikatioun ass an alle offiziellen Sproochen vun de Länner verfügbar, déi un der EuroMillions-Lotterie deelhuelen. Franséisch an Englesch goufen manuell iwwerpréift, während aner Sprooche automatesch mam Google Iwwersetzer iwwersat ginn a kënne Ongenauegkeeten enthalen.</value>
+  </data>
 </root>

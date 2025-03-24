@@ -258,4 +258,16 @@
   <data name="ResetPreferencesTooltip" xml:space="preserve">
     <value>Repor todas as definições, exceto tema e idioma</value>
   </data>
+  <data name="Thanks" xml:space="preserve">
+    <value>Muito obrigado ao</value>
+  </data>
+  <data name="AppIdea" xml:space="preserve">
+    <value>pela ideia da aplicação!</value>
+  </data>
+  <data name="AvailableLanguages" xml:space="preserve">
+    <value>Idiomas disponíveis :</value>
+  </data>
+  <data name="AvailableLanguagesDetails" xml:space="preserve">
+    <value>O aplicativo está disponível em todos os idiomas oficiais dos países participantes da loteria EuroMillions. O francês e o inglês foram revisados manualmente, enquanto os outros idiomas são traduzidos automaticamente pelo Google Tradutor e podem conter imprecisões.</value>
+  </data>
 </root>
