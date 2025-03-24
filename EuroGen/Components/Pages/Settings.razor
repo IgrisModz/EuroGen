@@ -25,20 +25,20 @@ else
 
         <MudDivider Class="my-3"/>
 
-        <MudSelect Class="mb-4" T="ThemeMode" Label="@Localizer["Theme"]" Variant="Variant.Filled" Value="@ThemeService.ThemeMode" ValueChanged="OnThemeChanged">
-            <MudSelectItem Value="@(ThemeMode.System)">
+        <MudSelect Class="mb-4" T="AppTheme" Label="@Localizer["Theme"]" Variant="Variant.Filled" Value="@ThemeService.AppTheme" ValueChanged="OnThemeChanged">
+            <MudSelectItem Value="@(AppTheme.Unspecified)">
                 <div class="d-flex align-items gap-2">
                     <MudIcon Icon="@Icons.Material.Filled.AutoMode" Style="@($"color:{Colors.Green.Default};")" />
                     @Localizer["SystemPreference"]
                 </div>
             </MudSelectItem>
-            <MudSelectItem Value="@(ThemeMode.Dark)">
+            <MudSelectItem Value="@(AppTheme.Dark)">
                 <div class="d-flex align-items gap-2">
                     <MudIcon Icon="@Icons.Material.Filled.DarkMode" Style="@($"color:{Colors.Indigo.Accent2};")" />
                     @Localizer["Dark"]
                 </div>
             </MudSelectItem>
-            <MudSelectItem Value="@(ThemeMode.Light)">
+            <MudSelectItem Value="@(AppTheme.Light)">
                 <div class="d-flex align-items gap-2">
                     <MudIcon Icon="@Icons.Material.Filled.LightMode" Style="@($"color:{Colors.Yellow.Darken2};")" />
                     @Localizer["Light"]
@@ -142,13 +142,13 @@ else
 
     private int SelectedMinYear
     {
-        get => Preferences.Default.Get("MinDate", _years.First());
+        get => Preferences.Default.Get("MinDate", _years[0]);
         set => Preferences.Default.Set("MinDate", value);
     }
 
     private int SelectedMaxYear
     {
-        get => Preferences.Default.Get("MaxDate", _years.Last());
+        get => Preferences.Default.Get("MaxDate", _years[^1]);
         set => Preferences.Default.Set("MaxDate", value);
     }
 
@@ -180,26 +180,27 @@ else
     {
         DrawService.IsLoading = true;
 
-        if (DrawService.Draws == null || DrawService.Draws.Count() == 0)
+        if (DrawService.Draws == null || !DrawService.Draws.Any())
         {
             DrawService.Draws = await DrawService.LoadDraws();
         }
-        _years = [.. DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order()];
+
+        _years = DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? new List<int>();
 
         UpdateYearOptions();
 
         DrawService.IsLoading = false;
     }
 
-    private void OnThemeChanged(ThemeMode mode)
+    private void OnThemeChanged(AppTheme mode)
     {
-        ThemeService.ThemeMode = mode;
+        ThemeService.AppTheme = mode;
 
         string theme = mode switch
         {
-            ThemeMode.System => Localizer["SystemPreference"],
-            ThemeMode.Dark => Localizer["Dark"],
-            ThemeMode.Light => Localizer["Light"],
+            AppTheme.Unspecified => Localizer["SystemPreference"],
+            AppTheme.Dark => Localizer["Dark"],
+            AppTheme.Light => Localizer["Light"],
             _ => Localizer["SystemPreference"]
         };
 
@@ -237,7 +238,7 @@ else
 
         if (SelectedMaxYear < value)
         {
-            SelectedMaxYear = _maxYears.First();
+            SelectedMaxYear = _maxYears[0];
         }
     }
 
@@ -249,7 +250,7 @@ else
 
         if (SelectedMinYear > value)
         {
-            SelectedMinYear = _minYears.Last();
+            SelectedMinYear = _minYears[^1];
         }
     }
 
