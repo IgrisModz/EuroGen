@@ -13,3 +13,12 @@ public enum CalculStatsType
     TotalDraw,
     TotalNumber,
 }
+
+public enum OrderBy
+{
+    None,
+    Key,
+    KeyDescending,
+    Value,
+    ValueDescending
+}

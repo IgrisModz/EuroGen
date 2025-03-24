@@ -2,15 +2,6 @@
 
 namespace EuroGen.Helpers;
 
-public enum OrderBy
-{
-    None,
-    Key,
-    KeyDescending,
-    Value,
-    ValueDescending
-}
-
 public static class DrawsExtension
 {
     public static IDictionary<TKey, TValue> ReorderBy<TKey, TValue>(this IDictionary<TKey, TValue> values, OrderBy order = OrderBy.None) where TKey : notnull
