@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO.Compression;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -9,17 +10,30 @@ using Microsoft.Extensions.Logging;
 
 namespace EuroGen.Services;
 
-public class DrawService
+public class DrawService(ILogger<DrawService> logger)
 {
     public event Action? StatusChanged;
 
-    private readonly ILogger<DrawService> _logger;
+    private bool _asConnection = true;
+    private bool _isAvailableWebsite = true;
+    private bool _isLoading;
+
+    private readonly ILogger<DrawService> _logger = logger;
 
     public static string BaseUrl => "https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique";
     public static string BaseGoogle => "https://www.google.com";
     public static string BaseDefaultDrawDownload => "https://www.sto.api.fdj.fr/anonymous/service-draw-info";
 
-    private bool _asConnection = true;
+
+    private static Dictionary<string, string> ResourcesFiles = new()
+    {
+        { "1a2b3c4d-9876-4562-b3fc-2c963f66afa8", "euromillions.csv" },
+        { "1a2b3c4d-9876-4562-b3fc-2c963f66afa9", "euromillions_2.csv" },
+        { "1a2b3c4d-9876-4562-b3fc-2c963f66afb6", "euromillions_3.csv" },
+        { "1a2b3c4d-9876-4562-b3fc-2c963f66afc6", "euromillions_4.csv" },
+        { "1a2b3c4d-9876-4562-b3fc-2c963f66afd6", "euromillions_201902.csv" },
+    };
+
     public bool AsConnection
     {
         get => _asConnection;
@@ -29,7 +43,7 @@ public class DrawService
             UpdateStatus();
         }
     }
-    private bool _isAvailableWebsite = true;
+
     public bool IsAvailableWebsite
     {
         get => _isAvailableWebsite;
@@ -40,7 +54,6 @@ public class DrawService
         }
     }
 
-    private bool _isLoading;
     public bool IsLoading
     {
         get => _isLoading;
@@ -52,11 +65,6 @@ public class DrawService
     }
 
     public IEnumerable<Draw>? Draws { get; set; }
-
-    public DrawService(ILogger<DrawService> logger)
-    {
-        _logger = logger;
-    }
 
     private static async Task<bool> IsInternetAvailable()
     {
@@ -100,10 +108,39 @@ public class DrawService
             IsAvailableWebsite = await IsSiteAvailable(BaseUrl);
 
             var zipUrls = await GetEuromillionZipFiles();
-            var csvFiles = await DownloadAndExtractZipFilesAsync(zipUrls);
-            return await CsvFilesToObjectList<Draw>(csvFiles);
+            var filteredUrls = zipUrls.Where(url => !ResourcesFiles.Keys.Any(fileGuid => url.EndsWith(fileGuid, StringComparison.OrdinalIgnoreCase)));
+
+            var csvFiles = await DownloadAndExtractZipFilesAsync(filteredUrls);
+
+            var localDraws = await LoadDrawsFromResources();
+            var draws = localDraws?.Concat(await CsvFilesToObjectList<Draw>(csvFiles));
+
+            return draws;
 
         }, retryDelayMilliseconds: 5000);
+    }
+
+    public async Task<IEnumerable<Draw>?> LoadDrawsFromResources()
+    {
+
+        try
+        {
+
+            var tasks = ResourcesFiles.Values
+            .Select(async file =>
+            {
+                await using var stream = await FileSystem.OpenAppPackageFileAsync(file);
+                return await ParseCsvStream<Draw>(stream);
+            });
+
+            var results = await Task.WhenAll(tasks);
+            return results.SelectMany(r => r);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erreur lors du chargement des tirages depuis les resources.");
+            return null;
+        }
     }
 
     /// <summary>
@@ -114,18 +151,18 @@ public class DrawService
     /// <returns>An enumerable of object</returns>
     private async static Task<IEnumerable<T>> CsvFilesToObjectList<T>(IEnumerable<string> csvFiles)
     {
-        var tasks = csvFiles.Select(CsvFileToObjectList<T>);
+        var tasks = csvFiles.Select(ParseCsvFile<T>);
         var results = await Task.WhenAll(tasks);
         return results.SelectMany(r => r);
     }
 
-    /// <summary>
-    /// Read CSV file and create a list of the specified object
-    /// </summary>
-    /// <typeparam name="T">The type of the object to convert as list</typeparam>
-    /// <param name="csvFile">The uri to the CSV File</param>
-    /// <returns>An enumerable of object</returns>
-    private async static Task<IEnumerable<T>> CsvFileToObjectList<T>(string csvFile)
+    private static async Task<IEnumerable<T>> ParseCsvFile<T>(string csvFile)
+    {
+        await using var stream = File.OpenRead(csvFile);
+        return await ParseCsvStream<T>(stream);
+    }
+
+    private static async Task<IEnumerable<T>> ParseCsvStream<T>(Stream stream)
     {
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
@@ -133,7 +170,7 @@ public class DrawService
             Delimiter = ";",
         };
 
-        using var reader = new StreamReader(csvFile);
+        using var reader = new StreamReader(stream);
         using var csv = new CsvReader(reader, config);
 
         return await csv.GetRecordsAsync<T>().ToListAsync();
@@ -153,7 +190,7 @@ public class DrawService
             var response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            var zipFilePath = Path.GetTempFileName();
+            var zipFilePath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             await using (var zipFileStream = new FileStream(zipFilePath, FileMode.Create))
             {
                 await response.Content.CopyToAsync(zipFileStream);
@@ -191,6 +228,14 @@ public class DrawService
         return results;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="action"></param>
+    /// <param name="retryDelayMilliseconds"></param>
+    /// <param name="maxRetries"></param>
+    /// <returns></returns>
     private async Task<T?> RetryUntilSuccessAsync<T>(Func<Task<T>> action, int retryDelayMilliseconds = 5000, int maxRetries = -1)
     {
         int attempt = 0;
@@ -202,7 +247,7 @@ public class DrawService
             }
             catch (Exception ex) when (maxRetries < 0 || attempt < maxRetries - 1)
             {
-                _logger.LogWarning($"Tentative échouée : {ex.Message}. Nouvelle tentative dans {retryDelayMilliseconds / 1000} secondes.", ex);
+                _logger.LogWarning(ex, "Tentative échouée : {Message}. Nouvelle tentative dans {RetryDelay} secondes.", ex.Message, retryDelayMilliseconds / 1000);
                 await Task.Delay(retryDelayMilliseconds);
             }
 
