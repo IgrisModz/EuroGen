@@ -61,7 +61,7 @@ else
 
     @foreach (var draw in _newDraws)
     {
-        <MudPaper Class="@($"{(!draw.Equals(_newDraws.Last()) ? "mb-4" : "")} rounded-xl")" Elevation="24">
+        <MudPaper Class="@($"{(!draw.Equals(_newDraws[^1]) ? "mb-4" : "")} rounded-xl")" Elevation="24">
             <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2" Class="pa-4 rounded-lg">
                 <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2">
                     <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
@@ -180,7 +180,7 @@ else
     private List<Draw> LoadPreviouslyGenratedDraws()
     {
         string serializedDraws = Preferences.Default.Get("Draws", "");
-        var draws = DeserializeDraws(serializedDraws);
+        var draws = DeserializeDraws(serializedDraws) ?? new List<Draw>();
 
         if (draws.Count == 0)
         {
@@ -325,10 +325,10 @@ else
             {
                 var numbersPercentages = await GetPercents([
                     nameof(Draw.FirstNumber),
-        nameof(Draw.SecondNumber),
-        nameof(Draw.ThirdNumber),
-        nameof(Draw.FourthNumber),
-        nameof(Draw.FifthNumber)
+                    nameof(Draw.SecondNumber),
+                    nameof(Draw.ThirdNumber),
+                    nameof(Draw.FourthNumber),
+                    nameof(Draw.FifthNumber)
                 ], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
 
                 var starsPercentages = await GetPercents([nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
@@ -431,7 +431,7 @@ else
 
             if (!exist.Contains(i))
             {
-                uniqueValues.Add(GetDrawNumber(enumerable.ElementAt(i), 1).ElementAt(0));
+                uniqueValues.Add(GetDrawNumber(enumerable[i], 1).First());
             }
 
             if (uniqueValues.Count > count)
@@ -456,7 +456,7 @@ else
             foreach (var kvp in probabilities)
             {
                 cumulative += kvp.Value / 100;
-                if (!(randomNumber < cumulative)) continue;
+                if (randomNumber >= cumulative) continue;
                 value = kvp.Key;
                 break;
             }

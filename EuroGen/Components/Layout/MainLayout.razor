@@ -94,7 +94,7 @@
     private bool _isDrawerOpen = false;
     private MudThemeProvider? _mudThemeProvider;
 
-    private MudTheme _mudTheme = new()
+    private readonly MudTheme _mudTheme = new()
         {
             PaletteLight = new PaletteLight()
             {
@@ -133,15 +133,18 @@
     {
         if (firstRender)
         {
-            var systemPreference = await _mudThemeProvider.GetSystemPreference();
-            ThemeService.SetSystemPreference(systemPreference);
-
-            await _mudThemeProvider.WatchSystemPreference(newValue =>
+            if (_mudThemeProvider != null)
             {
-                ThemeService.SetSystemPreference(newValue);
-                StateHasChanged();
-                return Task.CompletedTask;
-            });
+                var systemPreference = await _mudThemeProvider.GetSystemPreference();
+                ThemeService.SetSystemPreference(systemPreference);
+
+                await _mudThemeProvider.WatchSystemPreference(newValue =>
+                {
+                    ThemeService.SetSystemPreference(newValue);
+                    StateHasChanged();
+                    return Task.CompletedTask;
+                });
+            }
 
             ThemeService.ThemeChanged += (isDarkMode) =>
             {
