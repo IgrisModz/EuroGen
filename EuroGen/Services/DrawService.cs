@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO.Compression;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -25,7 +24,7 @@ public class DrawService(ILogger<DrawService> logger)
     public static string BaseDefaultDrawDownload => "https://www.sto.api.fdj.fr/anonymous/service-draw-info";
 
 
-    private static Dictionary<string, string> ResourcesFiles = new()
+    private static readonly Dictionary<string, string> ResourcesFiles = new()
     {
         { "1a2b3c4d-9876-4562-b3fc-2c963f66afa8", "euromillions.csv" },
         { "1a2b3c4d-9876-4562-b3fc-2c963f66afa9", "euromillions_2.csv" },
@@ -120,7 +119,7 @@ public class DrawService(ILogger<DrawService> logger)
         }, retryDelayMilliseconds: 5000);
     }
 
-    public async Task<IEnumerable<Draw>?> LoadDrawsFromResources()
+    private async Task<IEnumerable<Draw>?> LoadDrawsFromResources()
     {
 
         try
