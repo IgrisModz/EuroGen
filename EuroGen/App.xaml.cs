@@ -15,6 +15,7 @@ public partial class App : Application
     protected override Window CreateWindow(IActivationState? activationState)
     {
         var window = base.CreateWindow(activationState);
+        window.Title = "EuroGen";
         window.Width = Width;
         window.Height = Height;
         window.MaximumHeight = 960;
