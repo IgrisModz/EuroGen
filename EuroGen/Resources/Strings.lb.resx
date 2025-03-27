@@ -276,4 +276,7 @@
   <data name="SearchFilters" xml:space="preserve">
     <value>Sichfilter</value>
   </data>
+  <data name="PreferencesSuccessfullyReset" xml:space="preserve">
+    <value>All Präferenzen goufen erfollegräich zréckgesat, ausser d'Sprooch an den Thema!</value>
+  </data>
 </root>

@@ -276,4 +276,7 @@
   <data name="SearchFilters" xml:space="preserve">
     <value>Filltanyn ronsaghey</value>
   </data>
+  <data name="PreferencesSuccessfullyReset" xml:space="preserve">
+    <value>Va dagh ooilley reih currit er ash dy liooar, agh cha nee yn chengey as y chushtal!</value>
+  </data>
 </root>

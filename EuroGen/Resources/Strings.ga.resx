@@ -276,4 +276,7 @@
   <data name="SearchFilters" xml:space="preserve">
     <value>Scagairí cuardaigh</value>
   </data>
+  <data name="PreferencesSuccessfullyReset" xml:space="preserve">
+    <value>Athshocraíodh gach rogha go rathúil, seachas an teanga agus an téama!</value>
+  </data>
 </root>

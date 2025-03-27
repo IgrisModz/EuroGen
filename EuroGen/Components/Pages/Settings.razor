@@ -46,7 +46,7 @@ else
             </MudSelectItem>
         </MudSelect>
 
-            <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Location"]</MudText>
+        <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Location"]</MudText>
 
         <MudDivider Class="my-3" />
 
@@ -276,5 +276,7 @@ else
 
         Localizer.Language = language;
         ThemeService.AppTheme = theme;
+
+        Snackbar.Add(Localizer["PreferencesSuccessfullyReset"], Severity.Warning);
     }
 }

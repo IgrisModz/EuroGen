@@ -276,4 +276,7 @@
   <data name="SearchFilters" xml:space="preserve">
     <value>Suchfilter</value>
   </data>
+  <data name="PreferencesSuccessfullyReset" xml:space="preserve">
+    <value>Alle Einstellungen wurden erfolgreich zurückgesetzt, außer Sprache und Thema!</value>
+  </data>
 </root>
