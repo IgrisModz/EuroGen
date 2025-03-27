@@ -255,9 +255,6 @@
   <data name="ResetPreferences" xml:space="preserve">
     <value>Restableix les preferències</value>
   </data>
-  <data name="ResetPreferencesTooltip" xml:space="preserve">
-    <value>Restableix tota la configuració excepte el tema i l'idioma</value>
-  </data>
   <data name="Thanks" xml:space="preserve">
     <value>Moltes gràcies a</value>
   </data>
@@ -269,5 +266,14 @@
   </data>
   <data name="AvailableLanguagesDetails" xml:space="preserve">
     <value>L'aplicació està disponible en tots els idiomes oficials dels països que participen a la loteria EuroMillions. El francès i l'anglès han estat revisats manualment, mentre que altres idiomes es tradueixen automàticament mitjançant Google Traduction i poden contenir imprecisions.</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Aparença</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Ubicació</value>
+  </data>
+  <data name="SearchFilters" xml:space="preserve">
+    <value>Filtres de cerca</value>
   </data>
 </root>

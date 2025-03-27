@@ -255,9 +255,6 @@
   <data name="ResetPreferences" xml:space="preserve">
     <value>Athshocraigh sainroghanna</value>
   </data>
-  <data name="ResetPreferencesTooltip" xml:space="preserve">
-    <value>Athshocraigh gach socrú seachas téama agus teanga</value>
-  </data>
   <data name="Thanks" xml:space="preserve">
     <value>Míle buíochas le</value>
   </data>
@@ -269,5 +266,14 @@
   </data>
   <data name="AvailableLanguagesDetails" xml:space="preserve">
     <value>Tá an feidhmchlár ar fáil i ngach teanga oifigiúil de na tíortha atá rannpháirteach sa chrannchur EuroMillions. Tá Fraincis agus Béarla athbhreithnithe de láimh, ach aistrítear na teangacha eile go huathoibríoch le Google Translate agus d’fhéadfadh earráidí a bheith iontu.</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Cuma</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Suíomh</value>
+  </data>
+  <data name="SearchFilters" xml:space="preserve">
+    <value>Scagairí cuardaigh</value>
   </data>
 </root>
