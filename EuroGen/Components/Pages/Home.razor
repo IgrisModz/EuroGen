@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @inject DrawService DrawService
+@inject ThemeService ThemeService
 @inject ILogger<Draw> Logger
 @inject LocalizationService Localizer
 
@@ -55,7 +56,14 @@ else
 {
     <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center">
         <MudPaper Class="rounded-xl mb-4 d-flex justify-center" Elevation="24" Height="160px" Width="100%" MaxWidth="440px">
-            <MudImage ObjectFit="ObjectFit.Contain" Fluid="true" Src="images/banner.png" Alt="eurogen banner" Class="mx-5"/>
+            @if (ThemeService.IsDarkMode)
+            {
+                <MudImage ObjectFit="ObjectFit.Cover" Fluid="true" Src="images/banner-dark.svg" Class="rounded-xl" Alt="eurogen banner" />
+            }
+            else
+            {
+                <MudImage ObjectFit="ObjectFit.Cover" Fluid="true" Src="images/banner-light.svg" Class="rounded-xl" Alt="eurogen banner" />
+            }
         </MudPaper>
     </MudStack>
 
@@ -158,6 +166,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         await LoadDataAsync();
+
+        ThemeService.ThemeChanged += (isDarkMode) => { StateHasChanged(); };
     }
 
     private async Task LoadDataAsync()
