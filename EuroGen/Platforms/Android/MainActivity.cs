@@ -24,8 +24,8 @@ namespace EuroGen
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
             {
-                var lightColor = (Color?)MApp.Application.Current?.Resources["PageBackgroundColor"];
-                var darkColor = (Color?)MApp.Application.Current?.Resources["PageBackgroundColor2"];
+                var lightColor = (Color?)MApp.Application.Current?.Resources["LightAssetColor"];
+                var darkColor = (Color?)MApp.Application.Current?.Resources["DarkAssetColor"];
 
                 var currentTheme = MApp.Application.Current?.RequestedTheme;
                 var color = currentTheme == AppTheme.Dark ? darkColor : lightColor;
