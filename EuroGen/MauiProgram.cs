@@ -9,6 +9,7 @@ using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 using EuroGen.Services;
+using EuroGen.Data;
 
 namespace EuroGen;
 
@@ -56,6 +57,8 @@ public static class MauiProgram
             });
         });
 #endif
+
+        builder.Services.AddDbContext<AppDbContext>();
 
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
         builder.Services.AddSingleton<LocalizationService>();
