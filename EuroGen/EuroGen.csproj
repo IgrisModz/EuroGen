@@ -38,6 +38,14 @@
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+        <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+        <AppxPackageSigningTimestampDigestAlgorithm>SHA512</AppxPackageSigningTimestampDigestAlgorithm>
+        <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+        <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+        <GenerateTestArtifacts>True</GenerateTestArtifacts>
+        <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+        <PackageCertificateThumbprint>885E8D68E3154D2C27B53D3A7E86B0F23A64C082</PackageCertificateThumbprint>
     </PropertyGroup>
 
     <ItemGroup>
@@ -45,7 +53,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#364759" BaseSize="64,64" />
 		
         <!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#364759" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#2962FF" BaseSize="128,128" />
 		
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
@@ -62,6 +70,7 @@
         <PackageReference Include="CsvHelper" Version="33.0.1" />
         <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
         <PackageReference Include="HtmlAgilityPack.CssSelectors.NetCore" Version="1.2.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
