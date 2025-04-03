@@ -140,7 +140,7 @@ else
 }
 
 @code {
-    private List<int> _years = [];
+    private List<int> _years => DrawService.Years();
 
     private List<int> _minYears = [];
 
@@ -188,10 +188,8 @@ else
 
         if (DrawService.Draws == null || !DrawService.Draws.Any())
         {
-            DrawService.Draws = await DrawService.LoadDraws();
+            await DrawService.LoadLocalDrawsAsync();
         }
-
-        _years = DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? new List<int>();
 
         UpdateYearOptions();
 

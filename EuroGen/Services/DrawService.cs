@@ -2,14 +2,18 @@
 using System.IO.Compression;
 using CsvHelper;
 using CsvHelper.Configuration;
+using EuroGen.Data;
 using EuroGen.Helpers;
 using EuroGen.Models;
+using EuroGen.Watcher;
 using HtmlAgilityPack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MudBlazor;
 
 namespace EuroGen.Services;
 
-public class DrawService(ILogger<DrawService> logger)
+public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
 {
     public event Action? StatusChanged;
 
@@ -18,20 +22,10 @@ public class DrawService(ILogger<DrawService> logger)
     private bool _isLoading;
 
     private readonly ILogger<DrawService> _logger = logger;
+    private readonly AppDbContext _dbContext = dbContext;
 
     public static string BaseUrl => "https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique";
-    public static string BaseGoogle => "https://www.google.com";
     public static string BaseDefaultDrawDownload => "https://www.sto.api.fdj.fr/anonymous/service-draw-info";
-
-
-    private static readonly Dictionary<string, string> ResourcesFiles = new()
-    {
-        { "1a2b3c4d-9876-4562-b3fc-2c963f66afa8", "euromillions.csv" },
-        { "1a2b3c4d-9876-4562-b3fc-2c963f66afa9", "euromillions_2.csv" },
-        { "1a2b3c4d-9876-4562-b3fc-2c963f66afb6", "euromillions_3.csv" },
-        { "1a2b3c4d-9876-4562-b3fc-2c963f66afc6", "euromillions_4.csv" },
-        { "1a2b3c4d-9876-4562-b3fc-2c963f66afd6", "euromillions_201902.csv" },
-    };
 
     public bool AsConnection
     {
@@ -65,33 +59,9 @@ public class DrawService(ILogger<DrawService> logger)
 
     public IEnumerable<Draw>? Draws { get; set; }
 
-    private static async Task<bool> IsInternetAvailable()
+    public List<int> Years()
     {
-        try
-        {
-            using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
-            using var response = await client.GetAsync(BaseGoogle);
-            return response.IsSuccessStatusCode;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    private static async Task<bool> IsSiteAvailable(string url)
-    {
-        try
-        {
-            using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
-            var request = new HttpRequestMessage(HttpMethod.Head, url);
-            using var response = await client.SendAsync(request);
-            return response.IsSuccessStatusCode;
-        }
-        catch
-        {
-            return false;
-        }
+        return Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? [];
     }
 
     private void UpdateStatus()
@@ -99,47 +69,45 @@ public class DrawService(ILogger<DrawService> logger)
         StatusChanged?.Invoke();
     }
 
+    public async Task LoadLocalDrawsAsync()
+    {
+        Draws = await _dbContext.Draws.ToListAsync() ?? [];
+
+        var internetWatcher = new InternetWatcher(BaseUrl, TimeSpan.FromSeconds(5));
+        await internetWatcher.WatchInternetState(async () =>
+        {
+            if (!Draws.Any())
+            {
+                IsLoading = true;
+            }
+            var draws = await LoadDraws();
+            if (draws != null)
+            {
+                var existingDraws = await _dbContext.Draws
+                                    .Where(d => draws.Select(draw => draw.DrawDate).Contains(d.DrawDate))
+                                    .ToListAsync();
+                var newDraws = draws.Where(d => !existingDraws.Any(ed => ed.DrawDate == d.DrawDate)).ToList();
+                if (newDraws.Count > 0)
+                {
+                    await _dbContext.Draws.AddRangeAsync(newDraws);
+                }
+                await _dbContext.SaveChangesAsync();
+                Draws = Draws.Union(draws);
+            }
+            IsLoading = false;
+        });
+    }
+
     public async Task<IEnumerable<Draw>?> LoadDraws()
     {
         return await RetryUntilSuccessAsync(async () =>
         {
-            AsConnection = await IsInternetAvailable();
-            IsAvailableWebsite = await IsSiteAvailable(BaseUrl);
-
             var zipUrls = await GetEuromillionZipFiles();
-            var filteredUrls = zipUrls.Where(url => !ResourcesFiles.Keys.Any(fileGuid => url.EndsWith(fileGuid, StringComparison.OrdinalIgnoreCase)));
-
-            var csvFiles = await DownloadAndExtractZipFilesAsync(filteredUrls);
-
-            var localDraws = await LoadDrawsFromResources();
-            var draws = localDraws?.Concat(await CsvFilesToObjectList<Draw>(csvFiles));
-
+            var csvFiles = await DownloadAndExtractZipFilesAsync(zipUrls);
+            var draws = await CsvFilesToObjectList<Draw>(csvFiles);
             return draws;
 
         }, retryDelayMilliseconds: 5000);
-    }
-
-    private async Task<IEnumerable<Draw>?> LoadDrawsFromResources()
-    {
-
-        try
-        {
-
-            var tasks = ResourcesFiles.Values
-            .Select(async file =>
-            {
-                await using var stream = await FileSystem.OpenAppPackageFileAsync(file);
-                return await ParseCsvStream<Draw>(stream);
-            });
-
-            var results = await Task.WhenAll(tasks);
-            return results.SelectMany(r => r);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Erreur lors du chargement des tirages depuis les resources.");
-            return null;
-        }
     }
 
     /// <summary>
@@ -215,7 +183,7 @@ public class DrawService(ILogger<DrawService> logger)
         var document = await web.LoadFromWebAsync(BaseUrl);
 
 
-        var nodes = document.DocumentNode.SelectNodes("//div[contains(@class, 'grid-cols-1')]/a");
+        var nodes = document.DocumentNode.SelectNodes("//a[contains(@download, 'euromillions')]");
         if (nodes == null)
         {
             return [];
@@ -255,5 +223,9 @@ public class DrawService(ILogger<DrawService> logger)
 
         _logger.LogError("Le nombre maximum de tentatives a été atteint.");
         return default;
+    }
+    public List<int> GetYears()
+    {
+        return Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? new List<int>();
     }
 }

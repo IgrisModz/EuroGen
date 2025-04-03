@@ -56,7 +56,7 @@ else
     private int SelectedMaxYear => Preferences.Default.Get("MaxDate", _years[^1]);
     private CalculStatsType SelectedCalculType => (CalculStatsType)Preferences.Default.Get("StatsCalcul", (int)CalculStatsType.TotalDraw);
 
-    private List<int> _years = [];
+    private List<int> _years => DrawService.Years();
 
     protected override async Task OnInitializedAsync()
     {
@@ -69,10 +69,8 @@ else
 
         if (DrawService.Draws == null || !DrawService.Draws.Any())
         {
-            DrawService.Draws = await DrawService.LoadDraws();
+            await DrawService.LoadLocalDrawsAsync();
         }
-
-        _years = DrawService.Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? new List<int>();
 
         await Refresh(_selectedSearchType);
 

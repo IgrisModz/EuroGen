@@ -69,14 +69,6 @@
         {
             <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="fixed-progress" />
         }
-        @if (!DrawService.AsConnection)
-        {
-            <MudAlert Severity="Severity.Error" Square="true">@Localizer["AsNotConnection"]</MudAlert>
-        }
-        @if (!DrawService.IsAvailableWebsite)
-        {
-            <MudAlert Severity="Severity.Error" Square="true">@Localizer["IsNotAvailableWebsite"]</MudAlert>
-        }
         <MudContainer MaxWidth="MaxWidth.Medium" Class="pa-4">
             @Body
         </MudContainer>

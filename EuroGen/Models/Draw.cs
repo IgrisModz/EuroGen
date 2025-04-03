@@ -1,4 +1,5 @@
 ﻿using CsvHelper.Configuration.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace EuroGen.Models;
 
@@ -32,6 +33,8 @@ public class Draw
     [Index(6)]
     public int SecondStar { get; set; }
 
+    [DataType(DataType.Date)]
+    [Key]
     [Name("date_de_tirage")]
     [Index(7)]
     [Format("dd/MM/yyyy", "dd/MM/yy", "yyyyMMdd")]
