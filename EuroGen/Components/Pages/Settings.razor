@@ -5,6 +5,7 @@
 @inject DrawService DrawService
 @inject ILogger<Draw> Logger
 @inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
 <PageTitle>@Localizer["Settings"]</PageTitle>
 
@@ -265,16 +266,31 @@ else
         _maxYears = _years.Where(year => year >= SelectedMinYear).ToList();
     }
 
-    private void ResetPreferences()
+    private async Task ResetPreferences()
     {
-        var language = Localizer.Language;
-        var theme = ThemeService.AppTheme;
+        var parameters = new DialogParameters<Dialog>
+        {
+            {x => x.ContentText, Localizer["SureReset"] },
+            {x => x.OkButtonText, Localizer["Reset"] },
+            {x => x.CancelButtonText, Localizer["Cancel"] },
+            {x => x.Color, Color.Error },
+        };
 
-        Preferences.Default.Clear();
+        var dialog = await DialogService.ShowAsync<Dialog>(Localizer["ResetPreferences"], parameters);
+        var result = await dialog.Result;
 
-        Localizer.Language = language;
-        ThemeService.AppTheme = theme;
+        if (!result!.Canceled)
+        {
+            var language = Localizer.Language;
+            var theme = ThemeService.AppTheme;
 
-        Snackbar.Add(Localizer["PreferencesSuccessfullyReset"], Severity.Warning);
+            Preferences.Default.Clear();
+
+            Localizer.Language = language;
+            ThemeService.AppTheme = theme;
+
+            Snackbar.Add(Localizer["PreferencesSuccessfullyReset"], Severity.Warning);
+        }
+
     }
 }

@@ -129,9 +129,6 @@
   <data name="AppVersion" xml:space="preserve">
     <value>Toepassingsversie</value>
   </data>
-  <data name="AsNotConnection" xml:space="preserve">
-    <value>We voelen ons een beetje schuldig... We hadden moeten leren overleven zonder internet. Volgende keer misschien?</value>
-  </data>
   <data name="BallSeparate" xml:space="preserve">
     <value>Elke bal apart</value>
   </data>
@@ -173,9 +170,6 @@
   </data>
   <data name="GithubLink" xml:space="preserve">
     <value>Github-link</value>
-  </data>
-  <data name="IsNotAvailableWebsite" xml:space="preserve">
-    <value>In theorie had dit moeten werken. Maar goed, we hebben iets gemist, en de site die we gebruiken besloot niet mee te werken. We lossen het op (of bijna).</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Taal</value>
@@ -278,5 +272,14 @@
   </data>
   <data name="PreferencesSuccessfullyReset" xml:space="preserve">
     <value>Alle voorkeuren zijn succesvol teruggezet, behalve de taal en het thema!</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuleren</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Resetten</value>
+  </data>
+  <data name="SureReset" xml:space="preserve">
+    <value>Weet u zeker dat u de instellingen wilt resetten?</value>
   </data>
 </root>

@@ -129,9 +129,6 @@
   <data name="AppVersion" xml:space="preserve">
     <value>Applikatioun Versioun</value>
   </data>
-  <data name="AsNotConnection" xml:space="preserve">
-    <value>Mir schummen eis e bësse... Mir hätte solle léieren, ouni Internet ze iwwerliewen. Vläicht déi nächst Kéier?</value>
-  </data>
   <data name="BallSeparate" xml:space="preserve">
     <value>All Ball getrennt</value>
   </data>
@@ -173,9 +170,6 @@
   </data>
   <data name="GithubLink" xml:space="preserve">
     <value>Github Link</value>
-  </data>
-  <data name="IsNotAvailableWebsite" xml:space="preserve">
-    <value>An der Theorie hätt et solle funktionéieren. Mä jo, mir huppescht eppes iwwersinn, an de Site, deen mir benotzen, mécht net mat. Mir këmmeren eis drëm (oder bal).</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Sprooch</value>
@@ -278,5 +272,14 @@
   </data>
   <data name="PreferencesSuccessfullyReset" xml:space="preserve">
     <value>All Präferenzen goufen erfollegräich zréckgesat, ausser d'Sprooch an den Thema!</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuléieren</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Zrécksetzen</value>
+  </data>
+  <data name="SureReset" xml:space="preserve">
+    <value>Sidd Dir sécher, datt Dir d'Astellungen zrécksetzen wëllt?</value>
   </data>
 </root>

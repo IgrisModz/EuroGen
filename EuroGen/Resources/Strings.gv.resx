@@ -129,9 +129,6 @@
   <data name="AppVersion" xml:space="preserve">
     <value>Version ymmyd</value>
   </data>
-  <data name="AsNotConnection" xml:space="preserve">
-    <value>Va shirree shoh dy obbraghey. Agh myr shen, va shinrycan mie ayns ennagh reddyn, as y ynnyd-eggey ta shin cooney er, cha vel ee cloie dy mie. Ta shin jannoo ym-lioar (ny er lhiam).</value>
-  </data>
   <data name="BallSeparate" xml:space="preserve">
     <value>Gagh balj er-lheh</value>
   </data>
@@ -173,9 +170,6 @@
   </data>
   <data name="GithubLink" xml:space="preserve">
     <value>Ceaghlagh Github</value>
-  </data>
-  <data name="IsNotAvailableWebsite" xml:space="preserve">
-    <value>Ta shin nearey beggan... Mannagh by lhiat, va shin geearree gyn yn Internet dy ve bio. Yn cheayrt elley, foddee?</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Chengey</value>
@@ -278,5 +272,14 @@
   </data>
   <data name="PreferencesSuccessfullyReset" xml:space="preserve">
     <value>Va dagh ooilley reih currit er ash dy liooar, agh cha nee yn chengey as y chushtal!</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cealaigh</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Athshocrú</value>
+  </data>
+  <data name="SureReset" xml:space="preserve">
+    <value>An bhfuil tú cinnte gur mhaith leat na socruithe a athshocrú?</value>
   </data>
 </root>

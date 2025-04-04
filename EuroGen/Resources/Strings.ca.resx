@@ -129,9 +129,6 @@
   <data name="AppVersion" xml:space="preserve">
     <value>Versió de l'aplicació</value>
   </data>
-  <data name="AsNotConnection" xml:space="preserve">
-    <value>Ens sap greu... Hauríem d’haver après a sobreviure sense Internet. Potser la pròxima vegada?</value>
-  </data>
   <data name="BallSeparate" xml:space="preserve">
     <value>Each ball separate</value>
   </data>
@@ -173,9 +170,6 @@
   </data>
   <data name="GithubLink" xml:space="preserve">
     <value>Enllaç Github</value>
-  </data>
-  <data name="IsNotAvailableWebsite" xml:space="preserve">
-    <value>En teoria, això havia de funcionar. Però bé, hem fallat en alguna cosa i el lloc web que fem servir ha decidit no col·laborar. Ens hi posem (o gairebé).</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Llengua</value>
@@ -278,5 +272,14 @@
   </data>
   <data name="PreferencesSuccessfullyReset" xml:space="preserve">
     <value>Totes les preferències s'han restablert amb èxit, excepte l'idioma i el tema!</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel·lar</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Restablir</value>
+  </data>
+  <data name="SureReset" xml:space="preserve">
+    <value>Estàs segur que vols restablir la configuració?</value>
   </data>
 </root>

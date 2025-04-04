@@ -129,9 +129,6 @@
   <data name="AppVersion" xml:space="preserve">
     <value>Versión de la aplicación</value>
   </data>
-  <data name="AsNotConnection" xml:space="preserve">
-    <value>Nos sentimos un poco culpables... Deberíamos haber aprendido a sobrevivir sin Internet. ¿Quizás la próxima vez?</value>
-  </data>
   <data name="BallSeparate" xml:space="preserve">
     <value>Cada bola por separado</value>
   </data>
@@ -173,9 +170,6 @@
   </data>
   <data name="GithubLink" xml:space="preserve">
     <value>Enlace de Github</value>
-  </data>
-  <data name="IsNotAvailableWebsite" xml:space="preserve">
-    <value>En teoría, esto debería haber funcionado. Pero bueno, fallamos en algo y el sitio que usamos decidió no colaborar. Nos ocupamos de ello (o casi).</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Idioma</value>
@@ -278,5 +272,14 @@
   </data>
   <data name="PreferencesSuccessfullyReset" xml:space="preserve">
     <value>¡Todas las preferencias se han restablecido con éxito, excepto el idioma y el tema!</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Restablecer</value>
+  </data>
+  <data name="SureReset" xml:space="preserve">
+    <value>¿Estás seguro de que quieres restablecer los ajustes?</value>
   </data>
 </root>

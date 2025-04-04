@@ -129,9 +129,6 @@
   <data name="AppVersion" xml:space="preserve">
     <value>Leagan feidhmchláir</value>
   </data>
-  <data name="AsNotConnection" xml:space="preserve">
-    <value>Táimid beagán ciontach... Ba chóir dúinn a bheith tar éis foghlaim conas maireachtáil gan an tIdirlíon. An chéad uair eile, b’fhéidir?</value>
-  </data>
   <data name="BallSeparate" xml:space="preserve">
     <value>Scar gach liathróid</value>
   </data>
@@ -173,9 +170,6 @@
   </data>
   <data name="GithubLink" xml:space="preserve">
     <value>Nasc Github</value>
-  </data>
-  <data name="IsNotAvailableWebsite" xml:space="preserve">
-    <value>Ba chóir go raibh sé seo ag obair. I dteoiric. Ach, sea, rinneamar praiseach de rud éigin, agus shocraigh an suíomh a úsáidimid gan comhoibriú. Táimid ag tabhairt faoi (nó beagnach).</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Teanga</value>
@@ -278,5 +272,14 @@
   </data>
   <data name="PreferencesSuccessfullyReset" xml:space="preserve">
     <value>Athshocraíodh gach rogha go rathúil, seachas an teanga agus an téama!</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Scuirr</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Agh-y-reaghey</value>
+  </data>
+  <data name="SureReset" xml:space="preserve">
+    <value>Vel oo shickyrys laccal y reaghyssyn y reihys seiydagh?</value>
   </data>
 </root>
