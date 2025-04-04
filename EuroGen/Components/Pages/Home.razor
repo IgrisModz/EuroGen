@@ -135,7 +135,7 @@
         string serializedDraws = Preferences.Default.Get("Draws", "");
         var draws = DeserializeDraws(serializedDraws) ?? new List<Draw>();
 
-        if (draws.Count == 0)
+        for (int i = draws.Count; i < DrawLength; i++)
         {
             draws.Add(new Draw() { DrawDate = DateTime.Now });
         }
