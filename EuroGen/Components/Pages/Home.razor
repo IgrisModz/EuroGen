@@ -9,8 +9,8 @@
 
 
 <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center">
-    <MudPaper Class="rounded-xl mb-4 d-flex justify-center" Elevation="24" Height="160px" Width="100%" MaxWidth="440px">
-        <MudImage ObjectFit="ObjectFit.Cover" Fluid="true" Src="@(ThemeService.IsDarkMode ? "images/banner-dark.svg" : "images/banner-light.svg")" Class="rounded-xl" Alt="eurogen banner" />
+    <MudPaper Class="rounded-xl mb-4 d-flex justify-center" Style="@($"background-color: {((Microsoft.Maui.Graphics.Color)Application.Current.Resources[(ThemeService.IsDarkMode ? "DarkAssetColor" : "LightAssetColor")]).ToArgbHex()};")" Elevation="24" Height="160px" Width="100%" MaxWidth="440px">
+        <MudImage ObjectFit="ObjectFit.Cover" Fluid="true" Src="images/banner.svg" Class="rounded-xl" Alt="eurogen banner" />
     </MudPaper>
 </MudStack>
 
