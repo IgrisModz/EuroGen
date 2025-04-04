@@ -21,9 +21,11 @@
     </MudPaper>
 </MudStack>
 
-@foreach (var draw in _newDraws)
+@for (int i = 0; i < _newDraws.Count; i++)
 {
-    <MudPaper Class="@($"{(!draw.Equals(_newDraws[^1]) ? "mb-4" : "")} rounded-xl")" Elevation="24">
+    var draw = _newDraws[i];
+    var isLast = i == _newDraws.Count - 1;
+    <MudPaper Class="@($"{(!isLast ? "mb-4" : "")} rounded-xl")" Elevation="24">
         <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2" Class="pa-4 rounded-lg">
             <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap" Spacing="2">
                 <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="draw-item">
@@ -64,47 +66,47 @@
 <MudGrid Class="mt-2" Spacing="2">
     <MudItem xs="12" sm="6">
         <MudButton Color="Color.Primary" Variant="Variant.Filled"
-                   Style="@($"text-transform:none;")"
-                   Class="rounded-xl"
-                   FullWidth="true"
-                   Disabled="@DrawService.IsLoading"
+        Style="@($"text-transform:none;")"
+        Class="rounded-xl"
+        FullWidth="true"
+        Disabled="@DrawService.IsLoading"
         OnClick="async () => await GenerateDraw()">@Localizer["Draw"]</MudButton>
     </MudItem>
     <MudItem xs="12" sm="6">
         <MudButton Color="Color.Primary" Variant="Variant.Filled"
-                   Style="@($"text-transform:none;")"
-                   Class="rounded-xl"
-                   FullWidth="true"
-                   Disabled="@DrawService.IsLoading"
-                   OnClick="async () => await GetBestDraw()">@Localizer["GetBestDraw"]</MudButton>
+        Style="@($"text-transform:none;")"
+        Class="rounded-xl"
+        FullWidth="true"
+        Disabled="@DrawService.IsLoading"
+        OnClick="async () => await GetBestDraw()">@Localizer["GetBestDraw"]</MudButton>
     </MudItem>
 </MudGrid>
 
 <style>
     .draw-item {
-        position: relative;
-        font-size: 1.8em;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: bold;
-        width: 50px;
-        height: 50px;
+    position: relative;
+    font-size: 1.8em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
     }
 
     .draw-icon {
-        width: 120%;
-        height: 120%;
+    width: 120%;
+    height: 120%;
     }
 
     .star-icon {
-        color: #FFB300;
+    color: #FFB300;
     }
 
     .draw-text {
-        position: absolute;
+    position: absolute;
     }
 
     .ball-text {
-        color: #fff;
+    color: #fff;
     }
 </style>
 
@@ -142,10 +144,7 @@
 
         if (draws.Count == 0)
         {
-            draws.Add(new Draw()
-                {
-                    DrawDate = DateTime.Now
-                });
+            draws.Add(new Draw() { DrawDate = DateTime.Now });
         }
 
         return draws;
@@ -171,17 +170,24 @@
         {
             Logger.LogInformation("Début du tirage...");
             var length = DrawLength;
-            _newDraws.Clear();
+
+            var emptyDraws = new List<Draw>();
+            for (int i = 0; i < length; i++)
+            {
+                emptyDraws.Add(new Draw());
+            }
+
+            _newDraws = emptyDraws;
             var totalDraw = SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalDrawByNumber;
 
             if (SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalNumber)
             {
                 var numbersPercentages = await GetPercents([
                     nameof(Draw.FirstNumber),
-        nameof(Draw.SecondNumber),
-        nameof(Draw.ThirdNumber),
-        nameof(Draw.FourthNumber),
-        nameof(Draw.FifthNumber)
+                    nameof(Draw.SecondNumber),
+                    nameof(Draw.ThirdNumber),
+                    nameof(Draw.FourthNumber),
+                    nameof(Draw.FifthNumber)
                 ], SelectedMinYear, SelectedMaxYear, totalDraw);
 
                 var starsPercentages = await GetPercents([nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
@@ -192,26 +198,7 @@
 
                     var stars = GetDrawNumber(starsPercentages, 2);
 
-                    var firstNumber = numbers.FirstOrDefault();
-                    var secondNumber = numbers.ElementAtOrDefault(1);
-                    var thirdNumber = numbers.ElementAtOrDefault(2);
-                    var fourthNumber = numbers.ElementAtOrDefault(3);
-                    var fifthNumber = numbers.ElementAtOrDefault(4);
-                    var firstStar = stars.FirstOrDefault();
-                    var secondStar = stars.ElementAtOrDefault(1);
-
-                    _newDraws.Add(new Draw
-                        {
-                            FirstNumber = firstNumber,
-                            SecondNumber = secondNumber,
-                            ThirdNumber = thirdNumber,
-                            FourthNumber = fourthNumber,
-                            FifthNumber = fifthNumber,
-                            FirstStar = firstStar,
-                            SecondStar = secondStar,
-                        });
-
-                    await Task.Delay(200);
+                    _newDraws[i] = CreateDraw(numbers.ToList(), stars.ToList());
                 }
             }
             else
@@ -232,26 +219,7 @@
 
                     var stars = GetDrawNumbers([star1Percentages, star2Percentages]);
 
-                    var firstNumber = numbers.FirstOrDefault();
-                    var secondNumber = numbers.ElementAtOrDefault(1);
-                    var thirdNumber = numbers.ElementAtOrDefault(2);
-                    var fourthNumber = numbers.ElementAtOrDefault(3);
-                    var fifthNumber = numbers.ElementAtOrDefault(4);
-                    var firstStar = stars.FirstOrDefault();
-                    var secondStar = stars.ElementAtOrDefault(1);
-
-                    _newDraws.Add(new Draw
-                        {
-                            FirstNumber = firstNumber,
-                            SecondNumber = secondNumber,
-                            ThirdNumber = thirdNumber,
-                            FourthNumber = fourthNumber,
-                            FifthNumber = fifthNumber,
-                            FirstStar = firstStar,
-                            SecondStar = secondStar,
-                        });
-
-                    await Task.Delay(200);
+                    _newDraws[i] = CreateDraw(numbers.ToList(), stars.ToList());
                 }
             }
 
@@ -276,7 +244,7 @@
         try
         {
             Logger.LogInformation("Début du meilleur tirage...");
-            _newDraws.Clear();
+            _newDraws = new List<Draw>() { new Draw() };
             var totalDraw = SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalDrawByNumber;
 
             if (SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalNumber)
@@ -291,26 +259,7 @@
 
                 var starsPercentages = await GetPercents([nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
 
-                var firstNumber = numbersPercentages.FirstOrDefault().Key;
-                var secondNumber = numbersPercentages.ElementAtOrDefault(1).Key;
-                var thirdNumber = numbersPercentages.ElementAtOrDefault(2).Key;
-                var fourthNumber = numbersPercentages.ElementAtOrDefault(3).Key;
-                var fifthNumber = numbersPercentages.ElementAtOrDefault(4).Key;
-                var firstStar = starsPercentages.FirstOrDefault().Key;
-                var secondStar = starsPercentages.ElementAtOrDefault(1).Key;
-
-                _newDraws.Add(new Draw
-                    {
-                        FirstNumber = firstNumber,
-                        SecondNumber = secondNumber,
-                        ThirdNumber = thirdNumber,
-                        FourthNumber = fourthNumber,
-                        FifthNumber = fifthNumber,
-                        FirstStar = firstStar,
-                        SecondStar = secondStar,
-                    });
-
-                await Task.Delay(200);
+                _newDraws[0] = CreateDraw(numbersPercentages.Keys.ToList(), starsPercentages.Keys.ToList());
             }
             else
             {
@@ -331,18 +280,17 @@
                 var firstStar = star1Percentages.FirstOrDefault().Key;
                 var secondStar = star2Percentages.FirstOrDefault().Key;
 
-                _newDraws.Add(new Draw
-                    {
-                        FirstNumber = firstNumber,
-                        SecondNumber = secondNumber,
-                        ThirdNumber = thirdNumber,
-                        FourthNumber = fourthNumber,
-                        FifthNumber = fifthNumber,
-                        FirstStar = firstStar,
-                        SecondStar = secondStar,
-                    });
+                _newDraws[0] = new Draw
+                {
+                    FirstNumber = firstNumber,
+                    SecondNumber = secondNumber,
+                    ThirdNumber = thirdNumber,
+                    FourthNumber = fourthNumber,
+                    FifthNumber = fifthNumber,
+                    FirstStar = firstStar,
+                    SecondStar = secondStar,
+                };
 
-                await Task.Delay(200);
             }
 
             Preferences.Set($"Draws", SerializeDraws(_newDraws));
@@ -356,6 +304,20 @@
             DrawService.IsLoading = false;
             Preferences.Set("LastMethodUsed", "GetBestDraw");
         }
+    }
+
+    private Draw CreateDraw(List<int> numbers, List<int> stars)
+    {
+        return new Draw
+        {
+            FirstNumber = numbers.ElementAtOrDefault(0),
+            SecondNumber = numbers.ElementAtOrDefault(1),
+            ThirdNumber = numbers.ElementAtOrDefault(2),
+            FourthNumber = numbers.ElementAtOrDefault(3),
+            FifthNumber = numbers.ElementAtOrDefault(4),
+            FirstStar = stars.ElementAtOrDefault(0),
+            SecondStar = stars.ElementAtOrDefault(1),
+        };
     }
 
     private async Task<IDictionary<int, double>> GetPercents(string[] propertyNames, int minYear, int maxYear, bool totalDraw = false, OrderBy order = OrderBy.None)
