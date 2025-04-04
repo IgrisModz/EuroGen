@@ -4,13 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:EuroGen"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     BackgroundColor="{AppThemeBinding Dark={StaticResource DarkAssetColor},
                                       Light={StaticResource LightAssetColor}}">
-
-    <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Dark={StaticResource DarkAssetColor}, Light={StaticResource LightAssetColor}}" />
-    </ContentPage.Behaviors>
 
     <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
         <BlazorWebView.RootComponents>
