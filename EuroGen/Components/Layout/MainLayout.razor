@@ -4,12 +4,13 @@
 @inject ThemeService ThemeService
 @inject LocalizationService Localizer
 @inject DrawService DrawService
+@inject IDialogService DialogService
 
 <style>
     .fixed-progress {
-    position: fixed;
-    left: 0;
-    width: 100%;
+        position: fixed;
+        left: 0;
+        width: 100%;
         z-index: var(--mud-zindex-appbar);
     }
 
@@ -67,9 +68,9 @@
         </div>
         <MudScrollToTop>
             <MudFab Class="scroll-to-top"
-            Color="Color.Primary"
-            Size="Size.Medium"
-            StartIcon="@Icons.Material.Filled.KeyboardArrowUp" />
+                    Color="Color.Primary"
+                    Size="Size.Medium"
+                    StartIcon="@Icons.Material.Filled.KeyboardArrowUp" />
         </MudScrollToTop>
     </MudMainContent>
 </MudLayout>

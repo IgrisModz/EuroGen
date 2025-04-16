@@ -1,143 +1,133 @@
-﻿@page "/settings"
-
-@inject LocalizationService Localizer
+﻿@inject LocalizationService Localizer
 @inject ThemeService ThemeService
 @inject DrawService DrawService
 @inject ILogger<Draw> Logger
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 
-<PageTitle>@Localizer["Settings"]</PageTitle>
+<MudDialog>
+    <DialogContent>
+        @if (DrawService.IsLoading)
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
+        }
+        else
+        {
+            <MudText Typo="Typo.h5">@Localizer["Appearance"]</MudText>
 
-@if (DrawService.IsLoading)
-{
-    <MudPaper Elevation="24" Class="pa-4 rounded-xl">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" Class="rounded-lg mb-2" Height="60px" />
-    </MudPaper>
-}
-else
-{
-    <MudPaper Elevation="24" Class="pa-4 rounded-xl">
-        <MudText Typo="Typo.h5">@Localizer["Appearance"]</MudText>
+            <MudDivider Class="my-2" />
 
-        <MudDivider Class="my-3" />
+            <MudSelect T="AppTheme" Label="@Localizer["Theme"]" Variant="Variant.Outlined" Value="@ThemeService.AppTheme" ValueChanged="OnThemeChanged">
+                <MudSelectItem Value="@(AppTheme.Unspecified)">
+                    <div class="d-flex align-items gap-2">
+                        <MudIcon Icon="@Icons.Material.Filled.AutoMode" Style="@($"color:{Colors.Green.Default};")" />
+                        @Localizer["SystemPreference"]
+                    </div>
+                </MudSelectItem>
+                <MudSelectItem Value="@(AppTheme.Dark)">
+                    <div class="d-flex align-items gap-2">
+                        <MudIcon Icon="@Icons.Material.Filled.DarkMode" Style="@($"color:{Colors.Indigo.Accent2};")" />
+                        @Localizer["Dark"]
+                    </div>
+                </MudSelectItem>
+                <MudSelectItem Value="@(AppTheme.Light)">
+                    <div class="d-flex align-items gap-2">
+                        <MudIcon Icon="@Icons.Material.Filled.LightMode" Style="@($"color:{Colors.Yellow.Darken2};")" />
+                        @Localizer["Light"]
+                    </div>
+                </MudSelectItem>
+            </MudSelect>
 
-        <MudSelect Class="mb-4" T="AppTheme" Label="@Localizer["Theme"]" Variant="Variant.Filled" Value="@ThemeService.AppTheme" ValueChanged="OnThemeChanged">
-            <MudSelectItem Value="@(AppTheme.Unspecified)">
-                <div class="d-flex align-items gap-2">
-                    <MudIcon Icon="@Icons.Material.Filled.AutoMode" Style="@($"color:{Colors.Green.Default};")" />
-                    @Localizer["SystemPreference"]
-                </div>
-            </MudSelectItem>
-            <MudSelectItem Value="@(AppTheme.Dark)">
-                <div class="d-flex align-items gap-2">
-                    <MudIcon Icon="@Icons.Material.Filled.DarkMode" Style="@($"color:{Colors.Indigo.Accent2};")" />
-                    @Localizer["Dark"]
-                </div>
-            </MudSelectItem>
-            <MudSelectItem Value="@(AppTheme.Light)">
-                <div class="d-flex align-items gap-2">
-                    <MudIcon Icon="@Icons.Material.Filled.LightMode" Style="@($"color:{Colors.Yellow.Darken2};")" />
-                    @Localizer["Light"]
-                </div>
-            </MudSelectItem>
-        </MudSelect>
+            <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Location"]</MudText>
 
-        <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Location"]</MudText>
+            <MudDivider Class="my-2" />
 
-        <MudDivider Class="my-3" />
+            <MudSelect T="string" Label="@Localizer["Language"]" Variant="Variant.Outlined" Value="@Localizer.Language" ValueChanged="OnLanguageChanged">
+                <MudSelectItem Value="@("en")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Flag_of_the_United_Kingdom_%283-2%29.svg" height="14" class="mr-1"> English
+                </MudSelectItem>
+                <MudSelectItem Value="@("fr")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Flag_of_France_%281976%E2%80%932020%29.svg" height="14" class="mr-1"> Fran&ccedil;ais
+                </MudSelectItem>
+                <MudSelectItem Value="@("de")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Germany_%283-2%29.svg" height="14" class="mr-1"> Deutsch
+                </MudSelectItem>
+                <MudSelectItem Value="@("es")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Bandera_de_Espa%C3%B1a_%28nuevo_dise%C3%B1o%29.svg" height="14" class="mr-1"> Espa&ntilde;ol
+                </MudSelectItem>
+                <MudSelectItem Value="@("ca")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Flag_of_Andorra_%283-2%29.svg" height="14" class="mr-1"> Catal&agrave;
+                </MudSelectItem>
+                <MudSelectItem Value="@("ga")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Flag_of_Ireland_%283-2%29.svg" height="14" class="mr-1"> Gaeilge
+                </MudSelectItem>
+                <MudSelectItem Value="@("gv")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Flag_of_the_Isle_of_Man_%283-2%29.svg" height="14" class="mr-1"> Gaelg
+                </MudSelectItem>
+                <MudSelectItem Value="@("it")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Bandiera_italiana_foto.svg" height="14" class="mr-1"> Italiano
+                </MudSelectItem>
+                <MudSelectItem Value="@("lb")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Flag_of_Luxembourg_%283-2%29.svg" height="14" class="mr-1"> L&euml;tzebuergesch
+                </MudSelectItem>
+                <MudSelectItem Value="@("nl")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/92/Flag_of_Belgium_%28civil%29.svg" height="14" class="mr-1"> Nederlands
+                </MudSelectItem>
+                <MudSelectItem Value="@("pt")">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Bandera_de_Portugal.svg" height="14" class="mr-1"> Portugu&ecirc;s
+                </MudSelectItem>
+            </MudSelect>
 
-        <MudSelect T="string" Class="mb-4" Label="@Localizer["Language"]" Variant="Variant.Filled" Value="@Localizer.Language" ValueChanged="OnLanguageChanged">
-            <MudSelectItem Value="@("en")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Flag_of_the_United_Kingdom_%283-2%29.svg" height="14" class="mr-1"> English
-            </MudSelectItem>
-            <MudSelectItem Value="@("fr")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Flag_of_France_%281976%E2%80%932020%29.svg" height="14" class="mr-1"> Fran&ccedil;ais
-            </MudSelectItem>
-            <MudSelectItem Value="@("de")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Germany_%283-2%29.svg" height="14" class="mr-1"> Deutsch
-            </MudSelectItem>
-            <MudSelectItem Value="@("es")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Bandera_de_Espa%C3%B1a_%28nuevo_dise%C3%B1o%29.svg" height="14" class="mr-1"> Espa&ntilde;ol
-            </MudSelectItem>
-            <MudSelectItem Value="@("ca")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Flag_of_Andorra_%283-2%29.svg" height="14" class="mr-1"> Catal&agrave;
-            </MudSelectItem>
-            <MudSelectItem Value="@("ga")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Flag_of_Ireland_%283-2%29.svg" height="14" class="mr-1"> Gaeilge
-            </MudSelectItem>
-            <MudSelectItem Value="@("gv")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Flag_of_the_Isle_of_Man_%283-2%29.svg" height="14" class="mr-1"> Gaelg
-            </MudSelectItem>
-            <MudSelectItem Value="@("it")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Bandiera_italiana_foto.svg" height="14" class="mr-1"> Italiano
-            </MudSelectItem>
-            <MudSelectItem Value="@("lb")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Flag_of_Luxembourg_%283-2%29.svg" height="14" class="mr-1"> L&euml;tzebuergesch
-            </MudSelectItem>
-            <MudSelectItem Value="@("nl")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/92/Flag_of_Belgium_%28civil%29.svg" height="14" class="mr-1"> Nederlands
-            </MudSelectItem>
-            <MudSelectItem Value="@("pt")">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Bandera_de_Portugal.svg" height="14" class="mr-1"> Portugu&ecirc;s
-            </MudSelectItem>
-        </MudSelect>
+            <MudText Class="mt-5" Typo="Typo.h5">@Localizer["SearchFilters"]</MudText>
 
-        <MudText Class="mt-5" Typo="Typo.h5">@Localizer["SearchFilters"]</MudText>
+            <MudDivider Class="my-2" />
 
-        <MudDivider Class="my-3" />
+            <MudSelect T="int" Class="mb-4" Label="@Localizer["SelectTheMinYear"]" Variant="Variant.Outlined" HelperText="@Localizer["SelectAYearDescription"]" Value="@SelectedMinYear" ValueChanged="OnSelectedMinYearChanged">
+                @foreach (var year in _minYears)
+                {
+                    <MudSelectItem Value="@(year)">@year</MudSelectItem>
+                }
+            </MudSelect>
 
-        <MudSelect T="int" Class="mb-4" Label="@Localizer["SelectTheMinYear"]" Variant="Variant.Filled" HelperText="@Localizer["SelectAYearDescription"]" Value="@SelectedMinYear" ValueChanged="OnSelectedMinYearChanged">
-            @foreach (var year in _minYears)
-            {
-                <MudSelectItem Value="@(year)">@year</MudSelectItem>
-            }
-        </MudSelect>
+           <MudSelect T="int" Label="@Localizer["SelectTheMaxYear"]" Variant="Variant.Outlined" HelperText="@Localizer["SelectAYearDescription"]" Value="@SelectedMaxYear" ValueChanged="OnSelectedMaxYearChanged">
+                @foreach (var year in _maxYears)
+                {
+                    <MudSelectItem Value="@(year)">@year</MudSelectItem>
+                }
+            </MudSelect>
 
-        <MudSelect T="int" Class="mb-4" Label="@Localizer["SelectTheMaxYear"]" Variant="Variant.Filled" HelperText="@Localizer["SelectAYearDescription"]" Value="@SelectedMaxYear" ValueChanged="OnSelectedMaxYearChanged">
-            @foreach (var year in _maxYears)
-            {
-                <MudSelectItem Value="@(year)">@year</MudSelectItem>
-            }
-        </MudSelect>
+            <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Draws"]</MudText>
 
-        <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Draws"]</MudText>
+            <MudDivider Class="my-2" />
 
-        <MudDivider Class="my-3" />
+            <MudSelect Class="mb-4" T="int" Label="@Localizer["SelectDrawNumber"]" Variant="Variant.Outlined" @bind-Value="@SelectedDrawLength">
+                <MudSelectItem Value="@(1)">1</MudSelectItem>
+                <MudSelectItem Value="@(2)">2</MudSelectItem>
+                <MudSelectItem Value="@(5)">5</MudSelectItem>
+                <MudSelectItem Value="@(10)">10</MudSelectItem>
+            </MudSelect>
 
-        <MudSelect Class="mb-4" T="int" Label="@Localizer["SelectDrawNumber"]" Variant="Variant.Filled" @bind-Value="@SelectedDrawLength">
-            <MudSelectItem Value="@(1)">1</MudSelectItem>
-            <MudSelectItem Value="@(2)">2</MudSelectItem>
-            <MudSelectItem Value="@(5)">5</MudSelectItem>
-            <MudSelectItem Value="@(10)">10</MudSelectItem>
-        </MudSelect>
+            <MudSelect T="CalculDrawType" Label="@Localizer["CalculOutputPercent"]" Variant="Variant.Outlined" @bind-Value="@SelectedCalculDrawType">
+                <MudSelectItem Value="@(CalculDrawType.TotalDraw)">@Localizer["PercentPerDraw"]</MudSelectItem>
+                <MudSelectItem Value="@(CalculDrawType.TotalNumber)">@Localizer["PercentPerBall"]</MudSelectItem>
+                <MudSelectItem Value="@(CalculDrawType.TotalDrawByNumber)">@Localizer["PercentPerDraw"] (@Localizer["BallSeparate"])</MudSelectItem>
+                <MudSelectItem Value="@(CalculDrawType.TotalNumberByNumber)">@Localizer["PercentPerBall"] (@Localizer["BallSeparate"])</MudSelectItem>
+            </MudSelect>
 
-        <MudSelect T="CalculDrawType" Class="mb-4" Label="@Localizer["CalculOutputPercent"]" Variant="Variant.Filled" @bind-Value="@SelectedCalculDrawType">
-            <MudSelectItem Value="@(CalculDrawType.TotalDraw)">@Localizer["PercentPerDraw"]</MudSelectItem>
-            <MudSelectItem Value="@(CalculDrawType.TotalNumber)">@Localizer["PercentPerBall"]</MudSelectItem>
-            <MudSelectItem Value="@(CalculDrawType.TotalDrawByNumber)">@Localizer["PercentPerDraw"] (@Localizer["BallSeparate"])</MudSelectItem>
-            <MudSelectItem Value="@(CalculDrawType.TotalNumberByNumber)">@Localizer["PercentPerBall"] (@Localizer["BallSeparate"])</MudSelectItem>
-        </MudSelect>
+            <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Stats"]</MudText>
 
-        <MudText Class="mt-5" Typo="Typo.h5">@Localizer["Stats"]</MudText>
+            <MudDivider Class="my-2" />
 
-        <MudDivider Class="my-3" />
+                <MudSelect T="CalculStatsType" Label="@Localizer["CalculOutputPercent"]" Variant="Variant.Outlined" @bind-Value="@SelectedCalculStatsType">
+                <MudSelectItem Value="@(CalculStatsType.TotalDraw)">@Localizer["PercentPerDraw"]</MudSelectItem>
+                <MudSelectItem Value="@(CalculStatsType.TotalNumber)">@Localizer["PercentPerBall"]</MudSelectItem>
+            </MudSelect>
 
-        <MudSelect T="CalculStatsType" Label="@Localizer["CalculOutputPercent"]" Variant="Variant.Filled" @bind-Value="@SelectedCalculStatsType">
-            <MudSelectItem Value="@(CalculStatsType.TotalDraw)">@Localizer["PercentPerDraw"]</MudSelectItem>
-            <MudSelectItem Value="@(CalculStatsType.TotalNumber)">@Localizer["PercentPerBall"]</MudSelectItem>
-        </MudSelect>
-
-        <MudGrid Class="mt-1" Justify="Justify.Center">
-            <MudItem xs="12" sm="8" md="5">
-                <MudButton Class="rounded-xl" FullWidth="true" Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="ResetPreferences">@Localizer["ResetPreferences"]</MudButton>
-            </MudItem>
-        </MudGrid>
-    </MudPaper>
-}
+            <MudButton Class="my-4 rounded-xl" FullWidth="true" Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="ResetPreferences">@Localizer["ResetPreferences"]</MudButton>
+        }
     </DialogContent>
 </MudDialog>
