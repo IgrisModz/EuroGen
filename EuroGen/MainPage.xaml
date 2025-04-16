@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="EuroGen.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -13,6 +13,9 @@
     BackgroundColor="{AppThemeBinding Dark={StaticResource DarkAssetColor},
                                       Light={StaticResource LightAssetColor}}">
 
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Dark={StaticResource DarkAssetColor}, Light={StaticResource LightAssetColor}}" />
+    </ContentPage.Behaviors>
     <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
         <BlazorWebView.RootComponents>
             <RootComponent ComponentType="{x:Type local:Components.Routes}" Selector="#app" />

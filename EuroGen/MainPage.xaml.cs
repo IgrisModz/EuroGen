@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core;
+using System.Runtime.Versioning;
 
 namespace EuroGen;
 
@@ -8,44 +10,31 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
 
-#if ANDROID || IOS
-        SetStatusBarColor();
-
-        Application.Current!.RequestedThemeChanged += (sender, args) =>
+        if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
         {
             SetStatusBarColor();
-        };
-#endif
+
+            Application.Current!.RequestedThemeChanged += (sender, args) =>
+            {
+                SetStatusBarColor();
+            };
+        }
     }
 
+    [SupportedOSPlatform("android21.0")]
+    [SupportedOSPlatform("ios11.0")]
     public void SetStatusBarColor()
     {
-#if ANDROID || IOS
-#if IOS
-        if (!UIKit.UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+        if (OperatingSystem.IsAndroidVersionAtLeast(21) || OperatingSystem.IsIOSVersionAtLeast(11, 0))
         {
-            return;
-        }
-#elif ANDROID
-        if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.Lollipop)
-        {
-            return;
-        }
-#endif
-        var existingBehavior = Behaviors.OfType<StatusBarBehavior>().FirstOrDefault();
-        if (existingBehavior != null)
-        {
-            Behaviors.Remove(existingBehavior);
-        }
 
-        var newBehavior = new StatusBarBehavior
-        {
-            StatusBarColor = Application.Current!.RequestedTheme == AppTheme.Dark
-                ? (Color)Application.Current.Resources["DarkAssetColor"]
-                : (Color)Application.Current.Resources["LightAssetColor"]
-        };
+            var lightColor = (Color?)Application.Current?.Resources["LightAssetColor"];
+            var darkColor = (Color?)Application.Current?.Resources["DarkAssetColor"];
 
-        Behaviors.Add(newBehavior);
-#endif
+            var currentTheme = Application.Current?.RequestedTheme;
+            var isDarkMode = currentTheme == AppTheme.Dark;
+
+            CommunityToolkit.Maui.Core.Platform.StatusBar.SetColor(isDarkMode ? darkColor : lightColor);
+        }
     }
 }
