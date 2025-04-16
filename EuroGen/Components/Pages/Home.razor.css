@@ -1,0 +1,61 @@
+﻿.draw {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+}
+
+.draw-item {
+    position: relative;
+    box-sizing: border-box;
+    font-size: 1.8em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    width: 42px;
+    height: 42px;
+}
+
+.ball {
+    border-radius: 50%;
+}
+
+.star {
+    height: 62px;
+    width: 62px;
+}
+
+.draw-text {
+    position: absolute;
+    text-align: center;
+}
+
+.star-text {
+    color: #000;
+}
+
+.ball-text {
+    color: #fff;
+}
+
+@media screen and (max-width: 461px) {
+    .draw {
+        gap: 4px;
+        padding: 8px;
+    }
+
+    .draw-item {
+        height: 38px;
+        width: 38px;
+    }
+
+    .draw-text {
+        font-size: .8em;
+    }
+
+    .star {
+        height: 58px;
+        width: 58px;
+    }
+}

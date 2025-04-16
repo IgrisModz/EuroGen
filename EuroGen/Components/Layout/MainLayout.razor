@@ -10,7 +10,18 @@
     position: fixed;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Au-dessus des autres éléments */
+        z-index: var(--mud-zindex-appbar);
+    }
+
+    .scroll-to-top {
+        opacity: .85;
+    }
+
+    @@media screen and (max-width: 400px)
+    {
+        .scroll-to-top {
+            bottom: 45px;
+        }
     }
 </style>
 
@@ -20,144 +31,45 @@
                    MaxWidth="MaxWidth.ExtraSmall"
                    CloseButton="true"
                    Position="DialogPosition.Center"
-                   CloseOnEscapeKey="true"/>
+                   CloseOnEscapeKey="true" />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="4">
-        <MudHidden Breakpoint="Breakpoint.MdAndUp">
-            <MudIconButton Icon="@Icons.Material.Filled.Notes" Class="mr-2" Color="Color.Inherit" Edge="Edge.Start" OnClick="DrawerToggle" />
-        </MudHidden>
-        <MudHidden Breakpoint="Breakpoint.SmAndDown">
-            <MudButton StartIcon="@Icons.Material.Filled.Draw"
-            Color="Color.Inherit"
-            Style="@($"text-transform:none;")"
-            Class="@(IsActive("/") ? "mud-chip-text mud-chip-color-primary" : "")"
-            OnClick="@(() => GoTo("/"))">@Localizer["Draws"]</MudButton>
-            <MudButton StartIcon="@Icons.Material.Filled.DataExploration"
-            Color="Color.Inherit"
-            Style="@($"text-transform:none;")"
-            Class="@($"{(IsActive("/stats") ? "mud-chip-text mud-chip-color-primary" : "")} ml-2")"
-            OnClick="@(() => GoTo("/stats"))">@Localizer["Stats"]</MudButton>
-            <MudButton StartIcon="@Icons.Material.Filled.Description"
-            Color="Color.Inherit"
-            Style="@($"text-transform:none;")"
-            Class="@($"{(IsActive("/about") ? "mud-chip-text mud-chip-color-primary" : "")} mx-2")"
-            OnClick="@(() => GoTo("/about"))">@Localizer["About"]</MudButton>
-            <MudButton StartIcon="@Icons.Material.Filled.Settings"
-            Color="Color.Inherit"
-            Style="@($"text-transform:none;")"
-            Class="@(IsActive("/settings") ? "mud-chip-text mud-chip-color-primary" : "")"
-            OnClick="@(() => GoTo("/settings"))">@Localizer["Settings"]</MudButton>
-        </MudHidden>
-    </MudAppBar>
-    <MudHidden Breakpoint="Breakpoint.MdAndUp">
-        <MudDrawer @bind-Open="@_isDrawerOpen"
-        Elevation="0"
-        ClipMode="@DrawerClipMode.Docked"
-        Variant="@DrawerVariant.Responsive"
-        Breakpoint="Breakpoint.Lg">
-            <MudDrawerHeader>
-                <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Inherit" Edge="Edge.Start" OnClick="DrawerToggle" />
-            </MudDrawerHeader>
-            <MudNavMenu>
-                <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Draw">@Localizer["Draws"]</MudNavLink>
-                <MudNavLink Href="/stats" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.DataExploration">@Localizer["Stats"]</MudNavLink>
-                <MudNavLink Href="/about" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Description">@Localizer["About"]</MudNavLink>
-                <MudNavLink Href="/settings" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Settings">@Localizer["Settings"]</MudNavLink>
-            </MudNavMenu>
-        </MudDrawer>
-    </MudHidden>
-    <MudMainContent>
+    <MudMainContent Class="pt-0" Style="min-height:calc(100vh - 60px);">
         @if (DrawService.IsLoading)
         {
             <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="fixed-progress" />
         }
-        <MudContainer MaxWidth="MaxWidth.Medium" Class="pa-4">
+        <MudContainer MaxWidth="MaxWidth.Small" Class="pa-3 mb-16">
+            <MudPaper Elevation="8" Class="rounded-xl mb-2">
+                <MudStack>
+                    <MudImage Src="@(ThemeService.IsDarkMode ? "images/banner-dark.svg" : "images/banner-light.svg")" Height="100" Alt="eurogen banner"></MudImage>
+                </MudStack>
+            </MudPaper>
             @Body
         </MudContainer>
+
+        <div class="nav-container">
+                <nav class="nav">
+                    <a href="/" class="@($"nav-link {(IsActive("/") ? "nav-link-active" : "")}")">
+                        <MudIcon Icon="@Icons.Material.Rounded.Draw" style="font-size: 2rem;" />
+                    </a>
+                    <a href="/stats" class="@($"nav-link {(IsActive("/stats") ? "nav-link-active" : "")}")">
+                        <MudIcon Icon="@Icons.Material.Rounded.DataExploration" style="font-size: 2rem;" />
+                    </a>
+                    <a href="/about" class="@($"nav-link {(IsActive("/about") ? "nav-link-active" : "")}")">
+                        <MudIcon Icon="@Icons.Material.Rounded.Info" style="font-size: 2rem;" />
+                    </a>
+                    <a onclick="@(OpenSettings)" class="nav-link">
+                        <MudIcon Icon="@Icons.Material.Rounded.Settings" style="font-size: 2rem;" />
+                    </a>
+                </nav>
+        </div>
         <MudScrollToTop>
-            <MudFab Style="opacity:.8"
+            <MudFab Class="scroll-to-top"
             Color="Color.Primary"
             Size="Size.Medium"
             StartIcon="@Icons.Material.Filled.KeyboardArrowUp" />
         </MudScrollToTop>
     </MudMainContent>
 </MudLayout>
-
-@code {
-    private bool _isDrawerOpen = false;
-    private MudThemeProvider? _mudThemeProvider;
-
-    private readonly MudTheme _mudTheme = new()
-        {
-            PaletteLight = new PaletteLight()
-            {
-                Background = Colors.Gray.Lighten5,
-                AppbarBackground = Colors.Gray.Lighten5,
-                DrawerBackground = Colors.Gray.Lighten5,
-                AppbarText = Colors.Shades.Black,
-                Surface = Colors.Gray.Lighten5,
-                Primary = "#0D1F6F"
-            },
-            PaletteDark = new PaletteDark()
-            {
-                Background = Colors.Gray.Darken4,
-                AppbarBackground = Colors.Gray.Darken4,
-                DrawerBackground = Colors.Gray.Darken4,
-                AppbarText = Colors.Gray.Default,
-                Surface = "#252525",
-                Primary = Colors.Blue.Accent4
-            },
-        };
-
-    private void DrawerToggle()
-    {
-        _isDrawerOpen = !_isDrawerOpen;
-    }
-
-    private bool IsActive(string href) =>
-        Navigation.Uri.TrimEnd('/') == Navigation.ToAbsoluteUri(href).AbsoluteUri.TrimEnd('/');
-
-    private void GoTo(string uri)
-    {
-        Navigation.NavigateTo(uri);
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            if (_mudThemeProvider != null)
-            {
-                var systemPreference = await _mudThemeProvider.GetSystemPreference();
-                ThemeService.SetSystemPreference(systemPreference);
-
-                await _mudThemeProvider.WatchSystemPreference(newValue =>
-                {
-                    ThemeService.SetSystemPreference(newValue);
-                    StateHasChanged();
-                    return Task.CompletedTask;
-                });
-            }
-
-            ThemeService.ThemeChanged += (isDarkMode) =>
-            {
-                // Re-render pour appliquer le nouveau thème
-                StateHasChanged();
-            };
-
-            Localizer.LanguageChanged += () =>
-            {
-                StateHasChanged();
-            };
-
-            DrawService.StatusChanged += () =>
-            {
-                StateHasChanged();
-            };
-
-            StateHasChanged();
-        }
-    }
-}
