@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui.Behaviors;
-using CommunityToolkit.Maui.Core;
-using System.Runtime.Versioning;
+﻿using System.Runtime.Versioning;
 
 namespace EuroGen;
 
