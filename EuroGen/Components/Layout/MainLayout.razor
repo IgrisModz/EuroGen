@@ -4,16 +4,10 @@
 @inject ThemeService ThemeService
 @inject LocalizationService Localizer
 @inject DrawService DrawService
+@inject UpdateService UpdateService
 @inject IDialogService DialogService
 
 <style>
-    .fixed-progress {
-        position: fixed;
-        left: 0;
-        width: 100%;
-        z-index: var(--mud-zindex-appbar);
-    }
-
     .scroll-to-top {
         opacity: .85;
     }
@@ -21,7 +15,7 @@
     @@media screen and (max-width: 400px)
     {
         .scroll-to-top {
-            bottom: 45px;
+            margin-bottom: 45px;
         }
     }
 </style>
@@ -37,10 +31,6 @@
 
 <MudLayout>
     <MudMainContent Class="pt-0" Style="min-height:calc(100vh - 60px);">
-        @if (DrawService.IsLoading)
-        {
-            <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="fixed-progress" />
-        }
         <MudContainer MaxWidth="MaxWidth.Small" Class="pa-3 mb-16">
             <MudPaper Elevation="8" Class="rounded-xl mb-2">
                 <MudStack>
@@ -72,5 +62,12 @@
                     Size="Size.Medium"
                     StartIcon="@Icons.Material.Filled.KeyboardArrowUp" />
         </MudScrollToTop>
+        <MudOverlay Style="z-index:var(--mud-zindex-dialog);height:100vh;" Visible="DrawService.IsFirstLoading" DarkBackground AutoClose="false" Absolute>
+            <div class="d-flex flex-column align-center">
+                <MudProgressCircular Style="height:70px;width:70px;" Color="Color.Primary" Indeterminate="true" />
+                <MudText Class="mt-5" Typo="Typo.h5" Align="Align.Center">@Localizer["Loading"]...</MudText>
+                <MudText Class="mt-2 mx-4" Typo="Typo.body1" Align="Align.Center">@Localizer["LoadingMessage"]</MudText>
+            </div>
+            </MudOverlay>
     </MudMainContent>
 </MudLayout>
