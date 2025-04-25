@@ -72,7 +72,7 @@ public static class MauiProgram
 
         builder.Services.AddMudServices(config =>
         {
-            config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomLeft;
+            config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopLeft;
 
             config.SnackbarConfiguration.PreventDuplicates = false;
             config.SnackbarConfiguration.NewestOnTop = false;
