@@ -282,4 +282,70 @@
   <data name="SureReset" xml:space="preserve">
     <value>Estàs segur que vols restablir la configuració?</value>
   </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Carregant</value>
+  </data>
+  <data name="LoadingMessage" xml:space="preserve">
+    <value>Carregant els sortejos antics… per optimitzar les teves possibilitats (o gairebé 😅)</value>
+  </data>
+  <data name="DownloadError" xml:space="preserve">
+    <value>Error de descàrrega o verificació SHA256 fallida</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Versió</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Actualització disponible</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Actualitzar</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>Més tard</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Pausa</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="Megabyte" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="Terabyte" xml:space="preserve">
+    <value>TB</value>
+  </data>
+  <data name="Gigabyte" xml:space="preserve">
+    <value>GB</value>
+  </data>
+  <data name="Byte" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Kilobyte" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value> h</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value> min</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value> s</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Instal·lar</value>
+  </data>
+  <data name="Downloaded" xml:space="preserve">
+    <value>Descarregat:</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Xarxa:</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>Temps restant:</value>
+  </data>
 </root>

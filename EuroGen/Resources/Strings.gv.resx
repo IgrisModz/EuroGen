@@ -282,4 +282,70 @@
   <data name="SureReset" xml:space="preserve">
     <value>An bhfuil tú cinnte gur mhaith leat na socruithe a athshocrú?</value>
   </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Cur lhieen</value>
+  </data>
+  <data name="LoadingMessage" xml:space="preserve">
+    <value>Ag luchtú na dtarraingtí roimhe seo… chun do sheans a fheabhsú (nó beagnach 😅)</value>
+  </data>
+  <data name="DownloadError" xml:space="preserve">
+    <value>Fo-phohlley mearaghyn ny fysseree SHA256 cha row y reayll</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Mearaghyn</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Lheid</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Yndaghys ry-gheddyn</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Yndagh</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>Ny yei</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Arree</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Toiseaghey reesht</value>
+  </data>
+  <data name="Megabyte" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="Terabyte" xml:space="preserve">
+    <value>TB</value>
+  </data>
+  <data name="Gigabyte" xml:space="preserve">
+    <value>GB</value>
+  </data>
+  <data name="Byte" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Kilobyte" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value> oor</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value> minnid</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value> soill</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Stiaghtey</value>
+  </data>
+  <data name="Downloaded" xml:space="preserve">
+    <value>Lheddynit:</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Preeu:</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>Traa faagit:</value>
+  </data>
 </root>

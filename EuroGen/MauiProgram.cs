@@ -64,7 +64,11 @@ public static class MauiProgram
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
         builder.Services.AddSingleton<LocalizationService>();
 
+        builder.Services.AddHttpClient();
+
         builder.Services.AddSingleton<ThemeService>();
+
+        builder.Services.AddSingleton<UpdateService>();
 
         builder.Services.AddSingleton<DrawService>();
 
@@ -82,6 +86,7 @@ public static class MauiProgram
             config.SnackbarConfiguration.ShowTransitionDuration = 500;
             config.SnackbarConfiguration.SnackbarVariant = Variant.Text;
         });
+        builder.Services.AddMudMarkdownServices();
 
         VersionTracking.Track();
 

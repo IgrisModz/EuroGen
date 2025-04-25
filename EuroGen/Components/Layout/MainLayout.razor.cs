@@ -41,7 +41,7 @@ public partial class MainLayout
     {
         if (firstRender)
         {
-            if (_mudThemeProvider != null)
+            if (_mudThemeProvider is not null)
             {
                 var systemPreference = await _mudThemeProvider.GetSystemPreference();
                 ThemeService.SetSystemPreference(systemPreference);
@@ -54,11 +54,35 @@ public partial class MainLayout
                 });
             }
 
-            ThemeService.ThemeChanged += (isDarkMode) =>
+            var updateInfo = await UpdateService.CheckForUpdatesAsync();
+            if (updateInfo is not null)
             {
-                // Re-render pour appliquer le nouveau thème
-                StateHasChanged();
-            };
+                var parameters = new DialogParameters
+                {
+                    { nameof(UpdateDialog.UpdateInfo), updateInfo }
+                };
+
+                var options = new DialogOptions
+                {
+                    CloseOnEscapeKey = !updateInfo.IsMandatory,
+                    CloseButton = false,
+                    BackdropClick = !updateInfo.IsMandatory,
+                    FullWidth = true,
+                    MaxWidth = MaxWidth.ExtraLarge
+                };
+
+                await DialogService.ShowAsync<UpdateDialog>(Localizer["UpdateAvailable"], parameters, options);
+            }
+            else
+            {
+                UpdateService.DeleteUpdates();
+            }
+
+                ThemeService.ThemeChanged += (isDarkMode) =>
+                {
+                    // Re-render pour appliquer le nouveau thème
+                    StateHasChanged();
+                };
 
             Localizer.LanguageChanged += () =>
             {

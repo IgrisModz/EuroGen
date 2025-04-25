@@ -282,4 +282,70 @@
   <data name="SureReset" xml:space="preserve">
     <value>Weet u zeker dat u de instellingen wilt resetten?</value>
   </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Laden</value>
+  </data>
+  <data name="LoadingMessage" xml:space="preserve">
+    <value>Eerdere trekkingen laden… om je kansen te verbeteren (nou ja, bijna 😅)</value>
+  </data>
+  <data name="DownloadError" xml:space="preserve">
+    <value>Downloadfout of SHA256-verificatie mislukt</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fout</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Versie</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Update beschikbaar</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Bijwerken</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>Later</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Pauze</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Hervatten</value>
+  </data>
+  <data name="Megabyte" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="Terabyte" xml:space="preserve">
+    <value>TB</value>
+  </data>
+  <data name="Gigabyte" xml:space="preserve">
+    <value>GB</value>
+  </data>
+  <data name="Byte" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Kilobyte" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value> u</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value> min</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value> s</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installeren</value>
+  </data>
+  <data name="Downloaded" xml:space="preserve">
+    <value>Gedownload:</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Netwerk:</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>Resterende tijd:</value>
+  </data>
 </root>

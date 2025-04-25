@@ -1,0 +1,58 @@
+﻿@inject IDialogService DialogService
+@inject UpdateService UpdateService
+@inject LocalizationService Localizer
+
+<MudDialog>
+    <DialogContent>
+        <MudPaper Class="pa-2 mb-2" Style="max-height: 300px; overflow-y: auto; white-space: pre-wrap">
+            <MudMarkdown OverrideHeaderTypo="ConvertTypo" Value="@UpdateInfo!.ChangeLog" />
+        </MudPaper>
+
+        <MudProgressLinear Value="@_progressPercentage" Rounded="true" Size="Size.Large" Color="Color.Primary" BufferValue="100">
+            <MudText Typo="Typo.body2">
+                <p>@_progressPercentage.ToString("F2")%</p>
+            </MudText>
+        </MudProgressLinear>
+        <MudStack Class="mt-1" Spacing="1" Row="true" Justify="Justify.SpaceBetween" Wrap="Wrap.Wrap">
+            <MudText Typo="Typo.body2">@Localizer["Downloaded"] @_downloadedSize / @_totalSize</MudText>
+            <MudText Typo="Typo.body2">@Localizer["Network"] @_downloadSpeed</MudText>
+            <MudText Typo="Typo.body2">@Localizer["TimeLeft"] @_timeRemaining</MudText>
+        </MudStack>
+
+        <div class="my-4">
+            @if (!_isPaused)
+            {
+                @if (!_isDownloading)
+                {
+                    @if (!_isDownloaded)
+                    {
+                        @if (UpdateService.ExistingLength > 0)
+                        {
+                            <MudButton Color="Color.Info" OnClick="Resume">@Localizer["Resume"]</MudButton>
+                        }
+                        else
+                        {
+                            <MudButton Color="Color.Primary" OnClick="StartUpdate">@Localizer["Update"]</MudButton>
+                        }
+                        @if (!IsMandatory)
+                        {
+                            <MudButton Color="Color.Secondary" OnClick="Cancel">@Localizer["Later"]</MudButton>
+                        }
+                    }
+                    else
+                    {
+                        <MudButton Color="Color.Tertiary" OnClick="Install">@Localizer["Install"]</MudButton>
+                    }
+                }
+                else
+                {
+                    <MudButton Color="Color.Warning" OnClick="Pause">@Localizer["Pause"]</MudButton>
+                }
+            }
+            else
+            {
+                <MudButton Color="Color.Info" OnClick="Resume">@Localizer["Resume"]</MudButton>
+            }
+        </div>
+    </DialogContent>
+</MudDialog>

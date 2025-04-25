@@ -282,4 +282,70 @@
   <data name="SureReset" xml:space="preserve">
     <value>Sei sicuro di voler ripristinare le impostazioni?</value>
   </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Caricamento</value>
+  </data>
+  <data name="LoadingMessage" xml:space="preserve">
+    <value>Caricamento delle estrazioni precedenti… per ottimizzare le tue probabilità (o quasi 😅)</value>
+  </data>
+  <data name="DownloadError" xml:space="preserve">
+    <value>Errore di download o verifica SHA256 fallita</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Errore</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Versione</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Aggiornamento disponibile</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Aggiorna</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>Più tardi</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Pausa</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Riprendi</value>
+  </data>
+  <data name="Megabyte" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="Terabyte" xml:space="preserve">
+    <value>TB</value>
+  </data>
+  <data name="Gigabyte" xml:space="preserve">
+    <value>GB</value>
+  </data>
+  <data name="Byte" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Kilobyte" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value> ore</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value> min</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value> sec</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installare</value>
+  </data>
+  <data name="Downloaded" xml:space="preserve">
+    <value>Scaricato:</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Rete:</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>Tempo rimanente:</value>
+  </data>
 </root>

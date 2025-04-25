@@ -282,4 +282,70 @@
   <data name="SureReset" xml:space="preserve">
     <value>Sidd Dir sécher, datt Dir d'Astellungen zrécksetzen wëllt?</value>
   </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Lueden</value>
+  </data>
+  <data name="LoadingMessage" xml:space="preserve">
+    <value>Lueden vun alem Zuch… fir deng Chancen ze verbesseren (oder bal 😅)</value>
+  </data>
+  <data name="DownloadError" xml:space="preserve">
+    <value>Download Feeler oder SHA256 Verifikatioun gescheitert</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Feeler</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Versioun</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Update verfügbar</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Fir ze aktualiséieren</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>Méi spéit</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Paus</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Fir erëmzefannen</value>
+  </data>
+  <data name="Megabyte" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="Terabyte" xml:space="preserve">
+    <value>TB</value>
+  </data>
+  <data name="Gigabyte" xml:space="preserve">
+    <value>GB</value>
+  </data>
+  <data name="Byte" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Kilobyte" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value> Stonnen</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value> Minutten</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value> Sekonnen</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installéieren</value>
+  </data>
+  <data name="Downloaded" xml:space="preserve">
+    <value>Erofgelueden:</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Netz:</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>Verbleiwend Zäit:</value>
+  </data>
 </root>

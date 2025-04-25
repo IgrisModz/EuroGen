@@ -282,4 +282,70 @@
   <data name="SureReset" xml:space="preserve">
     <value>Are you sure you want to reset the settings?</value>
   </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="LoadingMessage" xml:space="preserve">
+    <value>Loading past draws… to boost your chances (well, sort of 😅)</value>
+  </data>
+  <data name="DownloadError" xml:space="preserve">
+    <value>Download error or SHA256 verification failed</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Update available</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>Later</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Resume</value>
+  </data>
+  <data name="Megabyte" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="Terabyte" xml:space="preserve">
+    <value>TB</value>
+  </data>
+  <data name="Gigabyte" xml:space="preserve">
+    <value>GB</value>
+  </data>
+  <data name="Byte" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Kilobyte" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>h</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>sec</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Downloaded" xml:space="preserve">
+    <value>Downloaded:</value>
+  </data>
+  <data name="Network" xml:space="preserve">
+    <value>Network:</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>Time left:</value>
+  </data>
 </root>
