@@ -19,6 +19,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
 
     private bool _asConnection = true;
     private bool _isAvailableWebsite = true;
+    private bool _isFirstLoading;
     private bool _isLoading;
 
     private readonly ILogger<DrawService> _logger = logger;
@@ -43,6 +44,16 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
         set
         {
             _isAvailableWebsite = value;
+            UpdateStatus();
+        }
+    }
+
+    public bool IsFirstLoading
+    {
+        get => _isFirstLoading;
+        set
+        {
+            _isFirstLoading = value;
             UpdateStatus();
         }
     }
@@ -78,7 +89,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
         {
             if (!Draws.Any())
             {
-                IsLoading = true;
+                _isFirstLoading = true;
             }
             var draws = await LoadDraws();
             if (draws != null)
@@ -94,7 +105,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
                 await _dbContext.SaveChangesAsync();
                 Draws = Draws.Union(draws);
             }
-            IsLoading = false;
+            _isFirstLoading = false;
         });
     }
 
@@ -226,6 +237,6 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
     }
     public List<int> GetYears()
     {
-        return Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? new List<int>();
+        return Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? [];
     }
 }
