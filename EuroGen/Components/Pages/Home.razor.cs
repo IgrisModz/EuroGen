@@ -7,6 +7,8 @@ namespace EuroGen.Components.Pages;
 
 public partial class Home
 {
+    private string rotateClass = string.Empty;
+
     private List<Draw> _newDraws = [];
 
     private static int DrawLength => Preferences.Default.Get("DrawLength", 1);
@@ -34,7 +36,9 @@ public partial class Home
 
     private async Task LoadDataAsync()
     {
+        rotateClass = "rotate";
         _newDraws = LoadPreviouslyGenratedDraws();
+        rotateClass = string.Empty;
 
         if (DrawService.Draws == null || !DrawService.Draws.Any())
         {
@@ -70,6 +74,7 @@ public partial class Home
     private async Task GenerateDraw()
     {
         DrawService.IsLoading = true;
+        rotateClass = "rotate";
 
         try
         {
@@ -129,6 +134,7 @@ public partial class Home
                 }
             }
 
+            await Task.Delay(2000);
 
             Preferences.Set($"Draws", SerializeDraws(_newDraws));
         }
@@ -139,6 +145,7 @@ public partial class Home
         finally
         {
             DrawService.IsLoading = false;
+            rotateClass = string.Empty;
             Preferences.Set("LastMethodUsed", "GetDraw");
         }
     }
@@ -146,6 +153,7 @@ public partial class Home
     private async Task GetBestDraw()
     {
         DrawService.IsLoading = true;
+        rotateClass = "rotate";
 
         try
         {
@@ -200,6 +208,8 @@ public partial class Home
 
             }
 
+            await Task.Delay(2000);
+
             Preferences.Set($"Draws", SerializeDraws(_newDraws));
         }
         catch (Exception ex)
@@ -209,6 +219,7 @@ public partial class Home
         finally
         {
             DrawService.IsLoading = false;
+            rotateClass = string.Empty;
             Preferences.Set("LastMethodUsed", "GetBestDraw");
         }
     }

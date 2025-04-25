@@ -12,26 +12,36 @@
     var isLast = i == _newDraws.Count - 1;
     <MudPaper Class="@($"{(!isLast ? "mb-2" : "mb-1")} rounded-xl")" Elevation="8">
         <span class="draw">
-            <div class="d-flex justify-center align-center draw-item mud-primary ball">
-                <strong class="draw-text ball-text">@draw.FirstNumber</strong>
+            <div class="draw-item ball">
+                <div class="@($" d-flex justify-center align-center ball-inner {rotateClass}")">
+                    <strong class="draw-text ball-text">@draw.FirstNumber</strong>
+                </div>
             </div>
-            <div class="d-flex justify-center align-center draw-item mud-primary ball">
-                <strong class="draw-text ball-text">@draw.SecondNumber</strong>
+            <div class="draw-item ball">
+                <div class="@($" d-flex justify-center align-center ball-inner {rotateClass}")">
+                    <strong class="draw-text ball-text">@draw.SecondNumber</strong>
+                </div>
             </div>
-            <div class="d-flex justify-center align-center draw-item mud-primary ball">
+            <div class="draw-item ball">
+                <div class="@($" d-flex justify-center align-center ball-inner {rotateClass}")">
                 <strong class="draw-text ball-text">@draw.ThirdNumber</strong>
+                </div>
             </div>
-            <div class="d-flex justify-center align-center draw-item mud-primary ball">
+            <div class="draw-item ball">
+                <div class="@($" d-flex justify-center align-center ball-inner {rotateClass}")">
                 <strong class="draw-text ball-text">@draw.FourthNumber</strong>
+                </div>
             </div>
-            <div class="d-flex justify-center align-center draw-item mud-primary ball">
+            <div class="draw-item ball">
+                <div class="@($" d-flex justify-center align-center ball-inner {rotateClass}")">
                 <strong class="draw-text ball-text">@draw.FifthNumber</strong>
+                </div>
             </div>
-            <div class="d-flex justify-center align-center draw-item">
+            <div class="@($"d-flex justify-center align-center draw-item {rotateClass}")">
                 <img src="images/star.svg" alt="euromillions star" class="star">
                 <strong class="draw-text star-text">@draw.FirstStar</strong>
             </div>
-            <div class="d-flex justify-center align-center draw-item">
+            <div class="@($"d-flex justify-center align-center draw-item {rotateClass}")">
                 <img src="images/star.svg" alt="euromillions star" class="star">
                 <strong Class="draw-text star-text">@draw.SecondStar</strong>
             </div>
