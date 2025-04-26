@@ -67,7 +67,7 @@ public partial class MainLayout
                     CloseOnEscapeKey = !updateInfo.IsMandatory,
                     CloseButton = false,
                     BackdropClick = !updateInfo.IsMandatory,
-                    FullWidth = true,
+                    FullScreen = true,
                     MaxWidth = MaxWidth.ExtraLarge
                 };
 
