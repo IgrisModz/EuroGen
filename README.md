@@ -1,4 +1,9 @@
-# Installing EuroGen (.msix with self-signed certificate)
+# DOWNLOAD APP
+
+- [Android Version](https://github.com/IgrisModz/EuroGen/releases/download/1.1.1.0/com.companyname.eurogen.apk)
+- [WINDOWS Version](https://github.com/IgrisModz/EuroGen/releases/download/1.1.1.0/EuroGen_1.1.1.0-Windows.zip)
+
+## Installing EuroGen - ONLY FOR WINDOWS (.msix with self-signed certificate)
 
 Welcome to **EuroGen**!
 
