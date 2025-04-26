@@ -75,7 +75,7 @@ public partial class MainLayout
             }
             else
             {
-                UpdateService.DeleteUpdates();
+                await UpdateService.DeleteUpdates();
             }
 
                 ThemeService.ThemeChanged += (isDarkMode) =>

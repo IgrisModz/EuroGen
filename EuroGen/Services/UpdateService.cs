@@ -227,12 +227,15 @@ namespace EuroGen.Services
 #endif
         }
 
-        public async Task RequestPermissionsAsync()
+        public async Task<bool> RequestPermissionsAsync()
         {
 #if ANDROID
             var status = await Permissions.RequestAsync<Permissions.StorageWrite>();
             if (status != PermissionStatus.Granted)
                 _logger.LogWarning("Permission d'écriture refusée.");
+            return status == PermissionStatus.Granted;
+#else
+            return true;
 #endif
         }
 
@@ -254,19 +257,20 @@ namespace EuroGen.Services
             return false;
         }
 
-        public void DeleteUpdates()
+        public async Task DeleteUpdates()
         {
             try
             {
+                await RequestPermissionsAsync();
                 if (Directory.Exists(AppDirectory))
                 {
                     Directory.Delete(AppDirectory, recursive: true);
-                    _logger.LogInformation("Mise à jour supprimé avec succès.");
+                    _logger.LogInformation("Mise à jour supprimée avec succès.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Erreur : {ex.Message}");
+                _logger.LogError("Erreur : {Message}", ex.Message);
             }
         }
     }
