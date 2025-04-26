@@ -1,4 +1,4 @@
-# DOWNLOAD APP
+# 📥 DOWNLOAD APP
 
 - [ANDROID Version](https://github.com/IgrisModz/EuroGen/releases/download/1.1.1.0/com.companyname.eurogen.apk)
 - [WINDOWS Version](https://github.com/IgrisModz/EuroGen/releases/download/1.1.1.0/EuroGen_1.1.1.0-Windows.zip)
