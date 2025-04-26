@@ -1,6 +1,7 @@
 # Installing EuroGen (.msix with self-signed certificate)
 
 Welcome to **EuroGen**!
+
 This guide will explain how to install the application from the `.msix` file, and how to trust the self-signed certificate to avoid the "**Unknown Publisher**" warning.
 
 ---
