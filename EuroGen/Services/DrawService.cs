@@ -89,7 +89,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
         {
             if (!Draws.Any())
             {
-                _isFirstLoading = true;
+                IsFirstLoading = true;
             }
             var draws = await LoadDraws();
             if (draws != null)
@@ -105,7 +105,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
                 await _dbContext.SaveChangesAsync();
                 Draws = Draws.Union(draws);
             }
-            _isFirstLoading = false;
+            IsFirstLoading = false;
         });
     }
 
