@@ -82,6 +82,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
 
     public async Task LoadLocalDrawsAsync()
     {
+        await Task.Delay(1000);
         Draws = await _dbContext.Draws.ToListAsync() ?? [];
 
         var internetWatcher = new InternetWatcher(BaseUrl, TimeSpan.FromSeconds(5));
