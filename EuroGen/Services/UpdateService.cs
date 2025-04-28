@@ -48,7 +48,7 @@ namespace EuroGen.Services
             var assets = doc.RootElement.GetProperty("assets");
             var readme = doc.RootElement.GetProperty("body").GetString() ?? string.Empty;
 
-            var currentVersion = AppInfo.Current.VersionString;
+            var currentVersion = VersionTracking.Default.CurrentVersion;
 
             if (!IsNewVersion(currentVersion, tag))
                 return null;
