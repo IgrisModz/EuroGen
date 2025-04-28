@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using EuroGen.Watcher;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Text.Json;
@@ -26,6 +27,12 @@ namespace EuroGen.Services
 
         public async Task<UpdateInfo?> CheckForUpdatesAsync()
         {
+            if (!await InternetWatcher.IsInternetAvailable() || !await InternetWatcher.IsSiteAvailable(GitHubApiUrl))
+            {
+                _logger.LogWarning("Pas de connexion réseau.");
+                return null;
+            }
+
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("EuroGen");
 
             var response = await _httpClient.GetAsync(GitHubApiUrl);
@@ -41,9 +48,9 @@ namespace EuroGen.Services
             var assets = doc.RootElement.GetProperty("assets");
             var readme = doc.RootElement.GetProperty("body").GetString() ?? string.Empty;
 
-            var currentVersion = AppInfo.Current.VersionString.TrimStart('v');
+            var currentVersion = AppInfo.Current.VersionString;
 
-            if (!IsNewVersion(currentVersion, tag.TrimStart('v')))
+            if (!IsNewVersion(currentVersion, tag))
                 return null;
 
             foreach (var asset in assets.EnumerateArray())
@@ -148,8 +155,7 @@ namespace EuroGen.Services
             }
             catch
             {
-                // En cas d'erreur de parsing, on considère qu'il s'agit d'une nouvelle version
-                return true;
+                return false;
             }
         }
 
