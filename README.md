@@ -1,7 +1,7 @@
 # 📥 DOWNLOAD APP
 
-- [ANDROID Version](https://github.com/IgrisModz/EuroGen/releases/download/v1.1.1.0/com.companyname.eurogen.apk)
-- [WINDOWS Version](https://github.com/IgrisModz/EuroGen/releases/download/v1.1.1.0/EuroGen_1.1.1.0-Windows.zip)
+- [ANDROID Version](https://github.com/IgrisModz/EuroGen/releases/download/v1.1.2.0/com.companyname.eurogen.apk)
+- [WINDOWS Version](https://github.com/IgrisModz/EuroGen/releases/download/v1.1.2.0/EuroGen_1.1.2.0-Windows.zip)
 
 ## ⚙️ Installing EuroGen - ONLY FOR WINDOWS (.msix with self-signed certificate)
 
@@ -13,8 +13,8 @@ This guide will explain how to install the application from the `.msix` file, an
 
 ## 📦 Provided Files
 
-- `EuroGen_1.1.1.0_x64.msix` → The application installer
-- `EuroGen_1.1.1.0_x64.cer` → The self-signed certificate used to sign the installer
+- `EuroGen_1.1.2.0_x64.msix` → The application installer
+- `EuroGen_1.1.2.0_x64.cer` → The self-signed certificate used to sign the installer
 
 ---
 
@@ -24,7 +24,7 @@ This guide will explain how to install the application from the `.msix` file, an
 
 Before installing the application, you need to trust the certificate to prevent security warnings.
 
-- Double-click the **`EuroGen_1.1.1.0_x64.cer`** file.
+- Double-click the **`EuroGen_1.1.2.0_x64.cer`** file.
 - Click on **Install Certificate**.
 - Choose **Local Machine** (you might need administrator rights).
 - Select **Place all certificates in the following store**.
@@ -37,7 +37,7 @@ Before installing the application, you need to trust the certificate to prevent 
 
 ### 2. Install the .msix application
 
-- Double-click the **`EuroGen_1.1.1.0_x64.msix`** file.
+- Double-click the **`EuroGen_1.1.2.0_x64.msix`** file.
 - A Windows installation window will appear.
 - Click **Install**.
 
