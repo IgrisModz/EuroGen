@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using MudBlazor;
-
-namespace EuroGen.Watcher;
+﻿namespace EuroGen.Watcher;
 
 public partial class InternetWatcher(string siteToWatch, TimeSpan interval) : IDisposable
 {

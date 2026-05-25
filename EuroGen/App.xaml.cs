@@ -15,13 +15,16 @@ public partial class App : Application
         var window = new Window(new MainPage())
         {
             Title = "EuroGen",
+			IsMaximizable = false,
             Width = Width,
             Height = Height,
             MaximumHeight = 960,
             MaximumWidth = Width,
             MinimumHeight = Height,
-            MinimumWidth = 420
-        };
+            MinimumWidth = 420,
+			X = (DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density) / 2,
+			Y = (DeviceDisplay.Current.MainDisplayInfo.Height / DeviceDisplay.Current.MainDisplayInfo.Density) / 2
+		};
 
         return window;
     }

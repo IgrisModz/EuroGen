@@ -9,202 +9,202 @@ namespace EuroGen.Services;
 public class UpdateService(HttpClient httpClient, ILogger<UpdateService> logger)
 {
 
-    readonly HttpClient httpClient = httpClient;
-    readonly ILogger<UpdateService> logger = logger;
+	readonly HttpClient httpClient = httpClient;
+	readonly ILogger<UpdateService> logger = logger;
 
-    public event Action<long, long>? ProgressChanged; // bytesDownloaded, totalBytes
-    public event Action? DownloadCompleted;
+	public event Action<long, long>? ProgressChanged; // bytesDownloaded, totalBytes
+	public event Action? DownloadCompleted;
 
-    public string DestinationPath { get; set; } = string.Empty;
+	public string DestinationPath { get; set; } = string.Empty;
 
-    public long ExistingLength { get; private set; }
-    public long TotalLength { get; private set; }
-    public double DownloadSpeedBytesPerSecond { get; private set; }
-    
-    internal string AppDirectory { get; } = Path.Combine(FileSystem.AppDataDirectory, "Update");
+	public long ExistingLength { get; private set; }
+	public long TotalLength { get; private set; }
+	public double DownloadSpeedBytesPerSecond { get; private set; }
 
-    static string GitHubApiUrl => $"https://api.github.com/repos/IgrisModz/EuroGen/releases/latest";
+	internal string AppDirectory { get; } = Path.Combine(FileSystem.AppDataDirectory, "Update");
 
-    public async Task<UpdateInfo?> CheckForUpdatesAsync()
-    {
-        if (!await InternetWatcher.IsInternetAvailable() || !await InternetWatcher.IsSiteAvailable(GitHubApiUrl))
-        {
-            logger.LogWarning("Pas de connexion réseau.");
-            return null;
-        }
+	static string GitHubApiUrl => $"https://api.github.com/repos/IgrisModz/EuroGen/releases/latest";
 
-        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("EuroGen");
+	public async Task<UpdateInfo?> CheckForUpdatesAsync()
+	{
+		if (!await InternetWatcher.IsInternetAvailable() || !await InternetWatcher.IsSiteAvailable(GitHubApiUrl))
+		{
+			logger.LogWarning("Pas de connexion réseau.");
+			return null;
+		}
 
-        var response = await httpClient.GetAsync(GitHubApiUrl);
-        if (!response.IsSuccessStatusCode)
-        {
-            return null;
-        }
+		httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("EuroGen");
 
-        var json = await response.Content.ReadAsStringAsync();
-        using var doc = JsonDocument.Parse(json);
+		var response = await httpClient.GetAsync(GitHubApiUrl);
+		if (!response.IsSuccessStatusCode)
+		{
+			return null;
+		}
 
-        var tag = doc.RootElement.GetProperty("tag_name").GetString() ?? string.Empty;
-        var assets = doc.RootElement.GetProperty("assets");
-        var readme = doc.RootElement.GetProperty("body").GetString() ?? string.Empty;
+		var json = await response.Content.ReadAsStringAsync();
+		using var doc = JsonDocument.Parse(json);
 
-        var currentVersion = VersionTracking.Default.CurrentVersion;
+		var tag = doc.RootElement.GetProperty("tag_name").GetString() ?? string.Empty;
+		var assets = doc.RootElement.GetProperty("assets");
+		var readme = doc.RootElement.GetProperty("body").GetString() ?? string.Empty;
 
-        if (!IsNewVersion(currentVersion, tag))
+		var currentVersion = VersionTracking.Default.CurrentVersion;
+
+		if (!IsNewVersion(currentVersion, tag))
 		{
 			return null;
 		}
 
 		foreach (var asset in assets.EnumerateArray())
-        {
-            var name = asset.GetProperty("name").GetString();
-            var url = asset.GetProperty("browser_download_url").GetString();
+		{
+			var name = asset.GetProperty("name").GetString();
+			var url = asset.GetProperty("browser_download_url").GetString();
 
-            if ((OperatingSystem.IsAndroid() && name!.EndsWith(".apk")) ||
-                (OperatingSystem.IsWindows() && name!.EndsWith(".zip")))
-            {
-                string sha256 = asset.TryGetProperty("label", out var label) ? label.GetString() ?? "" : "";
-                return new UpdateInfo
-                {
-                    TagName = tag ?? "",
-                    AssetUrl = url ?? "",
-                    FileName = name ?? "",
-                    ChangeLog = readme ?? "",
-                    Sha256 = sha256
-                };
-            }
-        }
+			if ((OperatingSystem.IsAndroid() && name!.EndsWith(".apk")) ||
+				(OperatingSystem.IsWindows() && name!.EndsWith(".zip")))
+			{
+				string sha256 = asset.TryGetProperty("label", out var label) ? label.GetString() ?? "" : "";
+				return new UpdateInfo
+				{
+					TagName = tag ?? "",
+					AssetUrl = url ?? "",
+					FileName = name ?? "",
+					ChangeLog = readme ?? "",
+					Sha256 = sha256
+				};
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    public async Task<bool> DownloadAndVerifyAsync(UpdateInfo info, string destinationPath, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (!Directory.Exists(AppDirectory))
-            {
-                Directory.CreateDirectory(AppDirectory);
-            }
+	public async Task<bool> DownloadAndVerifyAsync(UpdateInfo info, string destinationPath, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			if (!Directory.Exists(AppDirectory))
+			{
+				Directory.CreateDirectory(AppDirectory);
+			}
 
-            if (File.Exists(destinationPath))
-            {
-                ExistingLength = new FileInfo(destinationPath).Length;
-            }
+			if (File.Exists(destinationPath))
+			{
+				ExistingLength = new FileInfo(destinationPath).Length;
+			}
 
-            var request = new HttpRequestMessage(HttpMethod.Get, info.AssetUrl);
+			var request = new HttpRequestMessage(HttpMethod.Get, info.AssetUrl);
 			if (ExistingLength > 0)
 			{
 				request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(ExistingLength, null);
 			}
 
 			using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-            response.EnsureSuccessStatusCode();
+			response.EnsureSuccessStatusCode();
 
-            var totalBytes = response.Content.Headers.ContentRange?.Length ?? response.Content.Headers.ContentLength ?? -1;
-            TotalLength = totalBytes;
+			var totalBytes = response.Content.Headers.ContentRange?.Length ?? response.Content.Headers.ContentLength ?? -1;
+			TotalLength = totalBytes;
 
-            using var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-            using var fileStream = new FileStream(destinationPath, FileMode.Append, FileAccess.Write, FileShare.None);
+			using var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+			using var fileStream = new FileStream(destinationPath, FileMode.Append, FileAccess.Write, FileShare.None);
 
-            var buffer = new byte[8192];
-            long totalDownloaded = ExistingLength;
-            int bytesRead;
+			var buffer = new byte[8192];
+			long totalDownloaded = ExistingLength;
+			int bytesRead;
 
-            DateTime lastCheck = DateTime.Now;
-            long lastBytes = totalDownloaded;
+			DateTime lastCheck = DateTime.Now;
+			long lastBytes = totalDownloaded;
 
-            while ((bytesRead = await contentStream.ReadAsync(buffer.AsMemory(0, buffer.Length), cancellationToken)) > 0)
-            {
-                await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken);
-                totalDownloaded += bytesRead;
+			while ((bytesRead = await contentStream.ReadAsync(buffer.AsMemory(0, buffer.Length), cancellationToken)) > 0)
+			{
+				await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken);
+				totalDownloaded += bytesRead;
 
-                var now = DateTime.Now;
-                var secondsElapsed = (now - lastCheck).TotalSeconds;
+				var now = DateTime.Now;
+				var secondsElapsed = (now - lastCheck).TotalSeconds;
 
-                if (secondsElapsed >= 1.0)
-                {
-                    long bytesSinceLastCheck = totalDownloaded - lastBytes;
-                    DownloadSpeedBytesPerSecond = bytesSinceLastCheck / secondsElapsed;
+				if (secondsElapsed >= 1.0)
+				{
+					long bytesSinceLastCheck = totalDownloaded - lastBytes;
+					DownloadSpeedBytesPerSecond = bytesSinceLastCheck / secondsElapsed;
 
-                    lastBytes = totalDownloaded;
-                    lastCheck = now;
-                }
+					lastBytes = totalDownloaded;
+					lastCheck = now;
+				}
 
-                ProgressChanged?.Invoke(totalDownloaded, totalBytes);
-            }
+				ProgressChanged?.Invoke(totalDownloaded, totalBytes);
+			}
 
-            fileStream.Close();
-            DownloadSpeedBytesPerSecond = 0;
+			fileStream.Close();
+			DownloadSpeedBytesPerSecond = 0;
 #if WINDOWS
-        var extractFolder = Path.Combine(AppDirectory, Path.GetFileNameWithoutExtension(info.FileName));
-        ZipFile.ExtractToDirectory(destinationPath, extractFolder);
+			var extractFolder = Path.Combine(AppDirectory, Path.GetFileNameWithoutExtension(info.FileName));
+			ZipFile.ExtractToDirectory(destinationPath, extractFolder);
 #endif
-            DownloadCompleted?.Invoke();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+			DownloadCompleted?.Invoke();
+			return true;
+		}
+		catch
+		{
+			return false;
+		}
+	}
 
-    public static bool IsNewVersion(string currentVersion, string newVersion)
-    {
-        try
-        {
-            var v1 = new Version(currentVersion.TrimStart('v'));
-            var v2 = new Version(newVersion.TrimStart('v'));
-            return v2 > v1;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+	public static bool IsNewVersion(string currentVersion, string newVersion)
+	{
+		try
+		{
+			var v1 = new Version(currentVersion.TrimStart('v'));
+			var v2 = new Version(newVersion.TrimStart('v'));
+			return v2 > v1;
+		}
+		catch
+		{
+			return false;
+		}
+	}
 
-    public async Task InitProgress(UpdateInfo info, CancellationToken cancellationToken = default)
-    {
-        DestinationPath = Path.Combine(AppDirectory, info.FileName);
+	public async Task InitProgress(UpdateInfo info, CancellationToken cancellationToken = default)
+	{
+		DestinationPath = Path.Combine(AppDirectory, info.FileName);
 
-        if (File.Exists(DestinationPath))
-        {
-            ExistingLength = new FileInfo(DestinationPath).Length;
-        }
+		if (File.Exists(DestinationPath))
+		{
+			ExistingLength = new FileInfo(DestinationPath).Length;
+		}
 
-        var request = new HttpRequestMessage(HttpMethod.Head, info.AssetUrl);
-        
-        using var response = await httpClient.SendAsync(request, cancellationToken);
+		var request = new HttpRequestMessage(HttpMethod.Head, info.AssetUrl);
 
-        if(response.IsSuccessStatusCode)
-        {
-            TotalLength = response.Content.Headers.ContentRange?.Length ?? response.Content.Headers.ContentLength ?? -1;
-        }
-    }
+		using var response = await httpClient.SendAsync(request, cancellationToken);
 
-    public async Task<bool> LaunchInstaller(UpdateInfo info)
-    {
+		if (response.IsSuccessStatusCode)
+		{
+			TotalLength = response.Content.Headers.ContentRange?.Length ?? response.Content.Headers.ContentLength ?? -1;
+		}
+	}
+
+	public async Task<bool> LaunchInstaller(UpdateInfo info)
+	{
 #if ANDROID
-        try
-        {
-            if (info.FileName.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
-            {
-                var apkPath = Path.Combine(AppDirectory, info.FileName);
-                if (File.Exists(apkPath))
-                {
-                    await Launcher.Default.OpenAsync(new OpenFileRequest
-                    {
-                        File = new ReadOnlyFile(apkPath)
-                    });
-                    return true;
-                }
-            }
-            return false;
-        }
-        catch
-        {
-            return false;
-        }
+		try
+		{
+			if (info.FileName.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
+			{
+				var apkPath = Path.Combine(AppDirectory, info.FileName);
+				if (File.Exists(apkPath))
+				{
+					await Launcher.Default.OpenAsync(new OpenFileRequest
+					{
+						File = new ReadOnlyFile(apkPath)
+					});
+					return true;
+				}
+			}
+			return false;
+		}
+		catch
+		{
+			return false;
+		}
 #elif WINDOWS
         try
         {
@@ -235,12 +235,12 @@ public class UpdateService(HttpClient httpClient, ILogger<UpdateService> logger)
 #else
         return false;
 #endif
-    }
+	}
 
-    public async Task<bool> RequestPermissionsAsync()
-    {
+	public async Task<bool> RequestPermissionsAsync()
+	{
 #if ANDROID
-        var status = await Permissions.RequestAsync<Permissions.StorageWrite>();
+		var status = await Permissions.RequestAsync<Permissions.StorageWrite>();
 		if (status != PermissionStatus.Granted)
 		{
 			logger.LogWarning("Permission d'écriture refusée.");
@@ -250,50 +250,50 @@ public class UpdateService(HttpClient httpClient, ILogger<UpdateService> logger)
 #else
         return true;
 #endif
-    }
+	}
 
-    public bool CheckIfAlreadyDownloaded(UpdateInfo updateInfo)
-    {
-        var filePath = Path.Combine(AppDirectory, updateInfo.FileName);
+	public bool CheckIfAlreadyDownloaded(UpdateInfo updateInfo)
+	{
+		var filePath = Path.Combine(AppDirectory, updateInfo.FileName);
 
-        if (updateInfo.FileName.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
-        {
-            return File.Exists(filePath);
-        }
+		if (updateInfo.FileName.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
+		{
+			return File.Exists(filePath);
+		}
 
-        if (updateInfo.FileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
-        {
-            var extractFolder = Path.Combine(AppDirectory, Path.GetFileNameWithoutExtension(updateInfo.FileName));
-            return Directory.Exists(extractFolder);
-        }
+		if (updateInfo.FileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+		{
+			var extractFolder = Path.Combine(AppDirectory, Path.GetFileNameWithoutExtension(updateInfo.FileName));
+			return Directory.Exists(extractFolder);
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    public async Task DeleteUpdates()
-    {
-        try
-        {
-            await RequestPermissionsAsync();
-            if (Directory.Exists(AppDirectory))
-            {
-                Directory.Delete(AppDirectory, recursive: true);
-                logger.LogInformation("Mise à jour supprimée avec succès.");
-            }
-        }
-        catch (Exception ex)
-        {
-            logger.LogError("Erreur : {Message}", ex.Message);
-        }
-    }
+	public async Task DeleteUpdates()
+	{
+		try
+		{
+			await RequestPermissionsAsync();
+			if (Directory.Exists(AppDirectory))
+			{
+				Directory.Delete(AppDirectory, recursive: true);
+				logger.LogInformation("Mise à jour supprimée avec succès.");
+			}
+		}
+		catch (Exception ex)
+		{
+			logger.LogError("Erreur : {Message}", ex.Message);
+		}
+	}
 }
 
 public class UpdateInfo
 {
-    public string TagName { get; set; } = "";
-    public string AssetUrl { get; set; } = "";
-    public string FileName { get; set; } = "";
-    public string Sha256 { get; set; } = "";
-    public string ChangeLog { get; set; } = "";
-    public bool IsMandatory { get; set; } = true;
+	public string TagName { get; set; } = "";
+	public string AssetUrl { get; set; } = "";
+	public string FileName { get; set; } = "";
+	public string Sha256 { get; set; } = "";
+	public string ChangeLog { get; set; } = "";
+	public bool IsMandatory { get; set; } = true;
 }
