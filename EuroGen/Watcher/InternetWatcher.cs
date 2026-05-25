@@ -5,21 +5,21 @@ namespace EuroGen.Watcher;
 
 public partial class InternetWatcher(string siteToWatch, TimeSpan interval) : IDisposable
 {
-    private static readonly string BaseGoogle = "https://www.google.com";
-    private readonly string _siteToWatch = siteToWatch;
-    private readonly TimeSpan _interval = interval;
-    private readonly CancellationTokenSource _cts = new();
-    private bool _disposed = false;
+    static readonly string baseGoogle = "https://www.google.com";
+    readonly string siteToWatch = siteToWatch;
+    readonly TimeSpan interval = interval;
+    readonly CancellationTokenSource cts = new();
+    bool disposed = false;
 
     public bool InternetAvailable { get; private set; } = false;
     public bool SiteAvailable { get; private set; } = false;
 
     public async Task WatchInternetState(Func<Task> functionOnChange)
     {
-        while (!_cts.Token.IsCancellationRequested)
+        while (!cts.Token.IsCancellationRequested)
         {
             InternetAvailable = await IsInternetAvailable();
-            SiteAvailable = await IsSiteAvailable(_siteToWatch);
+            SiteAvailable = await IsSiteAvailable(siteToWatch);
 
             if (InternetAvailable && SiteAvailable)
             {
@@ -30,13 +30,13 @@ public partial class InternetWatcher(string siteToWatch, TimeSpan interval) : ID
                 return;
             }
 
-            await Task.Delay(_interval, _cts.Token);
+            await Task.Delay(interval, cts.Token);
         }
     }
 
     public void StopWatching()
     {
-        _cts.Cancel();
+        cts.Cancel();
     }
 
     public static async Task<bool> IsInternetAvailable()
@@ -44,7 +44,7 @@ public partial class InternetWatcher(string siteToWatch, TimeSpan interval) : ID
         try
         {
             using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
-            using var response = await client.GetAsync(BaseGoogle);
+            using var response = await client.GetAsync(baseGoogle);
             return response.IsSuccessStatusCode;
         }
         catch
@@ -70,20 +70,21 @@ public partial class InternetWatcher(string siteToWatch, TimeSpan interval) : ID
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (!disposed)
         {
             if (disposing)
             {
-                _cts.Dispose();
-            }
+				cts.Cancel();
+				cts.Dispose();
+			}
 
-            _disposed = true;
+            disposed = true;
         }
     }
 
     public void Dispose()
     {
-        Dispose(true);
+        Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
 }
