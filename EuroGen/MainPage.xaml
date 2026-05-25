@@ -17,6 +17,7 @@
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Dark={StaticResource DarkAssetColor}, Light={StaticResource LightAssetColor}}" />
     </ContentPage.Behaviors>
+    
     <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
         <BlazorWebView.RootComponents>
             <RootComponent ComponentType="{x:Type local:Components.Routes}" Selector="#app" />
