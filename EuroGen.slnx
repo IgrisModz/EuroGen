@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="EuroGen/EuroGen.csproj">
+    <Deploy />
+  </Project>
+</Solution>
