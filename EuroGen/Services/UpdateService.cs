@@ -27,7 +27,7 @@ public class UpdateService(HttpClient httpClient, ILogger<UpdateService> logger)
 
 	public async Task<UpdateInfo?> CheckForUpdatesAsync()
 	{
-		if (!await InternetWatcher.IsInternetAvailable() || !await InternetWatcher.IsSiteAvailable(GitHubApiUrl))
+		if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet || !await InternetWatcher.IsSiteAvailable(GitHubApiUrl))
 		{
 			logger.LogWarning("Pas de connexion réseau.");
 			return null;

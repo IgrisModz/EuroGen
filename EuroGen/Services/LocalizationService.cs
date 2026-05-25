@@ -40,12 +40,12 @@ public class LocalizationService
         SetCulture(language);
     }
 
-    // Charger la préférence de langue depuis les preferences
+    // Load the language preference from the preferences
     void LoadLanguagePreference()
     {
         if (Preferences.ContainsKey(languageKey))
         {
-            var savedLanguage = Preferences.Get(languageKey, "en"); // Valeur par défaut "en"
+            var savedLanguage = Preferences.Get(languageKey, "en"); // Default Value "en"
             Language = savedLanguage;
         }
         else
@@ -53,7 +53,17 @@ public class LocalizationService
             string currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
             string language = currentCulture switch
             {
-                "ca" or "de" or "es" or "en" or "fr" or "ga" or "gv" or "it" or "lb" or "nl" or "pt" => currentCulture,
+                "ca" or
+				"de" or
+				"es" or
+				"en" or
+				"fr" or
+				"ga" or
+				"gv" or
+				"it" or
+				"lb" or
+				"nl" or
+				"pt" => currentCulture,
                 _ => "en",
             };
             Language = language;

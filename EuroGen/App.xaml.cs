@@ -2,8 +2,8 @@
 
 public partial class App : Application
 {
-    public const int Width = 620;
-    public const int Height = 680;
+    const int width = 640;
+    const int height = 680;
 
     public App()
     {
@@ -16,14 +16,14 @@ public partial class App : Application
         {
             Title = "EuroGen",
 			IsMaximizable = false,
-            Width = Width,
-            Height = Height,
+            Width = width,
+            Height = height,
             MaximumHeight = 960,
-            MaximumWidth = Width,
-            MinimumHeight = Height,
+            MaximumWidth = width,
+            MinimumHeight = height,
             MinimumWidth = 420,
-			X = (DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density) / 2,
-			Y = (DeviceDisplay.Current.MainDisplayInfo.Height / DeviceDisplay.Current.MainDisplayInfo.Density) / 2
+			X = (DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density - width) / 2,
+			Y = (DeviceDisplay.Current.MainDisplayInfo.Height / DeviceDisplay.Current.MainDisplayInfo.Density - height) / 2
 		};
 
         return window;

@@ -2,52 +2,69 @@
 
 public partial class InternetWatcher(string siteToWatch, TimeSpan interval) : IDisposable
 {
-    static readonly string baseGoogle = "https://www.google.com";
     readonly string siteToWatch = siteToWatch;
     readonly TimeSpan interval = interval;
     readonly CancellationTokenSource cts = new();
     bool disposed = false;
+    TaskCompletionSource? tcsNetworkRestored;
 
-    public bool InternetAvailable { get; private set; } = false;
+    public static bool InternetAvailable => Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
     public bool SiteAvailable { get; private set; } = false;
 
     public async Task WatchInternetState(Func<Task> functionOnChange)
     {
-        while (!cts.Token.IsCancellationRequested)
+        Connectivity.Current.ConnectivityChanged += OnConnectivityChanged;
+
+        try
         {
-            InternetAvailable = await IsInternetAvailable();
-            SiteAvailable = await IsSiteAvailable(siteToWatch);
-
-            if (InternetAvailable && SiteAvailable)
+            while (!cts.Token.IsCancellationRequested)
             {
-                await functionOnChange.Invoke();
+                if (!InternetAvailable)
+                {
+                    SiteAvailable = false;
+                    tcsNetworkRestored = new TaskCompletionSource();
+                    using var reg = cts.Token.Register(() => tcsNetworkRestored.TrySetCanceled());
+                    await tcsNetworkRestored.Task.ConfigureAwait(false);
+                }
 
-                StopWatching();
+                if (cts.Token.IsCancellationRequested)
+                {
+                    break;
+                }
 
-                return;
+                SiteAvailable = await IsSiteAvailable(siteToWatch);
+
+                if (SiteAvailable)
+                {
+                    await functionOnChange.Invoke();
+                    StopWatching();
+                    return;
+                }
+
+                await Task.Delay(interval, cts.Token);
             }
+        }
+        catch (OperationCanceledException)
+        {
+            // Ignorer l'exception d'annulation
+        }
+        finally
+        {
+            Connectivity.Current.ConnectivityChanged -= OnConnectivityChanged;
+        }
+    }
 
-            await Task.Delay(interval, cts.Token);
+    void OnConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
+    {
+        if (e.NetworkAccess == NetworkAccess.Internet)
+        {
+            tcsNetworkRestored?.TrySetResult();
         }
     }
 
     public void StopWatching()
     {
         cts.Cancel();
-    }
-
-    public static async Task<bool> IsInternetAvailable()
-    {
-        try
-        {
-            using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
-            using var response = await client.GetAsync(baseGoogle);
-            return response.IsSuccessStatusCode;
-        }
-        catch
-        {
-            return false;
-        }
     }
 
     public static async Task<bool> IsSiteAvailable(string url)
