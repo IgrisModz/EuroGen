@@ -4,37 +4,37 @@ namespace EuroGen.Components.Pages;
 
 public partial class Settings
 {
-    private List<int> Years => DrawService.Years();
+    List<int> Years => DrawService.Years();
 
-    private List<int> _minYears = [];
+    List<int> minYears = [];
 
-    private List<int> _maxYears = [];
+    List<int> maxYears = [];
 
-    private int SelectedMinYear
+    int SelectedMinYear
     {
         get => Preferences.Default.Get("MinDate", Years[0]);
         set => Preferences.Default.Set("MinDate", value);
     }
 
-    private int SelectedMaxYear
+    int SelectedMaxYear
     {
         get => Preferences.Default.Get("MaxDate", Years[^1]);
         set => Preferences.Default.Set("MaxDate", value);
     }
 
-    private static int SelectedDrawLength
+    static int SelectedDrawLength
     {
         get => Preferences.Default.Get("DrawLength", 1);
         set => Preferences.Default.Set("DrawLength", value);
     }
 
-    private static CalculDrawType SelectedCalculDrawType
+    static CalculDrawType SelectedCalculDrawType
     {
         get => (CalculDrawType)Preferences.Default.Get("DrawCalcul", (int)CalculDrawType.TotalDraw);
         set => Preferences.Default.Set("DrawCalcul", (int)value);
     }
 
-    private static CalculStatsType SelectedCalculStatsType
+    static CalculStatsType SelectedCalculStatsType
     {
         get => (CalculStatsType)Preferences.Default.Get("StatsCalcul", (int)CalculStatsType.TotalDraw);
         set => Preferences.Default.Set("StatsCalcul", (int)value);
@@ -46,7 +46,7 @@ public partial class Settings
         await LoadDataAsync();
     }
 
-    private async Task LoadDataAsync()
+    async Task LoadDataAsync()
     {
         DrawService.IsLoading = true;
 
@@ -60,7 +60,7 @@ public partial class Settings
         DrawService.IsLoading = false;
     }
 
-    private void OnThemeChanged(AppTheme mode)
+    void OnThemeChanged(AppTheme mode)
     {
         ThemeService.AppTheme = mode;
 
@@ -75,7 +75,7 @@ public partial class Settings
         Snackbar.Add($"{Localizer["ThemeChanged"]}: {theme}", Severity.Info);
     }
 
-    private void OnLanguageChanged(string newLanguage)
+    void OnLanguageChanged(string newLanguage)
     {
         Localizer.Language = newLanguage;
 
@@ -98,7 +98,7 @@ public partial class Settings
         Snackbar.Add($"{Localizer["LanguageChanged"]}: {languageName}", Severity.Success);
     }
 
-    private void OnSelectedMinYearChanged(int value)
+    void OnSelectedMinYearChanged(int value)
     {
         SelectedMinYear = value;
 
@@ -106,11 +106,11 @@ public partial class Settings
 
         if (SelectedMaxYear < value)
         {
-            SelectedMaxYear = _maxYears[0];
+            SelectedMaxYear = maxYears[0];
         }
     }
 
-    private void OnSelectedMaxYearChanged(int value)
+    void OnSelectedMaxYearChanged(int value)
     {
         SelectedMaxYear = value;
 
@@ -118,18 +118,18 @@ public partial class Settings
 
         if (SelectedMinYear > value)
         {
-            SelectedMinYear = _minYears[^1];
+            SelectedMinYear = minYears[^1];
         }
     }
 
-    private void UpdateYearOptions()
+    void UpdateYearOptions()
     {
         // Filtrer les options disponibles pour les deux sélections
-        _minYears = [.. Years.Where(year => year <= SelectedMaxYear)];
-        _maxYears = [.. Years.Where(year => year >= SelectedMinYear)];
+        minYears = [.. Years.Where(year => year <= SelectedMaxYear)];
+        maxYears = [.. Years.Where(year => year >= SelectedMinYear)];
     }
 
-    private async Task ResetPreferences()
+    async Task ResetPreferences()
     {
         var parameters = new DialogParameters<Dialog>
         {

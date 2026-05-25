@@ -8,23 +8,23 @@
             <MudMarkdown OverrideHeaderTypo="ConvertTypo" Value="@UpdateInfo!.ChangeLog" />
         </MudPaper>
 
-        <MudProgressLinear Value="@_progressPercentage" Rounded="true" Size="Size.Large" Color="Color.Primary" BufferValue="100">
+        <MudProgressLinear Value="@progressPercentage" Rounded="true" Size="Size.Large" Color="Color.Primary" BufferValue="100">
             <MudText Typo="Typo.body2">
-                <p>@_progressPercentage.ToString("F2")%</p>
+                <p>@progressPercentage.ToString("F2")%</p>
             </MudText>
         </MudProgressLinear>
         <MudStack Class="mt-1" Spacing="1" Row="true" Justify="Justify.SpaceBetween" Wrap="Wrap.Wrap">
-            <MudText Typo="Typo.body2">@Localizer["Downloaded"] @_downloadedSize / @_totalSize</MudText>
-            <MudText Typo="Typo.body2">@Localizer["Network"] @_downloadSpeed</MudText>
-            <MudText Typo="Typo.body2">@Localizer["TimeLeft"] @_timeRemaining</MudText>
+            <MudText Typo="Typo.body2">@Localizer["Downloaded"] @downloadedSize / @totalSize</MudText>
+            <MudText Typo="Typo.body2">@Localizer["Network"] @downloadSpeed</MudText>
+            <MudText Typo="Typo.body2">@Localizer["TimeLeft"] @timeRemaining</MudText>
         </MudStack>
 
         <div class="my-4">
-            @if (!_isPaused)
+            @if (!isPaused)
             {
-                @if (!_isDownloading)
+                @if (!isDownloading)
                 {
-                    @if (!_isDownloaded)
+                    @if (!isDownloaded)
                     {
                         @if (UpdateService.ExistingLength > 0)
                         {

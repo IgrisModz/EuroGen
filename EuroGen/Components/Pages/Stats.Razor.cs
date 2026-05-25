@@ -1,6 +1,5 @@
 ﻿using EuroGen.Helpers;
 using EuroGen.Models;
-using Microsoft.Maui.Storage;
 
 namespace EuroGen.Components.Pages;
 
@@ -12,15 +11,15 @@ public partial class Stats
         Star
     }
 
-    private IEnumerable<Models.Stats> _stats = [];
+    IEnumerable<Models.Stats> stats = [];
 
-    private SearchType _selectedSearchType;
+    SearchType selectedSearchType;
 
-    private int SelectedMinYear => Preferences.Default.Get("MinDate", Years[0]);
-    private int SelectedMaxYear => Preferences.Default.Get("MaxDate", Years[^1]);
-    private static CalculStatsType SelectedCalculType => (CalculStatsType)Preferences.Default.Get("StatsCalcul", (int)CalculStatsType.TotalDraw);
+    int SelectedMinYear => Preferences.Default.Get("MinDate", Years[0]);
+    int SelectedMaxYear => Preferences.Default.Get("MaxDate", Years[^1]);
+    static CalculStatsType SelectedCalculType => (CalculStatsType)Preferences.Default.Get("StatsCalcul", (int)CalculStatsType.TotalDraw);
 
-    private List<int> Years => DrawService.Years();
+    List<int> Years => DrawService.Years();
 
     protected override async Task OnInitializedAsync()
     {
@@ -38,7 +37,7 @@ public partial class Stats
         }
     }
 
-    private async Task LoadDataAsync()
+    async Task LoadDataAsync()
     {
         DrawService.IsLoading = true;
 
@@ -47,41 +46,45 @@ public partial class Stats
             await DrawService.LoadLocalDrawsAsync();
         }
 
-        await Refresh(_selectedSearchType);
+        await Refresh(selectedSearchType);
 
         DrawService.IsLoading = false;
     }
 
-    private async Task OnSelectedSearchTypeChanged(SearchType searchType)
+    async Task OnSelectedSearchTypeChanged(SearchType searchType)
     {
-        _selectedSearchType = searchType;
+        selectedSearchType = searchType;
         await Refresh(searchType);
     }
 
-    private async Task Refresh(SearchType searchType)
+    async Task Refresh(SearchType searchType)
     {
         if (searchType == SearchType.Number)
-            await GetNumbers();
-        else
-            await GetStars();
-    }
+		{
+			await GetNumbers();
+		}
+		else
+		{
+			await GetStars();
+		}
+	}
 
-    private async Task GetNumbers()
+    async Task GetNumbers()
     {
         var totalDraw = Stats.SelectedCalculType == CalculStatsType.TotalDraw;
-        _stats = await GetStats(DrawService.Draws!,
+        stats = await GetStats(DrawService.Draws!,
         [
             nameof(Draw.FirstNumber), nameof(Draw.SecondNumber), nameof(Draw.ThirdNumber), nameof(Draw.FourthNumber), nameof(Draw.FifthNumber)
         ], SelectedMinYear, SelectedMaxYear, totalDraw);
     }
 
-    private async Task GetStars()
+    async Task GetStars()
     {
         var totalDraw = Stats.SelectedCalculType == CalculStatsType.TotalDraw;
-        _stats = await GetStats(DrawService.Draws!, [nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
+        stats = await GetStats(DrawService.Draws!, [nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
     }
 
-    private static async Task<IEnumerable<Models.Stats>> GetStats(IEnumerable<Draw> draws, string[] propertyNames, int minYear, int maxYear, bool totalDraw = false)
+    static async Task<IEnumerable<Models.Stats>> GetStats(IEnumerable<Draw> draws, string[] propertyNames, int minYear, int maxYear, bool totalDraw = false)
     {
         List<Models.Stats> stats = [];
 

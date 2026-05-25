@@ -5,9 +5,9 @@ namespace EuroGen.Components.Layout;
 
 public partial class MainLayout
 {
-    private MudThemeProvider? _mudThemeProvider;
+    MudThemeProvider? mudThemeProvider;
 
-    private readonly MudTheme _mudTheme = new()
+    readonly MudTheme mudTheme = new()
     {
         PaletteLight = new PaletteLight()
         {
@@ -29,10 +29,10 @@ public partial class MainLayout
         },
     };
 
-    private bool IsActive(string href) =>
+    bool IsActive(string href) =>
         Navigation.Uri.TrimEnd('/') == Navigation.ToAbsoluteUri(href).AbsoluteUri.TrimEnd('/');
 
-    private Task<IDialogReference> OpenSettings()
+    Task<IDialogReference> OpenSettings()
     {
         return DialogService.ShowAsync<Settings>(Localizer["Settings"]);
     }
@@ -41,12 +41,12 @@ public partial class MainLayout
     {
         if (firstRender)
         {
-            if (_mudThemeProvider is not null)
+            if (mudThemeProvider is not null)
             {
-                var systemPreference = await _mudThemeProvider.GetSystemPreference();
+                var systemPreference = await mudThemeProvider.GetSystemDarkModeAsync();
                 ThemeService.SetSystemPreference(systemPreference);
 
-                await _mudThemeProvider.WatchSystemPreference(newValue =>
+                await mudThemeProvider.WatchSystemDarkModeAsync(newValue =>
                 {
                     ThemeService.SetSystemPreference(newValue);
                     StateHasChanged();

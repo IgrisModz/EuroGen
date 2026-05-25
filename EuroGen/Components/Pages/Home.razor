@@ -6,10 +6,10 @@
 
 <PageTitle>@Localizer["Draws"]</PageTitle>
 
-@for (int i = 0; i < _newDraws.Count; i++)
+@for (int i = 0; i < newDraws.Count; i++)
 {
-    var draw = _newDraws[i];
-    var isLast = i == _newDraws.Count - 1;
+    var draw = newDraws[i];
+    var isLast = i == newDraws.Count - 1;
     <MudPaper Class="@($"{(!isLast ? "mb-2" : "mb-1")} rounded-xl")" Elevation="8">
         <span class="draw">
             <div class="draw-item ball">

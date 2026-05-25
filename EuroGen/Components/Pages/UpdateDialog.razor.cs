@@ -4,21 +4,23 @@ using MudBlazor;
 
 namespace EuroGen.Components.Pages;
 
-public partial class UpdateDialog
+public partial class UpdateDialog : IDisposable
 {
-    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
     [Parameter] public UpdateInfo? UpdateInfo { get; set; }
 
-    private double _progressPercentage = 0;
-    private string _downloadedSize = "0 MB";
-    private string _totalSize = "0 MB";
-    private string _downloadSpeed = "0 MB/s";
-    private bool _isDownloading = false;
-    private bool _isPaused = false;
-    private CancellationTokenSource? _cts;
-    private bool _isDownloaded = false;
-    private string _timeRemaining = "0s";
-    private bool IsMandatory => UpdateInfo is null || UpdateInfo.IsMandatory;
+    double progressPercentage = 0;
+    string downloadedSize = "0 MB";
+    string totalSize = "0 MB";
+    string downloadSpeed = "0 MB/s";
+    bool isDownloading = false;
+    bool isPaused = false;
+    CancellationTokenSource? cts;
+    bool isDownloaded = false;
+    string timeRemaining = "0s";
+	bool disposedValue;
+
+	bool IsMandatory => UpdateInfo is null || UpdateInfo.IsMandatory;
 
     protected override async Task OnInitializedAsync()
     {
@@ -33,33 +35,33 @@ public partial class UpdateDialog
         UpdateService.ProgressChanged += ReportProgress;
         UpdateService.DownloadCompleted += () =>
         {
-            _isDownloaded = true;
+            isDownloaded = true;
             ReportProgress(0, 0);
             InvokeAsync(StateHasChanged);
         };
 
-        _cts = new CancellationTokenSource();
-        await UpdateService.InitProgress(UpdateInfo, _cts.Token);
+        cts = new CancellationTokenSource();
+        await UpdateService.InitProgress(UpdateInfo, cts.Token);
         ReportProgress(UpdateService.ExistingLength, UpdateService.TotalLength);
 
         if (UpdateService.CheckIfAlreadyDownloaded(UpdateInfo))
         {
-            _isDownloaded = true;
+            isDownloaded = true;
         }
     }
 
-    private async Task StartUpdate()
+    async Task StartUpdate()
     {
         try
         {
             await UpdateService.RequestPermissionsAsync();
 
-            _isDownloading = true;
-            _isPaused = false;
-            _cts = new CancellationTokenSource();
+            isDownloading = true;
+            isPaused = false;
+            cts = new CancellationTokenSource();
             UpdateService.DestinationPath = Path.Combine(UpdateService.AppDirectory, UpdateInfo!.FileName);
 
-            var result = await UpdateService.DownloadAndVerifyAsync(UpdateInfo, UpdateService.DestinationPath, _cts.Token);
+            var result = await UpdateService.DownloadAndVerifyAsync(UpdateInfo, UpdateService.DestinationPath, cts.Token);
 
             if (!result)
             {
@@ -72,49 +74,49 @@ public partial class UpdateDialog
         }
         finally
         {
-            _isDownloading = false;
-            _cts?.Dispose();
-            _cts = null;
+            isDownloading = false;
+            cts?.Dispose();
+            cts = null;
         }
     }
 
-    private void Pause()
+    void Pause()
     {
-        _cts?.Cancel();
-        _isPaused = true;
+        cts?.Cancel();
+        isPaused = true;
     }
 
 
-    private async Task Resume()
+    async Task Resume()
     {
         await StartUpdate();
     }
 
-    private void Cancel()
+    void Cancel()
     {
-        _cts?.Cancel();
+        cts?.Cancel();
         MudDialog.Cancel();
     }
 
-    private async Task Install()
+    async Task Install()
     {
         await UpdateService.LaunchInstaller(UpdateInfo!);
     }
 
-    private void ReportProgress(long current, long total)
+    void ReportProgress(long current, long total)
     {
-        _progressPercentage = total > 0 ? current * 100.0 / total : 0;
-        _downloadedSize = FormatBytes(current);
-        _totalSize = FormatBytes(total);
-        _downloadSpeed = $"{FormatBytes(UpdateService.DownloadSpeedBytesPerSecond)}/s";
+        progressPercentage = total > 0 ? current * 100.0 / total : 0;
+        downloadedSize = FormatBytes(current);
+        totalSize = FormatBytes(total);
+        downloadSpeed = $"{FormatBytes(UpdateService.DownloadSpeedBytesPerSecond)}/s";
         double estimatedTime = double.IsNaN(UpdateService.DownloadSpeedBytesPerSecond) || UpdateService.DownloadSpeedBytesPerSecond <= 0
     ? -1
     : (total - current) / UpdateService.DownloadSpeedBytesPerSecond;
-        _timeRemaining = estimatedTime < 0 ? $"0{Localizer["Second"]}" : FormatTimeRemaining(estimatedTime);
+        timeRemaining = estimatedTime < 0 ? $"0{Localizer["Second"]}" : FormatTimeRemaining(estimatedTime);
         InvokeAsync(StateHasChanged);
     }
 
-    private string FormatBytes(double bytes)
+    string FormatBytes(double bytes)
     {
         const double terabyte = 1024.0 * 1024.0 * 1024.0 * 1024.0;
         const double gigabyte = 1024.0 * 1024.0 * 1024.0;
@@ -122,32 +124,42 @@ public partial class UpdateDialog
         const double kilobyte = 1024.0;
 
         if (bytes >= terabyte)
-            return $"{bytes / terabyte:F2} {Localizer["Terabyte"]}";
-        if (bytes >= gigabyte)
-            return $"{bytes / gigabyte:F2} {Localizer["Gigabyte"]}";
-        if (bytes >= megabyte)
-            return $"{bytes / megabyte:F2} {Localizer["Megabyte"]}";
-        if (bytes >= kilobyte)
-            return $"{bytes / kilobyte:F2} {Localizer["Kilobyte"]}";
-        return $"{bytes:F0} {Localizer["Byte"]}";
-    }
+		{
+			return $"{bytes / terabyte:F2} {Localizer["Terabyte"]}";
+		}
 
-    private string FormatTimeRemaining(double seconds)
+		if (bytes >= gigabyte)
+		{
+			return $"{bytes / gigabyte:F2} {Localizer["Gigabyte"]}";
+		}
+
+		if (bytes >= megabyte)
+		{
+			return $"{bytes / megabyte:F2} {Localizer["Megabyte"]}";
+		}
+
+		return bytes >= kilobyte ? $"{bytes / kilobyte:F2} {Localizer["Kilobyte"]}" : $"{bytes:F0} {Localizer["Byte"]}";
+	}
+
+	string FormatTimeRemaining(double seconds)
     {
         var time = TimeSpan.FromSeconds(seconds);
-        if (time.TotalHours >= 1)
-            return $"{(int)time.TotalHours}{Localizer["Hour"]} {time.Minutes}{Localizer["Minute"]}";
-        if (time.TotalMinutes >= 1)
-            return $"{(int)time.TotalMinutes}{Localizer["Minute"]} {time.Seconds}{Localizer["Second"]}";
-        return $"{time.Seconds}{Localizer["Second"]}";
-    }
+		if (time.TotalHours >= 1)
+		{
+			return $"{(int)time.TotalHours}{Localizer["Hour"]} {time.Minutes}{Localizer["Minute"]}";
+		}
 
-    private Task ShowError(string message)
+		return time.TotalMinutes >= 1
+			? $"{(int)time.TotalMinutes}{Localizer["Minute"]} {time.Seconds}{Localizer["Second"]}"
+			: $"{time.Seconds}{Localizer["Second"]}";
+	}
+
+	static Task ShowError(string message)
     {
         Console.WriteLine(message);
-        return Task.CompletedTask; // à améliorer avec MudDialog
+        return Task.CompletedTask; // TODO: improve with MudDialog
     }
-    private Typo ConvertTypo(Typo typo)
+    static Typo ConvertTypo(Typo typo)
     {
         return typo switch
         {
@@ -156,4 +168,28 @@ public partial class UpdateDialog
             _ => typo
         };
     }
+
+	protected virtual void Dispose(bool disposing)
+	{
+		if (!disposedValue)
+		{
+			if (disposing)
+			{
+				if (cts != null)
+				{
+					cts.Cancel();
+					cts.Dispose();
+					cts = null;
+				}
+			}
+
+			disposedValue = true;
+		}
+	}
+
+	public void Dispose()
+	{
+		Dispose(disposing: true);
+		GC.SuppressFinalize(this);
+	}
 }

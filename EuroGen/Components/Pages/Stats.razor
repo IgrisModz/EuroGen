@@ -25,13 +25,13 @@
 else
 {
     <MudStack AlignItems="AlignItems.Center">
-        <MudToggleGroup T="SearchType" SelectionMode="SelectionMode.SingleSelection" Value="@_selectedSearchType" ValueChanged="async searchType => await OnSelectedSearchTypeChanged(searchType)" Color="Color.Primary">
+        <MudToggleGroup T="SearchType" SelectionMode="SelectionMode.SingleSelection" Value="@selectedSearchType" ValueChanged="async searchType => await OnSelectedSearchTypeChanged(searchType)" Color="Color.Primary">
             <MudToggleItem Value="@(SearchType.Number)" Text="@Localizer["Numbers"]" />
             <MudToggleItem Value="@(SearchType.Star)" Text="@Localizer["Stars"]" />
         </MudToggleGroup>
     </MudStack>
 
-    <MudDataGrid Class="mt-3 py-5 rounded-xl" Elevation="8" Items="@_stats">
+    <MudDataGrid Class="mt-3 py-5 rounded-xl" Elevation="8" Items="@stats">
         <Columns>
             <PropertyColumn Property="x => x.Number" Title="@Localizer["Number"]" />
             <PropertyColumn Property="x => x.NumberOfOutput" Title="@Localizer["NumberOfOutput"]" />

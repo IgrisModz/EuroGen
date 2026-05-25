@@ -2,12 +2,12 @@
 
 public class ThemeService
 {
-    private const string ThemeKey = "AppTheme";
+    const string themeKey = "AppTheme";
 
     public event Action<bool>? ThemeChanged; // Modification ici pour accepter un booléen
 
-    private AppTheme _appTheme;
-    private bool _systemPreference;
+    AppTheme appTheme;
+    bool systemPreference;
 
     public ThemeService()
     {
@@ -17,57 +17,57 @@ public class ThemeService
 
     public AppTheme AppTheme
     {
-        get => _appTheme;
+        get => appTheme;
         set
         {
-            if (_appTheme != value)
+            if (appTheme != value)
             {
-                _appTheme = value;
+                appTheme = value;
                 SaveThemePreference();
                 UpdateTheme();
             }
         }
     }
 
-    public bool IsDarkMode => _appTheme == AppTheme.Dark ||
-                              (_appTheme == AppTheme.Unspecified && _systemPreference);
+    public bool IsDarkMode => appTheme == AppTheme.Dark ||
+                              (appTheme == AppTheme.Unspecified && systemPreference);
 
     // Récupérer et sauvegarder les préférences de thème
-    private void SaveThemePreference()
+    void SaveThemePreference()
     {
-        Preferences.Set(ThemeKey, _appTheme.ToString());
+        Preferences.Set(themeKey, appTheme.ToString());
     }
 
-    private void LoadThemePreference()
+    void LoadThemePreference()
     {
-        if (Preferences.ContainsKey(ThemeKey))
+        if (Preferences.ContainsKey(themeKey))
         {
-            var savedTheme = Preferences.Get(ThemeKey, AppTheme.Unspecified.ToString());
-            _appTheme = Enum.TryParse(savedTheme, out AppTheme mode) ? mode : AppTheme.Unspecified;
+            var savedTheme = Preferences.Get(themeKey, AppTheme.Unspecified.ToString());
+            appTheme = Enum.TryParse(savedTheme, out AppTheme mode) ? mode : AppTheme.Unspecified;
         }
         else
         {
-            _appTheme = AppTheme.Unspecified;
+            appTheme = AppTheme.Unspecified;
         }
 
         UpdateTheme();
     }
 
-    private void UpdateTheme()
+    void UpdateTheme()
     {
         var isDarkMode = IsDarkMode;
         // On passe un booléen pour indiquer si le thème est sombre ou non
         ThemeChanged?.Invoke(isDarkMode);
 
         // IMPORTANT: Pour le theme de l'application MAUI
-        Application.Current!.UserAppTheme = _appTheme;
+        Application.Current!.UserAppTheme = appTheme;
     }
 
     // Définir la préférence système
     public void SetSystemPreference(bool isDark)
     {
-        _systemPreference = isDark;
-        if (_appTheme == AppTheme.Unspecified)
+        systemPreference = isDark;
+        if (appTheme == AppTheme.Unspecified)
         {
             UpdateTheme();
         }

@@ -7,16 +7,16 @@ namespace EuroGen.Components.Pages;
 
 public partial class Home
 {
-    private string rotateClass = string.Empty;
+    string rotateClass = string.Empty;
 
-    private List<Draw> _newDraws = [];
+    List<Draw> newDraws = [];
 
-    private static int DrawLength => Preferences.Default.Get("DrawLength", 1);
-    private int SelectedMinYear => Preferences.Default.Get("MinDate", Years[0]);
-    private int SelectedMaxYear => Preferences.Default.Get("MaxDate", Years[^1]);
-    private static CalculDrawType SelectedCalculType => (CalculDrawType)Preferences.Default.Get("DrawCalcul", (int)CalculDrawType.TotalDraw);
+    static int DrawLength => Preferences.Default.Get("DrawLength", 1);
+    int SelectedMinYear => Preferences.Default.Get("MinDate", Years[0]);
+    int SelectedMaxYear => Preferences.Default.Get("MaxDate", Years[^1]);
+    static CalculDrawType SelectedCalculType => (CalculDrawType)Preferences.Default.Get("DrawCalcul", (int)CalculDrawType.TotalDraw);
 
-    private List<int> Years => DrawService.Years();
+    List<int> Years => DrawService.Years();
 
     protected override async Task OnInitializedAsync()
     {
@@ -34,10 +34,10 @@ public partial class Home
         }
     }
 
-    private async Task LoadDataAsync()
+    async Task LoadDataAsync()
     {
         rotateClass = "rotate";
-        _newDraws = LoadPreviouslyGenratedDraws();
+        newDraws = LoadPreviouslyGenratedDraws();
         rotateClass = string.Empty;
 
         if (DrawService.Draws == null || !DrawService.Draws.Any())
@@ -46,7 +46,7 @@ public partial class Home
         }
     }
 
-    private static List<Draw> LoadPreviouslyGenratedDraws()
+    static List<Draw> LoadPreviouslyGenratedDraws()
     {
         string serializedDraws = Preferences.Default.Get("Draws", "");
         var draws = DeserializeDraws(serializedDraws) ?? [];
@@ -59,19 +59,19 @@ public partial class Home
         return draws;
     }
 
-    private static string SerializeDraws(List<Draw> draws)
+    static string SerializeDraws(List<Draw> draws)
     {
         // Sérialiser les tirages pour les enregistrer dans Preferences
         return System.Text.Json.JsonSerializer.Serialize(draws);
     }
 
-    private static List<Draw>? DeserializeDraws(string serializedDraws)
+    static List<Draw>? DeserializeDraws(string serializedDraws)
     {
         // Désérialiser les tirages depuis Preferences
         return string.IsNullOrEmpty(serializedDraws) ? [] : System.Text.Json.JsonSerializer.Deserialize<List<Draw>>(serializedDraws);
     }
 
-    private async Task GenerateDraw()
+    async Task GenerateDraw()
     {
         DrawService.IsLoading = true;
         rotateClass = "rotate";
@@ -87,7 +87,7 @@ public partial class Home
                 emptyDraws.Add(new Draw());
             }
 
-            _newDraws = emptyDraws;
+            newDraws = emptyDraws;
             var totalDraw = SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalDrawByNumber;
 
             if (SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalNumber)
@@ -109,7 +109,7 @@ public partial class Home
 
                     var stars = GetDrawNumber(starsPercentages, 2);
 
-                    _newDraws[i] = CreateDraw([.. numbers], [.. stars]);
+                    newDraws[i] = CreateDraw([.. numbers], [.. stars]);
                 }
             }
             else
@@ -130,13 +130,13 @@ public partial class Home
 
                     var stars = GetDrawNumbers([star1Percentages, star2Percentages]);
 
-                    _newDraws[i] = CreateDraw([.. numbers], [.. stars]);
+                    newDraws[i] = CreateDraw([.. numbers], [.. stars]);
                 }
             }
 
             await Task.Delay(2000);
 
-            Preferences.Set($"Draws", SerializeDraws(_newDraws));
+            Preferences.Set($"Draws", SerializeDraws(newDraws));
         }
         catch (Exception ex)
         {
@@ -150,7 +150,7 @@ public partial class Home
         }
     }
 
-    private async Task GetBestDraw()
+    async Task GetBestDraw()
     {
         DrawService.IsLoading = true;
         rotateClass = "rotate";
@@ -158,7 +158,7 @@ public partial class Home
         try
         {
             Logger.LogInformation("Début du meilleur tirage...");
-            _newDraws = [new Draw()];
+            newDraws = [new Draw()];
             var totalDraw = SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalDrawByNumber;
 
             if (SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalNumber)
@@ -174,7 +174,7 @@ public partial class Home
 
                 var starsPercentages = await GetPercents([nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
 
-                _newDraws[0] = CreateDraw([.. numbersPercentages.Keys], [.. starsPercentages.Keys]);
+                newDraws[0] = CreateDraw([.. numbersPercentages.Keys], [.. starsPercentages.Keys]);
             }
             else
             {
@@ -195,7 +195,7 @@ public partial class Home
                 var firstStar = star1Percentages.FirstOrDefault().Key;
                 var secondStar = star2Percentages.FirstOrDefault().Key;
 
-                _newDraws[0] = new Draw
+                newDraws[0] = new Draw
                 {
                     FirstNumber = firstNumber,
                     SecondNumber = secondNumber,
@@ -210,7 +210,7 @@ public partial class Home
 
             await Task.Delay(2000);
 
-            Preferences.Set($"Draws", SerializeDraws(_newDraws));
+            Preferences.Set($"Draws", SerializeDraws(newDraws));
         }
         catch (Exception ex)
         {
@@ -224,7 +224,7 @@ public partial class Home
         }
     }
 
-    private static Draw CreateDraw(List<int> numbers, List<int> stars)
+    static Draw CreateDraw(List<int> numbers, List<int> stars)
     {
         return new Draw
         {
@@ -238,7 +238,7 @@ public partial class Home
         };
     }
 
-    private async Task<IDictionary<int, double>> GetPercents(string[] propertyNames, int minYear, int maxYear, bool totalDraw = false, OrderBy order = OrderBy.None)
+    async Task<IDictionary<int, double>> GetPercents(string[] propertyNames, int minYear, int maxYear, bool totalDraw = false, OrderBy order = OrderBy.None)
     {
         var filteredDraws = (DrawService.Draws ?? []).Where(d => d.DrawDate.Year >= minYear && d.DrawDate.Year <= maxYear).ToList();
 
@@ -253,7 +253,7 @@ public partial class Home
         return percentages.ReorderBy(order);
     }
 
-    private HashSet<int> GetDrawNumbers(IEnumerable<IDictionary<int, double>> probabilities)
+    HashSet<int> GetDrawNumbers(IEnumerable<IDictionary<int, double>> probabilities)
     {
         var uniqueValues = new HashSet<int>();
         var i = 0;
@@ -283,7 +283,7 @@ public partial class Home
         return uniqueValues;
     }
 
-    private HashSet<int> GetDrawNumber(IDictionary<int, double> probabilities, int returnLength)
+    HashSet<int> GetDrawNumber(IDictionary<int, double> probabilities, int returnLength)
     {
         if (probabilities == null || probabilities.Count == 0)
         {
@@ -328,7 +328,7 @@ public partial class Home
         return result;
     }
 
-    private static double GetSecureRandomDouble()
+    static double GetSecureRandomDouble()
     {
         var byteArray = new byte[8];
         RandomNumberGenerator.Fill(byteArray);

@@ -8,7 +8,10 @@ public static class AsyncEnumerableExtension
     {
         var results = new List<T>();
         await foreach (var item in items.WithCancellation(cancellationToken).ConfigureAwait(false))
-            results.Add(item);
-        return results;
+		{
+			results.Add(item);
+		}
+
+		return results;
     }
 }

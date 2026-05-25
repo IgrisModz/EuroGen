@@ -6,7 +6,7 @@ namespace EuroGen.Components.Pages;
 public partial class Dialog
 {
     [CascadingParameter]
-    private IMudDialogInstance? MudDialog { get; set; }
+    IMudDialogInstance? MudDialog { get; set; }
 
     [Parameter]
     public string ContentText { get; set; } = "";
@@ -20,7 +20,7 @@ public partial class Dialog
     [Parameter]
     public MudBlazor.Color Color { get; set; }
 
-    private void Submit() => MudDialog?.Close(DialogResult.Ok(true));
+    void Submit() => MudDialog?.Close(DialogResult.Ok(true));
 
-    private void Cancel() => MudDialog?.Close(DialogResult.Cancel());
+    void Cancel() => MudDialog?.Close(DialogResult.Cancel());
 }

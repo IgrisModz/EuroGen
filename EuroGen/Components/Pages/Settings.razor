@@ -87,14 +87,14 @@
             <MudDivider Class="my-2" />
 
             <MudSelect T="int" Class="mb-4" Label="@Localizer["SelectTheMinYear"]" Variant="Variant.Outlined" HelperText="@Localizer["SelectAYearDescription"]" Value="@SelectedMinYear" ValueChanged="OnSelectedMinYearChanged">
-                @foreach (var year in _minYears)
+                @foreach (var year in minYears)
                 {
                     <MudSelectItem Value="@(year)">@year</MudSelectItem>
                 }
             </MudSelect>
 
            <MudSelect T="int" Label="@Localizer["SelectTheMaxYear"]" Variant="Variant.Outlined" HelperText="@Localizer["SelectAYearDescription"]" Value="@SelectedMaxYear" ValueChanged="OnSelectedMaxYearChanged">
-                @foreach (var year in _maxYears)
+                @foreach (var year in maxYears)
                 {
                     <MudSelectItem Value="@(year)">@year</MudSelectItem>
                 }

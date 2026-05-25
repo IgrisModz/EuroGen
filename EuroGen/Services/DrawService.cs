@@ -3,7 +3,6 @@ using System.IO.Compression;
 using CsvHelper;
 using CsvHelper.Configuration;
 using EuroGen.Data;
-using EuroGen.Helpers;
 using EuroGen.Models;
 using EuroGen.Watcher;
 using HtmlAgilityPack;
@@ -17,53 +16,53 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
 {
     public event Action? StatusChanged;
 
-    private bool _asConnection = true;
-    private bool _isAvailableWebsite = true;
-    private bool _isFirstLoading;
-    private bool _isLoading;
+    bool asConnection = true;
+    bool isAvailableWebsite = true;
+    bool isFirstLoading;
+    bool isLoading;
 
-    private readonly ILogger<DrawService> _logger = logger;
-    private readonly AppDbContext _dbContext = dbContext;
+    readonly ILogger<DrawService> logger = logger;
+    readonly AppDbContext dbContext = dbContext;
 
-    public static string BaseUrl => "https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique";
-    public static string BaseDefaultDrawDownload => "https://www.sto.api.fdj.fr/anonymous/service-draw-info";
+    public const string BaseUrl = "https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique";
+    public const string BaseDefaultDrawDownload = "https://www.sto.api.fdj.fr/anonymous/service-draw-info";
 
     public bool AsConnection
     {
-        get => _asConnection;
+        get => asConnection;
         set
         {
-            _asConnection = value;
+            asConnection = value;
             UpdateStatus();
         }
     }
 
     public bool IsAvailableWebsite
     {
-        get => _isAvailableWebsite;
+        get => isAvailableWebsite;
         set
         {
-            _isAvailableWebsite = value;
+            isAvailableWebsite = value;
             UpdateStatus();
         }
     }
 
     public bool IsFirstLoading
     {
-        get => _isFirstLoading;
+        get => isFirstLoading;
         set
         {
-            _isFirstLoading = value;
+            isFirstLoading = value;
             UpdateStatus();
         }
     }
 
     public bool IsLoading
     {
-        get => _isLoading;
+        get => isLoading;
         set
         {
-            _isLoading = value;
+            isLoading = value;
             UpdateStatus();
         }
     }
@@ -75,7 +74,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
         return Draws?.Select(d => d.DrawDate.Year).Distinct().Order().ToList() ?? [];
     }
 
-    private void UpdateStatus()
+    void UpdateStatus()
     {
         StatusChanged?.Invoke();
     }
@@ -83,7 +82,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
     public async Task LoadLocalDrawsAsync()
     {
         await Task.Delay(1000);
-        Draws = await _dbContext.Draws.ToListAsync() ?? [];
+        Draws = await dbContext.Draws.ToListAsync() ?? [];
 
         var internetWatcher = new InternetWatcher(BaseUrl, TimeSpan.FromSeconds(5));
         await internetWatcher.WatchInternetState(async () =>
@@ -95,15 +94,15 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
             var draws = await LoadDraws();
             if (draws != null)
             {
-                var existingDraws = await _dbContext.Draws
+                var existingDraws = await dbContext.Draws
                                     .Where(d => draws.Select(draw => draw.DrawDate).Contains(d.DrawDate))
                                     .ToListAsync();
                 var newDraws = draws.Where(d => !existingDraws.Any(ed => ed.DrawDate == d.DrawDate)).ToList();
                 if (newDraws.Count > 0)
                 {
-                    await _dbContext.Draws.AddRangeAsync(newDraws);
+                    await dbContext.Draws.AddRangeAsync(newDraws);
                 }
-                await _dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
                 Draws = Draws.Union(draws);
             }
             IsFirstLoading = false;
@@ -128,20 +127,20 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
     /// <typeparam name="T">The type of the object to convert as list</typeparam>
     /// <param name="csvFiles">The uris to the CSV Files</param>
     /// <returns>An enumerable of object</returns>
-    private async static Task<IEnumerable<T>> CsvFilesToObjectList<T>(IEnumerable<string> csvFiles)
+    static async Task<IEnumerable<T>> CsvFilesToObjectList<T>(IEnumerable<string> csvFiles)
     {
         var tasks = csvFiles.Select(ParseCsvFile<T>);
         var results = await Task.WhenAll(tasks);
         return results.SelectMany(r => r);
     }
 
-    private static async Task<IEnumerable<T>> ParseCsvFile<T>(string csvFile)
+    static async Task<IEnumerable<T>> ParseCsvFile<T>(string csvFile)
     {
         await using var stream = File.OpenRead(csvFile);
         return await ParseCsvStream<T>(stream);
     }
 
-    private static async Task<IEnumerable<T>> ParseCsvStream<T>(Stream stream)
+    static async Task<IEnumerable<T>> ParseCsvStream<T>(Stream stream)
     {
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
@@ -152,7 +151,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
         using var reader = new StreamReader(stream);
         using var csv = new CsvReader(reader, config);
 
-        return await csv.GetRecordsAsync<T>().ToListAsync();
+		return await csv.GetRecordsAsync<T>().ToListAsync();
     }
 
     /// <summary>
@@ -160,7 +159,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
     /// </summary>
     /// <param name="urls">Links of the files</param>
     /// <returns>The paths to the CSV files</returns>
-    private async static Task<IEnumerable<string>> DownloadAndExtractZipFilesAsync(IEnumerable<string> urls)
+    static async Task<IEnumerable<string>> DownloadAndExtractZipFilesAsync(IEnumerable<string> urls)
     {
         var tasks = urls.Select(async url =>
         {
@@ -189,7 +188,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
     /// Get all the urls of the previous draws in the euromillions history page
     /// </summary>
     /// <returns>The urls of the zip file that contains the previous draws</returns>
-    private static async Task<IEnumerable<string>> GetEuromillionZipFiles()
+    static async Task<IEnumerable<string>> GetEuromillionZipFiles()
     {
         var web = new HtmlWeb();
         var document = await web.LoadFromWebAsync(BaseUrl);
@@ -215,7 +214,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
     /// <param name="retryDelayMilliseconds"></param>
     /// <param name="maxRetries"></param>
     /// <returns></returns>
-    private async Task<T?> RetryUntilSuccessAsync<T>(Func<Task<T>> action, int retryDelayMilliseconds = 5000, int maxRetries = -1)
+    async Task<T?> RetryUntilSuccessAsync<T>(Func<Task<T>> action, int retryDelayMilliseconds = 5000, int maxRetries = -1)
     {
         int attempt = 0;
         while (maxRetries < 0 || attempt < maxRetries)
@@ -226,14 +225,14 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
             }
             catch (Exception ex) when (maxRetries < 0 || attempt < maxRetries - 1)
             {
-                _logger.LogWarning(ex, "Tentative échouée : {Message}. Nouvelle tentative dans {RetryDelay} secondes.", ex.Message, retryDelayMilliseconds / 1000);
+                logger.LogWarning(ex, "Tentative échouée : {Message}. Nouvelle tentative dans {RetryDelay} secondes.", ex.Message, retryDelayMilliseconds / 1000);
                 await Task.Delay(retryDelayMilliseconds);
             }
 
             attempt++;
         }
 
-        _logger.LogError("Le nombre maximum de tentatives a été atteint.");
+        logger.LogError("Le nombre maximum de tentatives a été atteint.");
         return default;
     }
     public List<int> GetYears()

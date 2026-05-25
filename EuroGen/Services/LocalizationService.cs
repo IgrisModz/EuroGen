@@ -2,81 +2,80 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace EuroGen.Services
+namespace EuroGen.Services;
+
+public class LocalizationService
 {
-    public class LocalizationService
+    const string languageKey = "AppLanguage";
+    readonly IStringLocalizer localizer;
+
+    string language = "";
+
+    public string Language
     {
-        private const string LanguageKey = "AppLanguage";
-        private readonly IStringLocalizer _localizer;
-
-        private string _language = "";
-
-        public string Language
+        get => language;
+        set
         {
-            get => _language;
-            set
-            {
-                _language = value;
-                SaveLanguagePreference(value);
-                UpdateLanguage();
-            }
-        }
-
-        public Action? LanguageChanged;
-
-        public string this[string key] => _localizer[key];
-
-        public LocalizationService(IStringLocalizerFactory factory)
-        {
-            var type = typeof(Resources.Strings);
-            var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName!);
-            _localizer = factory.Create(type.Name, assemblyName.Name!);
-            LoadLanguagePreference();
-        }
-
-        public static void SaveLanguagePreference(string language)
-        {
-            Preferences.Set(LanguageKey, language);
-            SetCulture(language);
-        }
-
-        // Charger la préférence de langue depuis les preferences
-        private void LoadLanguagePreference()
-        {
-            if (Preferences.ContainsKey(LanguageKey))
-            {
-                var savedLanguage = Preferences.Get(LanguageKey, "en"); // Valeur par défaut "en"
-                Language = savedLanguage;
-            }
-            else
-            {
-                string currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-                string language = currentCulture switch
-                {
-                    "ca" or "de" or "es" or "en" or "fr" or "ga" or "gv" or "it" or "lb" or "nl" or "pt" => currentCulture,
-                    _ => "en",
-                };
-                Language = language;
-            }
-
+            language = value;
+            SaveLanguagePreference(value);
             UpdateLanguage();
         }
+    }
 
-        private void UpdateLanguage()
+    public Action? LanguageChanged;
+
+    public string this[string key] => localizer[key];
+
+    public LocalizationService(IStringLocalizerFactory factory)
+    {
+        var type = typeof(Resources.Strings);
+        var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName!);
+        localizer = factory.Create(type.Name, assemblyName.Name!);
+        LoadLanguagePreference();
+    }
+
+    public static void SaveLanguagePreference(string language)
+    {
+        Preferences.Set(languageKey, language);
+        SetCulture(language);
+    }
+
+    // Charger la préférence de langue depuis les preferences
+    void LoadLanguagePreference()
+    {
+        if (Preferences.ContainsKey(languageKey))
         {
-            LanguageChanged?.Invoke();
+            var savedLanguage = Preferences.Get(languageKey, "en"); // Valeur par défaut "en"
+            Language = savedLanguage;
+        }
+        else
+        {
+            string currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            string language = currentCulture switch
+            {
+                "ca" or "de" or "es" or "en" or "fr" or "ga" or "gv" or "it" or "lb" or "nl" or "pt" => currentCulture,
+                _ => "en",
+            };
+            Language = language;
         }
 
-        public static void SetCulture(string language)
-        {
-            var currentCulture = new CultureInfo(language);
-            CultureInfo.DefaultThreadCurrentCulture = currentCulture;
-            CultureInfo.DefaultThreadCurrentUICulture = currentCulture;
-        }
+        UpdateLanguage();
+    }
 
-        public string GetString(string key)
-        {
-            return _localizer[key];
-        }
+    void UpdateLanguage()
+    {
+        LanguageChanged?.Invoke();
+    }
+
+    public static void SetCulture(string language)
+    {
+        var currentCulture = new CultureInfo(language);
+        CultureInfo.DefaultThreadCurrentCulture = currentCulture;
+        CultureInfo.DefaultThreadCurrentUICulture = currentCulture;
+    }
+
+    public string GetString(string key)
+    {
+        return localizer[key];
     }
 }
