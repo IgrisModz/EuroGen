@@ -1,8 +1,12 @@
 ﻿@page "/"
 
+@using EuroGen.ViewModels
+
 @inject DrawService DrawService
 @inject ILogger<Draw> Logger
 @inject LocalizationService Localizer
+
+@inject HomeViewModel ViewModel
 
 <PageTitle>@Localizer["Draws"]</PageTitle>
 

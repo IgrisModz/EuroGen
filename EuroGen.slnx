@@ -1,15 +1,15 @@
 <Solution>
   <Folder Name="/Solution Items/">
-    <File Path=".editorconfig"/>
-    <File Path=".gitattributes"/>
-    <File Path=".gitignore"/>
-    <File Path="config.json"/>
-    <File Path="Directory.Build.props"/>
-    <File Path="Directory.Build.targets"/>
-    <File Path="README.md"/>
-    <File Path="LICENSE"/>
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="config.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="README.md" />
+    <File Path="LICENSE" />
   </Folder>
   <Project Path="EuroGen/EuroGen.csproj">
-    <Deploy/>
+    <Deploy />
   </Project>
 </Solution>

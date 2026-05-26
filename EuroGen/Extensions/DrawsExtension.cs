@@ -1,6 +1,6 @@
 ﻿using EuroGen.Models;
 
-namespace EuroGen.Helpers;
+namespace EuroGen.Extensions;
 
 public static class DrawsExtension
 {

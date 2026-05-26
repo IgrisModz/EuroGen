@@ -12,8 +12,7 @@
         opacity: .85;
     }
 
-    @@media screen and (max-width: 400px)
-    {
+    @@media screen and (max-width: 400px) {
         .scroll-to-top {
             margin-bottom: 45px;
         }
@@ -41,20 +40,20 @@
         </MudContainer>
 
         <div class="nav-container">
-                <nav class="nav">
-                    <a href="/" class="@($"nav-link {(IsActive("/") ? "nav-link-active" : "")}")">
-                        <MudIcon Icon="@Icons.Material.Rounded.Draw" style="font-size: 2rem;" />
-                    </a>
-                    <a href="/stats" class="@($"nav-link {(IsActive("/stats") ? "nav-link-active" : "")}")">
-                        <MudIcon Icon="@Icons.Material.Rounded.DataExploration" style="font-size: 2rem;" />
-                    </a>
-                    <a href="/about" class="@($"nav-link {(IsActive("/about") ? "nav-link-active" : "")}")">
-                        <MudIcon Icon="@Icons.Material.Rounded.Info" style="font-size: 2rem;" />
-                    </a>
-                    <a onclick="@(OpenSettings)" class="nav-link">
-                        <MudIcon Icon="@Icons.Material.Rounded.Settings" style="font-size: 2rem;" />
-                    </a>
-                </nav>
+            <nav class="nav">
+                <a href="/" class="@($"nav-link {(IsActive("/") ? "nav-link-active" : "")}")">
+                    <MudIcon Icon="@Icons.Material.Rounded.Draw" style="font-size: 2rem;" />
+                </a>
+                <a href="/stats" class="@($"nav-link {(IsActive("/stats") ? "nav-link-active" : "")}")">
+                    <MudIcon Icon="@Icons.Material.Rounded.DataExploration" style="font-size: 2rem;" />
+                </a>
+                <a href="/about" class="@($"nav-link {(IsActive("/about") ? "nav-link-active" : "")}")">
+                    <MudIcon Icon="@Icons.Material.Rounded.Info" style="font-size: 2rem;" />
+                </a>
+                <a onclick="@(OpenSettings)" class="nav-link">
+                    <MudIcon Icon="@Icons.Material.Rounded.Settings" style="font-size: 2rem;" />
+                </a>
+            </nav>
         </div>
         <MudScrollToTop>
             <MudFab Class="scroll-to-top"
@@ -68,6 +67,6 @@
                 <MudText Class="mt-5" Typo="Typo.h5" Align="Align.Center">@Localizer["Loading"]...</MudText>
                 <MudText Class="mt-2 mx-4" Typo="Typo.body1" Align="Align.Center">@Localizer["LoadingMessage"]</MudText>
             </div>
-            </MudOverlay>
+        </MudOverlay>
     </MudMainContent>
 </MudLayout>

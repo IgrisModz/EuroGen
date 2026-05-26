@@ -12,7 +12,9 @@ using MudBlazor;
 
 namespace EuroGen.Services;
 
-public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
+public class DrawService(
+	ILogger<DrawService> logger,
+	AppDbContext dbContext)
 {
     public event Action? StatusChanged;
 
@@ -24,7 +26,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
     readonly ILogger<DrawService> logger = logger;
     readonly AppDbContext dbContext = dbContext;
 
-    public const string BaseUrl = "https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique";
+	public const string BaseUrl = "https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique";
     public const string BaseDefaultDrawDownload = "https://www.sto.api.fdj.fr/anonymous/service-draw-info";
 
     public bool AsConnection
@@ -104,7 +106,7 @@ public class DrawService(ILogger<DrawService> logger, AppDbContext dbContext)
                 }
                 await dbContext.SaveChangesAsync();
                 Draws = Draws.Union(draws);
-            }
+			}
             IsFirstLoading = false;
         });
     }

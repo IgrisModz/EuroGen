@@ -1,4 +1,4 @@
-﻿using EuroGen.Helpers;
+﻿using EuroGen.Extensions;
 using EuroGen.Models;
 using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
@@ -43,7 +43,7 @@ public partial class Home
         if (DrawService.Draws == null || !DrawService.Draws.Any())
         {
             await DrawService.LoadLocalDrawsAsync();
-        }
+		}
     }
 
     static List<Draw> LoadPreviouslyGenratedDraws()

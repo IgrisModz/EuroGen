@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
-using MudBlazor.Services;
-using EuroGen.Services;
 using EuroGen.Data;
+using EuroGen.Services;
+using Microsoft.Extensions.Logging;
 using MudBlazor;
+using MudBlazor.Services;
 
 namespace EuroGen;
 
@@ -28,12 +28,10 @@ public static class MauiProgram
         builder.Services.AddHttpClient();
 
         builder.Services.AddSingleton<ThemeService>();
-
         builder.Services.AddSingleton<UpdateService>();
-
         builder.Services.AddSingleton<DrawService>();
 
-        builder.Services.AddMauiBlazorWebView();
+		builder.Services.AddMauiBlazorWebView();
 
         builder.Services.AddMudServices(config =>
         {

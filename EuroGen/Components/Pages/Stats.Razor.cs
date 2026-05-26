@@ -1,4 +1,4 @@
-﻿using EuroGen.Helpers;
+﻿using EuroGen.Extensions;
 using EuroGen.Models;
 
 namespace EuroGen.Components.Pages;
