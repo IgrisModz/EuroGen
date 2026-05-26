@@ -2,28 +2,45 @@
 
 public partial class App : Application
 {
-    const int width = 640;
-    const int height = 680;
+    const double windowWidth = 1060;
+    const double windowHeight = 680;
+	const double maxWindowHeight = 960;
+	const double minWindowWidth = 420;
 
-    public App()
+	public App()
     {
         InitializeComponent();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        var window = new Window(new MainPage())
+		var displayInfo = DeviceDisplay.Current.MainDisplayInfo;
+		var density = displayInfo.Density;
+
+		// Calculate the screen width and height in device-independent units (DIPs)
+		var screenWidth = displayInfo.Width / density;
+		var screenHeight = displayInfo.Height / density;
+
+		// Calculate the position to center the window on the screen
+		var posX = (screenWidth - windowWidth) / 2;
+		var posY = (screenHeight - windowHeight) / 2;
+
+		var window = new Window(new MainPage())
         {
             Title = "EuroGen",
 			IsMaximizable = false,
-            Width = width,
-            Height = height,
-            MaximumHeight = 960,
-            MaximumWidth = width,
-            MinimumHeight = height,
-            MinimumWidth = 420,
-			X = (DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density - width) / 2,
-			Y = (DeviceDisplay.Current.MainDisplayInfo.Height / DeviceDisplay.Current.MainDisplayInfo.Density - height) / 2
+
+            Width = windowWidth,
+            Height = windowHeight,
+
+            MaximumHeight = maxWindowHeight,
+            MaximumWidth = windowWidth,
+
+            MinimumHeight = windowHeight,
+            MinimumWidth = minWindowWidth,
+
+			X = posX,
+			Y = posY
 		};
 
         return window;
