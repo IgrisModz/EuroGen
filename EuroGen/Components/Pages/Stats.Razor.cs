@@ -82,13 +82,13 @@ public partial class Stats : IAsyncDisposable
 
 	async Task GetNumbers()
 	{
-		var totalDraw = Stats.SelectedCalculType == CalculStatsType.TotalDraw;
+		var totalDraw = SelectedCalculType == CalculStatsType.TotalDraw;
 		stats = await GetStats(DrawService.Draws!, Draw.NumberSelectors, SelectedMinYear, SelectedMaxYear, totalDraw);
 	}
 
 	async Task GetStars()
 	{
-		var totalDraw = Stats.SelectedCalculType == CalculStatsType.TotalDraw;
+		var totalDraw = SelectedCalculType == CalculStatsType.TotalDraw;
 		stats = await GetStats(DrawService.Draws!, Draw.StarSelectors, SelectedMinYear, SelectedMaxYear, totalDraw);
 	}
 

@@ -309,7 +309,7 @@ public partial class Home : IAsyncDisposable
             .ToList();
 
         var cumulativeList = new List<(int number, double threshold)>();
-        double cumulative = 0;
+        var cumulative = 0.0;
         foreach (var kvp in normalized)
         {
             cumulative += kvp.Value;
@@ -335,9 +335,9 @@ public partial class Home : IAsyncDisposable
 
     static double GetSecureRandomDouble()
     {
-        var byteArray = new byte[8];
-        RandomNumberGenerator.Fill(byteArray);
-        var randomNumber = BitConverter.ToUInt64(byteArray, 0);
-        return randomNumber / (1.0 + ulong.MaxValue);
+        Span<byte> bytes = stackalloc byte[8];
+        RandomNumberGenerator.Fill(bytes);
+        ulong value = BitConverter.ToUInt64(bytes);
+        return value * (1.0 / (ulong.MaxValue + 1.0));
     }
 }
