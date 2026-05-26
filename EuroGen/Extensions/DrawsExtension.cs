@@ -33,15 +33,13 @@ public static class DrawsExtension
 			.ToDictionary(g => g.Key, g => g.Max(x => x.Date));
 	}
 
-	public static (int Value, DateTime Date) GetPropertyValueAndDate(this Draw obj, string propertyName)
+	public static IEnumerable<int> GetValues(this Draw draw, IEnumerable<Func<Draw, int>> selectors)
 	{
-		var value = (int)obj.GetType().GetProperty(propertyName)?.GetValue(obj)!;
-		return (Value: value, Date: obj.DrawDate);
+		return selectors.Select(selector => selector(draw));
 	}
 
-	public static int GetPropertyValue(this Draw obj, string propertyName)
+	public static IEnumerable<(int Value, DateTime Date)> GetValuesAndDates(this Draw draw, IEnumerable<Func<Draw, int>> selectors)
 	{
-		var value = (int)obj.GetType().GetProperty(propertyName)?.GetValue(obj)!;
-		return value;
+		return selectors.Select(selector => (Value: selector(draw), Date: draw.DrawDate));
 	}
 }

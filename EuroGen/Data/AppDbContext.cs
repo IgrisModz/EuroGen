@@ -7,15 +7,10 @@ public partial class AppDbContext : DbContext
 {
 	public DbSet<Draw> Draws { get; set; }
 
-	public AppDbContext()
+	public AppDbContext(DbContextOptions<AppDbContext> options)
+		: base(options)
 	{
 		SQLitePCL.Batteries_V2.Init();
 		Database.EnsureCreated();
-	}
-
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-	{
-		optionsBuilder
-			.UseSqlite($"Filename={Path.Combine(FileSystem.AppDataDirectory, "draws.db3")}");
 	}
 }

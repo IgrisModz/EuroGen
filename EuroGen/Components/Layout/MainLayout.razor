@@ -29,13 +29,15 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudMainContent Class="pt-0" Style="min-height:calc(100vh - 60px);">
-        <MudContainer MaxWidth="MaxWidth.Small" Class="pa-3 mb-16">
+    <MudMainContent Class="pa-3" Style="min-height:calc(100vh - 60px);">
+        <MudContainer MaxWidth="MaxWidth.Small">
             <MudPaper Elevation="8" Class="rounded-xl mb-2">
                 <MudStack>
                     <MudImage Src="@(ThemeService.IsDarkMode ? "images/banner-dark.svg" : "images/banner-light.svg")" Height="100" Alt="eurogen banner"></MudImage>
                 </MudStack>
             </MudPaper>
+        </MudContainer>
+        <MudContainer MaxWidth="MaxWidth.Medium" Class="mb-16">
             @Body
         </MudContainer>
 

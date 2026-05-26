@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using EuroGen.Data;
 using EuroGen.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MudBlazor;
 using MudBlazor.Services;
@@ -20,7 +21,8 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             });
 
-        builder.Services.AddDbContext<AppDbContext>();
+        builder.Services.AddDbContextFactory<AppDbContext>(options =>
+            options.UseSqlite($"Filename={Path.Combine(FileSystem.AppDataDirectory, "draws.db3")}"));
 
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
         builder.Services.AddSingleton<LocalizationService>();

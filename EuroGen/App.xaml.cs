@@ -2,7 +2,7 @@
 
 public partial class App : Application
 {
-    const double windowWidth = 1060;
+    const double windowWidth = 700;
     const double windowHeight = 680;
 	const double maxWindowHeight = 960;
 	const double minWindowWidth = 420;

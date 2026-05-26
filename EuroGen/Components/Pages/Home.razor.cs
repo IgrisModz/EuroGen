@@ -5,9 +5,25 @@ using System.Security.Cryptography;
 
 namespace EuroGen.Components.Pages;
 
-public partial class Home
+public partial class Home : IAsyncDisposable
 {
+    static readonly IReadOnlyList<IReadOnlyList<Func<Draw, int>>> numberGroups =
+    [
+        [Draw.NumberSelectors[0]],
+        [Draw.NumberSelectors[1]],
+        [Draw.NumberSelectors[2]],
+        [Draw.NumberSelectors[3]],
+        [Draw.NumberSelectors[4]],
+    ];
+
+    static readonly IReadOnlyList<IReadOnlyList<Func<Draw, int>>> starGroups =
+    [
+        [Draw.StarSelectors[0]],
+        [Draw.StarSelectors[1]],
+    ];
+
     string rotateClass = string.Empty;
+    Action? languageChangedHandler;
 
     List<Draw> newDraws = [];
 
@@ -27,11 +43,21 @@ public partial class Home
     {
         if (firstRender)
         {
-            Localizer.LanguageChanged += () =>
-            {
-                StateHasChanged();
-            };
+            languageChangedHandler = () => _ = InvokeAsync(StateHasChanged);
+            Localizer.LanguageChanged += languageChangedHandler;
         }
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        if (languageChangedHandler is not null)
+        {
+            Localizer.LanguageChanged -= languageChangedHandler;
+            languageChangedHandler = null;
+        }
+
+		GC.SuppressFinalize(this);
+        return ValueTask.CompletedTask;
     }
 
     async Task LoadDataAsync()
@@ -92,16 +118,9 @@ public partial class Home
 
             if (SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalNumber)
             {
-                var numbersPercentages = await GetPercents(
-                [
-                    nameof(Draw.FirstNumber),
-                    nameof(Draw.SecondNumber),
-                    nameof(Draw.ThirdNumber),
-                    nameof(Draw.FourthNumber),
-                    nameof(Draw.FifthNumber)
-                ], SelectedMinYear, SelectedMaxYear, totalDraw);
+                var numbersPercentages = await GetPercents(Draw.NumberSelectors, SelectedMinYear, SelectedMaxYear, totalDraw);
 
-                var starsPercentages = await GetPercents([nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
+                var starsPercentages = await GetPercents(Draw.StarSelectors, SelectedMinYear, SelectedMaxYear, totalDraw);
 
                 for (int i = 0; i < length; i++)
                 {
@@ -114,21 +133,14 @@ public partial class Home
             }
             else
             {
-                var number1Percentages = await GetPercents([nameof(Draw.FirstNumber)], SelectedMinYear, SelectedMaxYear, totalDraw);
-                var number2Percentages = await GetPercents([nameof(Draw.SecondNumber)], SelectedMinYear, SelectedMaxYear, totalDraw);
-                var number3Percentages = await GetPercents([nameof(Draw.ThirdNumber)], SelectedMinYear, SelectedMaxYear, totalDraw);
-                var number4Percentages = await GetPercents([nameof(Draw.FourthNumber)], SelectedMinYear, SelectedMaxYear, totalDraw);
-                var number5Percentages = await GetPercents([nameof(Draw.FifthNumber)], SelectedMinYear, SelectedMaxYear, totalDraw);
-
-                var star1Percentages = await GetPercents([nameof(Draw.FirstStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
-                var star2Percentages = await GetPercents([nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw);
-
+                var numberPercentages = await GetGroupedPercents(numberGroups, SelectedMinYear, SelectedMaxYear, totalDraw);
+                var starPercentages = await GetGroupedPercents(starGroups, SelectedMinYear, SelectedMaxYear, totalDraw);
 
                 for (int i = 0; i < length; i++)
                 {
-                    var numbers = GetDrawNumbers([number1Percentages, number2Percentages, number3Percentages, number4Percentages, number5Percentages]);
+                    var numbers = GetDrawNumbers(numberPercentages);
 
-                    var stars = GetDrawNumbers([star1Percentages, star2Percentages]);
+                    var stars = GetDrawNumbers(starPercentages);
 
                     newDraws[i] = CreateDraw([.. numbers], [.. stars]);
                 }
@@ -163,37 +175,24 @@ public partial class Home
 
             if (SelectedCalculType is CalculDrawType.TotalDraw or CalculDrawType.TotalNumber)
             {
-                var numbersPercentages = await GetPercents(
-                [
-                    nameof(Draw.FirstNumber),
-                    nameof(Draw.SecondNumber),
-                    nameof(Draw.ThirdNumber),
-                    nameof(Draw.FourthNumber),
-                    nameof(Draw.FifthNumber)
-                ], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
+                var numbersPercentages = await GetPercents(Draw.NumberSelectors, SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
 
-                var starsPercentages = await GetPercents([nameof(Draw.FirstStar), nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
+                var starsPercentages = await GetPercents(Draw.StarSelectors, SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
 
                 newDraws[0] = CreateDraw([.. numbersPercentages.Keys], [.. starsPercentages.Keys]);
             }
             else
             {
-                var number1Percentages = await GetPercents([nameof(Draw.FirstNumber)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
-                var number2Percentages = await GetPercents([nameof(Draw.SecondNumber)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
-                var number3Percentages = await GetPercents([nameof(Draw.ThirdNumber)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
-                var number4Percentages = await GetPercents([nameof(Draw.FourthNumber)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
-                var number5Percentages = await GetPercents([nameof(Draw.FifthNumber)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
+                var numberPercentages = await GetGroupedPercents(numberGroups, SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
+                var starPercentages = await GetGroupedPercents(starGroups, SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
 
-                var star1Percentages = await GetPercents([nameof(Draw.FirstStar)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
-                var star2Percentages = await GetPercents([nameof(Draw.SecondStar)], SelectedMinYear, SelectedMaxYear, totalDraw, OrderBy.ValueDescending);
-
-                var firstNumber = number1Percentages.FirstOrDefault().Key;
-                var secondNumber = number2Percentages.FirstOrDefault().Key;
-                var thirdNumber = number3Percentages.FirstOrDefault().Key;
-                var fourthNumber = number4Percentages.FirstOrDefault().Key;
-                var fifthNumber = number5Percentages.FirstOrDefault().Key;
-                var firstStar = star1Percentages.FirstOrDefault().Key;
-                var secondStar = star2Percentages.FirstOrDefault().Key;
+                var firstNumber = numberPercentages[0].FirstOrDefault().Key;
+                var secondNumber = numberPercentages[1].FirstOrDefault().Key;
+                var thirdNumber = numberPercentages[2].FirstOrDefault().Key;
+                var fourthNumber = numberPercentages[3].FirstOrDefault().Key;
+                var fifthNumber = numberPercentages[4].FirstOrDefault().Key;
+                var firstStar = starPercentages[0].FirstOrDefault().Key;
+                var secondStar = starPercentages[1].FirstOrDefault().Key;
 
                 newDraws[0] = new Draw
                 {
@@ -238,11 +237,17 @@ public partial class Home
         };
     }
 
-    async Task<IDictionary<int, double>> GetPercents(string[] propertyNames, int minYear, int maxYear, bool totalDraw = false, OrderBy order = OrderBy.None)
+    async Task<IDictionary<int, double>[]> GetGroupedPercents(IReadOnlyList<IReadOnlyList<Func<Draw, int>>> groups, int minYear, int maxYear, bool totalDraw = false, OrderBy order = OrderBy.None)
+    {
+        var tasks = groups.Select(group => GetPercents(group, minYear, maxYear, totalDraw, order));
+        return await Task.WhenAll(tasks);
+    }
+
+    async Task<IDictionary<int, double>> GetPercents(IEnumerable<Func<Draw, int>> selectors, int minYear, int maxYear, bool totalDraw = false, OrderBy order = OrderBy.None)
     {
         var filteredDraws = (DrawService.Draws ?? []).Where(d => d.DrawDate.Year >= minYear && d.DrawDate.Year <= maxYear).ToList();
 
-        var values = filteredDraws.SelectMany(d => propertyNames.Select(d.GetPropertyValue)).ToList();
+        var values = filteredDraws.SelectMany(draw => draw.GetValues(selectors)).ToList();
 
         var counts = await Task.Run(values.CalculateNumbers);
 

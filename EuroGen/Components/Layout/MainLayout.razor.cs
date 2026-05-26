@@ -3,9 +3,12 @@ using MudBlazor;
 
 namespace EuroGen.Components.Layout;
 
-public partial class MainLayout
+public partial class MainLayout : IAsyncDisposable
 {
     MudThemeProvider? mudThemeProvider;
+    Action<bool>? themeChangedHandler;
+    Action? languageChangedHandler;
+    Action? drawStatusChangedHandler;
 
     readonly MudTheme mudTheme = new()
     {
@@ -78,23 +81,40 @@ public partial class MainLayout
                 await UpdateService.DeleteUpdates();
             }
 
-                ThemeService.ThemeChanged += (isDarkMode) =>
-                {
-                    // Re-render pour appliquer le nouveau thème
-                    StateHasChanged();
-                };
+                themeChangedHandler = isDarkMode => { _ = InvokeAsync(StateHasChanged); };
+                ThemeService.ThemeChanged += themeChangedHandler;
 
-            Localizer.LanguageChanged += () =>
-            {
-                StateHasChanged();
-            };
+            languageChangedHandler = () => _ = InvokeAsync(StateHasChanged);
+            Localizer.LanguageChanged += languageChangedHandler;
 
-            DrawService.StatusChanged += () =>
-            {
-                StateHasChanged();
-            };
+            drawStatusChangedHandler = () => _ = InvokeAsync(StateHasChanged);
+            DrawService.StatusChanged += drawStatusChangedHandler;
 
             StateHasChanged();
         }
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        if (themeChangedHandler is not null)
+        {
+            ThemeService.ThemeChanged -= themeChangedHandler;
+            themeChangedHandler = null;
+        }
+
+        if (languageChangedHandler is not null)
+        {
+            Localizer.LanguageChanged -= languageChangedHandler;
+            languageChangedHandler = null;
+        }
+
+        if (drawStatusChangedHandler is not null)
+        {
+            DrawService.StatusChanged -= drawStatusChangedHandler;
+            drawStatusChangedHandler = null;
+        }
+
+		GC.SuppressFinalize(this);
+        return ValueTask.CompletedTask;
     }
 }

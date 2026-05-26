@@ -14,7 +14,7 @@ namespace EuroGen.Services;
 
 public class DrawService(
 	ILogger<DrawService> logger,
-	AppDbContext dbContext)
+    IDbContextFactory<AppDbContext> dbContextFactory)
 {
     public event Action? StatusChanged;
 
@@ -24,7 +24,7 @@ public class DrawService(
     bool isLoading;
 
     readonly ILogger<DrawService> logger = logger;
-    readonly AppDbContext dbContext = dbContext;
+    readonly IDbContextFactory<AppDbContext> dbContextFactory = dbContextFactory;
 
 	public const string BaseUrl = "https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique";
     public const string BaseDefaultDrawDownload = "https://www.sto.api.fdj.fr/anonymous/service-draw-info";
@@ -84,7 +84,8 @@ public class DrawService(
     public async Task LoadLocalDrawsAsync()
     {
         await Task.Delay(1000);
-        Draws = await dbContext.Draws.ToListAsync() ?? [];
+        await using var dbContext = await dbContextFactory.CreateDbContextAsync();
+        Draws = await dbContext.Draws.AsNoTracking().ToListAsync();
 
         var internetWatcher = new InternetWatcher(BaseUrl, TimeSpan.FromSeconds(5));
         await internetWatcher.WatchInternetState(async () =>
@@ -96,16 +97,20 @@ public class DrawService(
             var draws = await LoadDraws();
             if (draws != null)
             {
-                var existingDraws = await dbContext.Draws
-                                    .Where(d => draws.Select(draw => draw.DrawDate).Contains(d.DrawDate))
+                await using var updateContext = await dbContextFactory.CreateDbContextAsync();
+                var drawDates = draws.Select(draw => draw.DrawDate).ToList();
+                var existingDraws = await updateContext.Draws
+                                    .Where(d => drawDates.Contains(d.DrawDate))
+                                    .AsNoTracking()
                                     .ToListAsync();
                 var newDraws = draws.Where(d => !existingDraws.Any(ed => ed.DrawDate == d.DrawDate)).ToList();
                 if (newDraws.Count > 0)
                 {
-                    await dbContext.Draws.AddRangeAsync(newDraws);
+                    await updateContext.Draws.AddRangeAsync(newDraws);
                 }
-                await dbContext.SaveChangesAsync();
-                Draws = Draws.Union(draws);
+
+                await updateContext.SaveChangesAsync();
+                Draws = (Draws ?? []).Concat(draws).DistinctBy(draw => draw.DrawDate).ToList();
 			}
             IsFirstLoading = false;
         });

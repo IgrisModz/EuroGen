@@ -5,6 +5,21 @@ namespace EuroGen.Models;
 
 public class Draw
 {
+    public static IReadOnlyList<Func<Draw, int>> NumberSelectors { get; } =
+    [
+        draw => draw.FirstNumber,
+        draw => draw.SecondNumber,
+        draw => draw.ThirdNumber,
+        draw => draw.FourthNumber,
+        draw => draw.FifthNumber,
+    ];
+
+    public static IReadOnlyList<Func<Draw, int>> StarSelectors { get; } =
+    [
+        draw => draw.FirstStar,
+        draw => draw.SecondStar,
+    ];
+
     [Name("boule_1")]
     [Index(0)]
     public int FirstNumber { get; set; }
